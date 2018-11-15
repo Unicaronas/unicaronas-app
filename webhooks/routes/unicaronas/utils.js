@@ -124,4 +124,30 @@ function buildEmailData(payload, parent) {
     return data
 }
 
-export { userHasScopes, getTripUrl, getSearchUrl, buildEmailData }
+function buildErrorMessage(error) {
+    let response = error.response
+    let request = error.request
+    let err = {
+        response: {
+            status: response.status,
+            statusText: response.statusText,
+            data: response.data
+        },
+        request: {
+            url: request.url,
+            method: request.method,
+            baseUrl: request.baseUrl,
+            data: request.data,
+            params: request.params
+        }
+    }
+    return err
+}
+
+export {
+    userHasScopes,
+    getTripUrl,
+    getSearchUrl,
+    buildEmailData,
+    buildErrorMessage
+}

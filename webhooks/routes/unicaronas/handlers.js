@@ -44,7 +44,7 @@ async function base_passenger(payload, req, func, action) {
                 Sentry.addBreadcrumb({
                     category: 'webhook',
                     message: 'Error while getting trip',
-                    data: error.response,
+                    data: utils.buildErrorMessage(error),
                     level: 'error'
                 })
                 Sentry.captureMessage('Error while getting trip')
@@ -181,7 +181,7 @@ async function base_driver(payload, req, func) {
                 Sentry.addBreadcrumb({
                     category: 'webhook',
                     message: 'Error while getting passenger',
-                    data: error.response,
+                    data: utils.buildErrorMessage(error),
                     level: 'error'
                 })
                 Sentry.captureMessage('Error while getting passenger')
@@ -203,7 +203,7 @@ async function base_driver(payload, req, func) {
                     Sentry.addBreadcrumb({
                         category: 'webhook',
                         message: 'Error while getting trip',
-                        data: error.response,
+                        data: utils.buildErrorMessage(error),
                         level: 'error'
                     })
                     Sentry.captureMessage('Error while getting trip')
@@ -284,7 +284,7 @@ async function driver_passenger_give_up(payload, req) {
                 Sentry.addBreadcrumb({
                     category: 'webhook',
                     message: 'Error while getting trip',
-                    data: error.response,
+                    data: utils.buildErrorMessage(error),
                     level: 'error'
                 })
                 Sentry.captureMessage('Error while getting trip')
@@ -357,7 +357,7 @@ async function alarm_dispatched(payload, req) {
                 Sentry.addBreadcrumb({
                     category: 'webhook',
                     message: 'Error while getting trip',
-                    data: error.response,
+                    data: utils.buildErrorMessage(error),
                     level: 'error'
                 })
                 Sentry.captureMessage('Error while getting trip')
