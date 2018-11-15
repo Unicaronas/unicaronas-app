@@ -1,4 +1,4 @@
-const Sentry = require('@sentry/node')
+import * as Sentry from '@sentry/node'
 import User from '../../../db/models/user'
 import { basicEmail, actionEmail } from '../../../mailing/mailer'
 import * as utils from './utils'
@@ -41,7 +41,13 @@ async function base_passenger(payload, req, func, action) {
                 return response.data
             })
             .catch(error => {
-                Sentry.captureException(error)
+                Sentry.addBreadcrumb({
+                    category: 'webhook',
+                    message: 'Error while getting trip',
+                    data: error.response,
+                    level: 'error'
+                })
+                Sentry.captureMessage('Error while getting trip')
                 return null
             })
         // If the trip was found
@@ -172,7 +178,13 @@ async function base_driver(payload, req, func) {
                 return response.data
             })
             .catch(error => {
-                Sentry.captureException(error)
+                Sentry.addBreadcrumb({
+                    category: 'webhook',
+                    message: 'Error while getting passenger',
+                    data: error.response,
+                    level: 'error'
+                })
+                Sentry.captureMessage('Error while getting passenger')
                 return null
             })
         if (passenger) {
@@ -188,7 +200,13 @@ async function base_driver(payload, req, func) {
                     return response.data
                 })
                 .catch(error => {
-                    Sentry.captureException(error)
+                    Sentry.addBreadcrumb({
+                        category: 'webhook',
+                        message: 'Error while getting trip',
+                        data: error.response,
+                        level: 'error'
+                    })
+                    Sentry.captureMessage('Error while getting trip')
                     return null
                 })
             // If the trip was found
@@ -263,7 +281,13 @@ async function driver_passenger_give_up(payload, req) {
                 return response.data
             })
             .catch(error => {
-                Sentry.captureException(error)
+                Sentry.addBreadcrumb({
+                    category: 'webhook',
+                    message: 'Error while getting trip',
+                    data: error.response,
+                    level: 'error'
+                })
+                Sentry.captureMessage('Error while getting trip')
                 return null
             })
         // If the trip was found
@@ -330,7 +354,13 @@ async function alarm_dispatched(payload, req) {
                 return response.data
             })
             .catch(error => {
-                Sentry.captureException(error)
+                Sentry.addBreadcrumb({
+                    category: 'webhook',
+                    message: 'Error while getting trip',
+                    data: error.response,
+                    level: 'error'
+                })
+                Sentry.captureMessage('Error while getting trip')
                 return null
             })
         // If the trip was found
