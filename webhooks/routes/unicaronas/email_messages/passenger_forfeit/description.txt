@@ -1,0 +1,4 @@
+Você reservou uma carona para <b>{{#toCalendar}}{{ datetime }}{{/toCalendar}}</b> de {{#locationLink}}{{ origin }}{{/locationLink}} para {{#locationLink}}{{ destination }}{{/locationLink}}, mas {{ driver_basic.first_name }} cancelou sua vaga. 😔
+<br>
+<br>
+Não podemos fazer muita coisa sobre isso, mas você pode pesquisar outras caronas se quiser!

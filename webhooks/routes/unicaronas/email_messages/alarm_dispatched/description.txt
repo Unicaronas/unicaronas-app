@@ -1,0 +1,13 @@
+Há um tempo você criou um alarme de caronas e uma compatível com ele foi criada agora!<br>
+Ela vai acontecer <b>{{#toCalendar}}{{ datetime }}{{/toCalendar}}</b> e vai custar <b>R$ {{ price }}</b>. Ela foi criada por {{ driver.first_name }}, que é lá da {{#universityMap}}{{ driver.student.university }}{{/universityMap}}{{#js}}{{ auto_approve }} ? ' e tem aprovação automática' : ''{{/js}}.
+<br>
+<br>
+<h3>{{#locationLink}}{{ origin }}{{/locationLink}}</h3>
+
+<h3>⬇️</h3>
+
+<h3>{{#locationLink}}{{ destination }}{{/locationLink}}</h3>
+{{#details}}
+<br>
+<br>
+<i><b>"{{ details }}"</b></i><br>- {{ driver.first_name }}{{/details}}

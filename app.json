@@ -1,0 +1,22 @@
+{
+  "name": "Unicaronas App",
+  "description": "TODO: Add a short description about Unicaronas App",
+  "keywords": [
+    "small",
+    "sharp",
+    "tool"
+  ],
+  "addons": [],
+  "env": {
+    "API_VERSION": "v1.0",
+    "CLIENT_ID": "KHFRkUbJlTKc4c9RvaCwvA6Tlc3vrly2604EsWt1",
+    "GOOGLE_ANALYTICS": "sss",
+    "GOOGLE_AUTOCOMPLETE_KEY": "REDACTED",
+    "HOST": "0.0.0.0",
+    "NODE_ENV": "production",
+    "NPM_CONFIG_PRODUCTION": "false",
+    "SENTRY_ID": "1292000",
+    "SENTRY_KEY": "REDACTED",
+    "SERVER_URL": "https://sandbox.unicaronas.com/"
+  }
+}

@@ -1,0 +1,4 @@
+{{ passenger.first_name }}, da {{#universityMap}}{{ passenger.student.university }}{{/universityMap}}, reservou {{#js}}{{ passenger.seats }} > 1 ? {{ passenger.seats }} + ' vagas' : 'uma vaga'{{/js}} na sua carona de <b>{{#toCalendar}}{{ datetime }}{{/toCalendar}}</b> e el{{#genderNoun2}}{{ passenger.profile.gender }}{{/genderNoun2}} vai viajar com você!
+<br>
+<br>
+Você pode ver e editar a reserva de {{ passenger.first_name }} clicando no botão abaixo:

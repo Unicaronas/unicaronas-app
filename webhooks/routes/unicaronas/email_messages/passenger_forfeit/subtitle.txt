@@ -1,0 +1,1 @@
+{{ driver_basic.first_name }} retirou você da carona

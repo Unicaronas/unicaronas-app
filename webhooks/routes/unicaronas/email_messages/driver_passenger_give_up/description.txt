@@ -1,0 +1,4 @@
+{{ passenger.first_name }} desistiu da vaga na sua carona de <b>{{#toCalendar}}{{ datetime }}{{/toCalendar}}</b>.
+<br>
+<br>
+Não se preocupe, alguém vai aparecer já já 😊

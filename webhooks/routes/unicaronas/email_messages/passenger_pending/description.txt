@@ -1,0 +1,8 @@
+Você reservou uma carona para <b>{{#toCalendar}}{{ datetime }}{{/toCalendar}}</b> por <b>R$ {{ price }}</b>, mas {{ driver_basic.first_name }} ainda tem que aprovar sua vaga. Quando el{{#genderNoun2}}{{ driver_basic.profile.gender }}{{/genderNoun2}} decidir a gente te avisa por aqui.
+<br>
+<br>
+<h3>{{#locationLink}}{{ origin }}{{/locationLink}}</h3>
+
+<h3>⬇️</h3>
+
+<h3>{{#locationLink}}{{ destination }}{{/locationLink}}</h3>

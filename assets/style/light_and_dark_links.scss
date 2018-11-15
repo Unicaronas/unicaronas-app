@@ -1,0 +1,30 @@
+$light-link: #1A237E;
+$dark-link: #90CAF9;
+
+// .theme--dark a:link, .theme--dark a:visited {
+//     color: $dark-link;
+// }
+
+// .theme--light a:link, .theme--light a:visited {
+//     color: $light-link;
+// }
+
+// .white--text a:link, .white--text a:visited {
+//     color: $dark-link;
+// }
+
+// .black--text a:link, .black--text a:visited {
+//     color: $light-link;
+// }
+
+// .v-navigation-drawer a:link, .v-navigation-drawer a:visited, .v-list__tile a:link, .v-list__tile a:visited {
+//     color: inherit;
+// }
+
+.dark-card a, .dark-card a:link, .dark-card a:visited {
+    color: $dark-link;
+}
+
+.light-card a, .light-card a:link, .light-card a:visited {
+    color: $light-link;
+}

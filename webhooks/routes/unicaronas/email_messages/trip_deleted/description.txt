@@ -1,0 +1,4 @@
+Você reservou uma carona para <b>{{#toCalendar}}{{ datetime }}{{/toCalendar}}</b> de {{#locationTrim}}{{ origin }}{{/locationTrim}} para {{#locationTrim}}{{ destination }}{{/locationTrim}}, mas o motorista desistiu da viagem.
+<br>
+<br>
+Não podemos fazer muita coisa sobre isso, mas você pode pesquisar outras caronas se quiser!
