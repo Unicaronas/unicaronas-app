@@ -1,9 +1,14 @@
 const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
+const Sentry = require('@sentry/node')
 const app = express()
 const host = process.env.HOST || '127.0.0.1'
 const port = process.env.PORT || 3000
+
+Sentry.init({ dsn: process.env.SENTRY_DSN })
+app.use(Sentry.Handlers.requestHandler())
+app.use(Sentry.Handlers.errorHandler())
 
 app.set('port', port)
 
