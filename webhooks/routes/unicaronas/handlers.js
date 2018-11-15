@@ -22,6 +22,8 @@ async function base_passenger(payload, req, func, action) {
                 return response.data
             })
             .catch(error => {
+                console.log('Failed to get trip', error)
+                console.log(error.data)
                 return null
             })
         // If the trip was found
@@ -102,6 +104,8 @@ async function base_driver(payload, req, func) {
                 return response.data
             })
             .catch(error => {
+                console.log('Failed to get passenger', error)
+                console.log(error.data)
                 return null
             })
         if (passenger) {
@@ -111,6 +115,8 @@ async function base_driver(payload, req, func) {
                     return response.data
                 })
                 .catch(error => {
+                    console.log('Failed to get trip', error)
+                    console.log(error.data)
                     return null
                 })
             // If the trip was found
@@ -157,6 +163,8 @@ async function driver_passenger_give_up(payload, req) {
                 return response.data
             })
             .catch(error => {
+                console.log('Failed to get trip', error)
+                console.log(error.data)
                 return null
             })
         // If the trip was found
@@ -192,6 +200,8 @@ async function alarm_dispatched(payload, req) {
                 return response.data
             })
             .catch(error => {
+                console.log('Failed to get trip', error)
+                console.log(error.data)
                 return null
             })
         // If the trip was found
