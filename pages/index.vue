@@ -61,7 +61,7 @@
                 <v-layout row align-center wrap>
                     <v-flex mt-5 mb-5 xs12 offset-sm1 md4>
                         <v-container>
-                            <h1 class="display-3 font-weight-thin">Uma plataforma para a todas <s>governar</s> unir</h1>
+                            <h1 class="display-3 font-weight-thin">Uma plataforma para a todas unir</h1>
                             <v-subheader>Além das criadas no Unicaronas, pesquise por caronas em grupos de Facebook e no BlaBlaCar</v-subheader>
                             <v-btn
                             to="/search"
