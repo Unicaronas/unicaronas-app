@@ -4,7 +4,8 @@ function universityMap(university) {
     let map = {
         unicamp: 'Unicamp',
         pucc: 'PUC-Campinas',
-        usp: 'USP'
+        usp: 'USP',
+        ifsp: 'IFSP'
     }
     return map[university] || university
 }
