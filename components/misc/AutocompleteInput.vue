@@ -57,7 +57,6 @@ export default {
             this.searchGoogle(val)
         },
         value(n, o) {
-            this.search = n
             this.searchGoogle(this.value)
         }
     },
@@ -87,7 +86,7 @@ export default {
                         status ==
                         google.maps.places.PlacesServiceStatus.ZERO_RESULTS
                     ) {
-                        this.items = []
+                        this.items = this.value ? [this.value] : []
                     } else if (
                         status == google.maps.places.PlacesServiceStatus.OK
                     ) {
@@ -95,7 +94,7 @@ export default {
                             prediction => prediction.description
                         )
                     } else {
-                        console.log(status)
+                        console.log("Autocomplete error: " + status)
                     }
                     this.loading = false
                 }
