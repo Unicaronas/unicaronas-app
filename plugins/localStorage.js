@@ -1,8 +1,10 @@
 import createPersistedState from 'vuex-persistedstate'
 
 export default ({ store }) => {
-    createPersistedState({
-        key: 'vuex',
-        paths: ['theme']
-    })(store)
+    window.onNuxtReady(() => {
+        createPersistedState({
+            key: 'vuex',
+            paths: ['theme']
+        })(store)
+    })
 }
