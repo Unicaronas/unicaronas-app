@@ -222,7 +222,7 @@
                 <v-layout row wrap>
                     <v-flex d-flex xs12 sm6>
                         <v-text-field
-                        v-validate="'required|min_value:0.05|max_value:10|decimal'"
+                        v-validate="'required|min_value:0.05|max_value:20|decimal'"
                         v-model="originRadius"
                         :error-messages="errors.collect('originRadius')"
                         type="number"
@@ -413,8 +413,8 @@ export default {
             this.price = 20
             this.seatsLeft = 1
             this.auto_approve = 'any'
-            this.originRadius = 5
-            this.destinationRadius = 5
+            this.originRadius = 10
+            this.destinationRadius = 10
             this.$validator.reset()
         },
         getCleanData() {
