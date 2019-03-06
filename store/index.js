@@ -1,10 +1,12 @@
 import Vuex from 'vuex'
 import Theme from './theme.js'
+import pastSearches from './pastSearches.js'
 
 const createStore = () => {
     return new Vuex.Store({
         modules: {
-            theme: Theme
+            theme: Theme,
+            pastSearches: pastSearches
         },
         state: {
             showDrawer: false,

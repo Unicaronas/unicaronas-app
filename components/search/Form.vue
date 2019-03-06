@@ -351,6 +351,7 @@ export default {
                     if (this.sources) query['sources'] = this.sources.join(' ')
                     this.$router.push({ query: query })
                     this.$store.commit('setSearchData', data)
+                    this.$store.commit('appendSearchQuery', [this.origin, this.destination])
                     this.$emit('search')
                     this.$ga.event('trips', 'search', this.source_type)
                     if (this.$device.isMobileOrTablet)
@@ -445,6 +446,11 @@ export default {
                 data: data,
                 endpoint: this.source_type
             }
+        },
+        manualOriDest(event) {
+            this.origin = event.origin
+            this.destination = event.destination
+            this.submit()
         }
     }
 }

@@ -4,7 +4,7 @@ export default ({ store }) => {
     window.onNuxtReady(() => {
         createPersistedState({
             key: 'vuex',
-            paths: ['theme']
+            paths: ['theme', 'pastSearches']
         })(store)
     })
 }

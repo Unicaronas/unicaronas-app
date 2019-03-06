@@ -39,7 +39,7 @@
                 lg3
                 mt-3
                 offset-lg2>
-                    <Form :loading="formLoading" @search="handleSearch"/>
+                    <Form ref="form" :loading="formLoading" @search="handleSearch"/>
                 </v-flex>
                 <v-flex
                 id="searchResults"
@@ -51,7 +51,14 @@
                 mt-3
                 offset-md1
                 offset-lg2>
-                    <template v-if="!formLoading">
+                    <template v-if="!searchedOnce">
+                        <v-layout row align-start justify-start wrap>
+                            <v-flex d-flex xs12 text-xs-center text-lg-left>
+                                <PastSearches @clicked="$refs.form.manualOriDest($event)"/>
+                            </v-flex>
+                        </v-layout>
+                    </template>
+                    <template v-else-if="!formLoading">
                         <v-layout v-if="searchResults" row align-start justify-start wrap>
                             <v-flex d-flex xs12 text-xs-center text-lg-left>
                                 <SearchStats
@@ -94,9 +101,10 @@ import Form from '~/components/search/Form.vue'
 import List from '~/components/search/List.vue'
 import AlarmDialog from '~/components/search/AlarmDialog.vue'
 import SearchStats from '~/components/search/SearchStats.vue'
+import PastSearches from '~/components/search/PastSearches.vue'
 
 export default {
-    components: { Form, List, AlarmDialog, SearchStats },
+    components: { Form, List, AlarmDialog, SearchStats, PastSearches },
     data() {
         return {
             hasScope: false,
@@ -107,7 +115,9 @@ export default {
             resetInfinite: false,
 
             error: false,
-            errorMessage: ''
+            errorMessage: '',
+
+            searchedOnce: false
         }
     },
     head() {
@@ -123,6 +133,7 @@ export default {
     },
     methods: {
         genericSearch(endpoint, data) {
+            this.searchedOnce = true;
             let API_URL =
                 process.env.SERVER_URL + '/api/' + process.env.API_VERSION
             let url = API_URL + endpoint
