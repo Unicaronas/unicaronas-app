@@ -354,6 +354,7 @@ export default {
                     this.$store.commit('appendSearchQuery', [this.origin, this.destination])
                     this.$emit('search')
                     this.$ga.event('trips', 'search', this.source_type)
+                    this.$fb.track('Search')
                     if (this.$device.isMobileOrTablet)
                         this.$vuetify.goTo('#searchResults', {
                             duration: 1000,
