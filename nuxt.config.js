@@ -97,7 +97,16 @@ module.exports = {
             }
         ],
         'nuxt-device-detect',
-        ['~/plugins/moment', ['pt-br']]
+        ['~/plugins/moment', ['pt-br']],
+        [
+            'nuxt-facebook-pixel-module',
+            {
+                /* module options */
+                track: 'PageView',
+                pixelId: process.env.FACEBOOK_PIXEL_ID,
+                disabled: false
+            }
+        ]
     ],
     /*
   ** Axios module configuration
