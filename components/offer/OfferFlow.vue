@@ -362,6 +362,7 @@ export default {
             this.submitting = true
             this.$emit('submit')
             this.$ga.event('trips', 'create')
+            this.$fb.track('Create')
         }
     }
 }

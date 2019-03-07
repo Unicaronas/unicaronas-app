@@ -165,6 +165,7 @@ export default {
                 this.bookDialog = false
                 this.booked = true
                 this.$ga.event('trips', 'book')
+                this.$fb.track('Book')
             } catch (err) {}
             this.booking = false
         }
