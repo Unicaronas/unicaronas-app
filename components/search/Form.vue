@@ -412,7 +412,7 @@ export default {
             this.maxDate = tomorrow.format().substr(0, 10)
             this.maxTimeMenu = false
             this.maxTime = tomorrow.format().substr(11, 3) + '00'
-            this.price = 20
+            this.price = 40
             this.seatsLeft = 1
             this.auto_approve = 'any'
             this.originRadius = 10
