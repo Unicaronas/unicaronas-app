@@ -171,7 +171,8 @@ module.exports = {
         name: process.env.APP_NAME,
         theme_color: '#2979FF',
         lang: 'pt-BR',
-        ogHost: process.BASE_URL,
+        ogHost: 'https://app.unicaronas.com',
+        ogImage: '/img/og-image.jpg',
         nativeUI: true
     },
     manifest: {
