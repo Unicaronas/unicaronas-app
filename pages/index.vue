@@ -143,6 +143,35 @@
                 </v-layout>
             </v-container>
         </v-layout>
+        <v-flex xs12>
+            <v-fade-transition>
+                <v-card v-show="installDialog && canInstall" id="installDialog">
+                    <v-container>
+                        <v-layout>
+                            <v-flex xs3>
+                                <v-img
+                                :src="$store.state.theme.appColor == 'dark' ? '/img/logo_white.svg' : '/img/logo_black.svg'"
+                                height="5em"
+                                class="mt-4"
+                                contain/>
+                            </v-flex>
+                            <v-flex xs9>
+                                <v-card-title primary-title>
+                                    <div class="headline">Instale o Unicaronas</div><br>
+                                    <div>Quer adicionar o Unicaronas à sua página principal?</div>
+                                </v-card-title>
+                            </v-flex>
+                        </v-layout>
+                        <v-card-actions>
+                            <v-layout justify-end>
+                                <v-btn flat color="primary" @click="dontInstallApp()">Não, valeu</v-btn>
+                                <v-btn color="primary" @click="installApp()">Quero!</v-btn>
+                            </v-layout>
+                        </v-card-actions>
+                    </v-container>
+                </v-card>
+            </v-fade-transition>
+        </v-flex>
     </v-container>
 </template>
 
@@ -155,6 +184,11 @@ export default {
     },
     data() {
         return {
+            canInstall: false,
+            installDialog: false,
+            deferredPrompt: null,
+            lastScroll: 0,
+
             SERVER_URL: process.env.SERVER_URL,
             loaded: false,
             carouselItems: [
@@ -200,11 +234,49 @@ Fiquei viúvo do unicaronas que bom tá voltando! \\o/`,
             return 500
         }
     },
-    options: {
-        auth: false
-    },
     mounted() {
         this.loaded = true
+
+        // Prompt user to install app
+        window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault()
+            if (this.$auth.loggedIn && !this.$store.state.installPromptTimeout.timeout) {
+                this.deferredPrompt = e
+                this.canInstall = true
+            }
+        })
+    },
+    created() {
+        window.addEventListener('scroll', this.handleScroll)
+    },
+    destroyed() {
+        window.removeEventListener('scroll', this.handleScroll)
+    },
+    methods: {
+        handleScroll() {
+            this.installDialog = this.lastScroll >= window.scrollY
+            this.lastScroll = window.scrollY
+        },
+        installApp() {
+            this.deferredPrompt.prompt()
+            this.canInstall = false
+            this.deferredPrompt.userChoice.then(res => {
+                if (res.outcome === 'accepted') {
+                    this.$ga.event('user', 'install')
+                } else {
+                    this.$store.commit('setPromptTimout')
+                }
+                this.deferredPrompt = null
+            })
+        },
+        dontInstallApp() {
+            this.$store.commit('setPromptTimout')
+            this.canInstall = false
+            this.deferredPrompt = null
+        }
+    },
+    options: {
+        auth: false
     }
 }
 </script>
@@ -234,5 +306,10 @@ Fiquei viúvo do unicaronas que bom tá voltando! \\o/`,
     .hero-text {
         margin-left: 12em;
     }
+}
+#installDialog {
+    position: fixed;
+    bottom: 0px;
+    z-index: 1;
 }
 </style>
