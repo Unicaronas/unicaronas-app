@@ -8,17 +8,23 @@ import * as utils from './utils'
  */
 
 async function base_passenger(payload, req, func, action) {
+    console.log('base passenger webhook handler. Action:')
+    console.log(action)
     Sentry.addBreadcrumb({
         category: 'webhook',
         message: 'Sending ' + func + ' email',
         data: payload,
         level: 'info'
     })
+    console.log('getting user, resource and scopes')
     let user_id = payload['user_id']
     let resource_url = payload['resource_url']
     let required_scopes = ['trips:passenger:read']
     let trip
     // Get user from mongo
+    console.log(user_id)
+    console.log(resource_url)
+    console.log('getting user from mongo')
     let user = await utils.userHasScopes(user_id, required_scopes)
     Sentry.configureScope(scope => {
         scope.setUser({
@@ -29,18 +35,22 @@ async function base_passenger(payload, req, func, action) {
     })
     // If user is found
     if (user) {
+        console.log('user found')
+        console.log(user)
         Sentry.addBreadcrumb({
             category: 'webhook',
             message: 'Got user. Getting trip',
             level: 'info'
         })
         // Get the trip
+        console.log('getting trip')
         trip = await user
             .request(resource_url)
             .then(response => {
                 return response.data
             })
             .catch(error => {
+                console.log('failed to recover trip')
                 Sentry.addBreadcrumb({
                     category: 'webhook',
                     message: 'Error while getting trip',
@@ -52,6 +62,8 @@ async function base_passenger(payload, req, func, action) {
             })
         // If the trip was found
         if (trip) {
+            console.log('trip recovered')
+            console.log(trip)
             Sentry.addBreadcrumb({
                 category: 'webhook',
                 message: 'Got trip. Sending email',
@@ -60,6 +72,7 @@ async function base_passenger(payload, req, func, action) {
             })
             // Send email
             try {
+                console.log('sending email')
                 trip['app_name'] = process.env.APP_NAME
                 trip['user'] = user
                 let data = utils.buildEmailData(trip, func)
@@ -72,6 +85,7 @@ async function base_passenger(payload, req, func, action) {
                     return basicEmail(data)
                 }
             } catch (err) {
+                console.log('failed to send email')
                 Sentry.captureException(err)
             }
         }
@@ -101,6 +115,7 @@ function passenger_forfeit(payload, req) {
 }
 
 async function trip_deleted(payload, req) {
+    console.log('trip deleted webhook handler')
     Sentry.addBreadcrumb({
         category: 'webhook',
         message: 'Sending trip deleted email',
@@ -111,6 +126,9 @@ async function trip_deleted(payload, req) {
     let user_id = payload['user_id']
     let resource_url = payload['resource_url']
     let required_scopes = []
+    console.log(user_id)
+    console.log(resource_url)
+    console.log('getting user')
     // Get user from mongo
     let user = await utils.userHasScopes(user_id, required_scopes)
     Sentry.configureScope(scope => {
@@ -122,12 +140,15 @@ async function trip_deleted(payload, req) {
     })
     // If user is found
     if (user) {
+        console.log('user found')
+        console.log(user)
         Sentry.addBreadcrumb({
             category: 'webhook',
             message: 'Got user. Sending email',
             level: 'info'
         })
         try {
+            console.log('sending email')
             // Send email
             payload['app_name'] = process.env.APP_NAME
             payload['user'] = user
@@ -135,6 +156,7 @@ async function trip_deleted(payload, req) {
             data['to'] = user.email
             return basicEmail(data)
         } catch (err) {
+            console.log('failed to send email')
             Sentry.captureException(err)
         }
     }
@@ -145,6 +167,7 @@ async function trip_deleted(payload, req) {
  */
 
 async function base_driver(payload, req, func) {
+    console.log('base driver webhook handler')
     Sentry.addBreadcrumb({
         category: 'webhook',
         message: 'Sending ' + func + ' email',
@@ -155,6 +178,9 @@ async function base_driver(payload, req, func) {
     let resource_url = payload['resource_url']
     let required_scopes = ['trips:driver:read']
     let passenger, trip
+    console.log(user_id)
+    console.log(resource_url)
+    console.log('getting user')
     // Get user from mongo
     let user = await utils.userHasScopes(user_id, required_scopes)
     Sentry.configureScope(scope => {
@@ -166,6 +192,8 @@ async function base_driver(payload, req, func) {
     })
     // If user is found
     if (user) {
+        console.log('user found')
+        console.log(user)
         Sentry.addBreadcrumb({
             category: 'webhook',
             message: 'Got user. Getting passenger',
@@ -178,6 +206,7 @@ async function base_driver(payload, req, func) {
                 return response.data
             })
             .catch(error => {
+                console.log('failed to get passenger')
                 Sentry.addBreadcrumb({
                     category: 'webhook',
                     message: 'Error while getting passenger',
@@ -188,18 +217,22 @@ async function base_driver(payload, req, func) {
                 return null
             })
         if (passenger) {
+            console.log('passenger recovered')
+            console.log(passenger)
             Sentry.addBreadcrumb({
                 category: 'webhook',
                 message: 'Got passenger. Getting trip',
                 data: passenger,
                 level: 'info'
             })
+            console.log('getting trip')
             trip = await user
                 .request(passenger.trip)
                 .then(response => {
                     return response.data
                 })
                 .catch(error => {
+                    console.log('failed to get trip')
                     Sentry.addBreadcrumb({
                         category: 'webhook',
                         message: 'Error while getting trip',
@@ -211,6 +244,8 @@ async function base_driver(payload, req, func) {
                 })
             // If the trip was found
             if (trip) {
+                console.log('trip recovered')
+                console.log(trip)
                 Sentry.addBreadcrumb({
                     category: 'webhook',
                     message: 'Got trip. Sending email',
@@ -218,6 +253,7 @@ async function base_driver(payload, req, func) {
                     level: 'info'
                 })
                 try {
+                    console.log('sending email')
                     // Send email
                     trip['passenger'] = passenger
                     trip['app_name'] = process.env.APP_NAME
@@ -228,6 +264,7 @@ async function base_driver(payload, req, func) {
                     data['actionUrl'] = utils.getTripUrl(req, true, trip.id)
                     return actionEmail(data)
                 } catch (err) {
+                    console.log('failed to send email')
                     Sentry.captureException(err)
                 }
             }
@@ -248,6 +285,7 @@ function driver_passenger_approved(payload, req) {
 }
 
 async function driver_passenger_give_up(payload, req) {
+    console.log('passenger gave up webhook handler')
     Sentry.addBreadcrumb({
         category: 'webhook',
         message: 'Sending passenger give up email',
@@ -259,6 +297,9 @@ async function driver_passenger_give_up(payload, req) {
     let required_scopes = ['trips:driver:read']
     let trip
     // Get user from mongo
+    console.log(user_id)
+    console.log(resource_url)
+    console.log('getting user')
     let user = await utils.userHasScopes(user_id, required_scopes)
     Sentry.configureScope(scope => {
         scope.setUser({
@@ -269,18 +310,22 @@ async function driver_passenger_give_up(payload, req) {
     })
     // If user is found
     if (user) {
+        console.log('user found')
+        console.log(user)
         Sentry.addBreadcrumb({
             category: 'webhook',
             message: 'Got user. Getting trip',
             level: 'info'
         })
         // Get the trip
+        console.log('getting trip')
         trip = await user
             .request(resource_url)
             .then(response => {
                 return response.data
             })
             .catch(error => {
+                console.log('failed to get trip')
                 Sentry.addBreadcrumb({
                     category: 'webhook',
                     message: 'Error while getting trip',
@@ -292,6 +337,8 @@ async function driver_passenger_give_up(payload, req) {
             })
         // If the trip was found
         if (trip) {
+            console.log('trip recovered')
+            console.log(trip)
             Sentry.addBreadcrumb({
                 category: 'webhook',
                 message: 'Got trip. Sending email',
@@ -299,6 +346,7 @@ async function driver_passenger_give_up(payload, req) {
                 level: 'info'
             })
             try {
+                console.log('sending email')
                 // Send email
                 trip['passenger'] = payload['passenger']
                 trip['app_name'] = process.env.APP_NAME
@@ -312,6 +360,7 @@ async function driver_passenger_give_up(payload, req) {
                 data['actionUrl'] = utils.getTripUrl(req, true, trip.id)
                 return actionEmail(data)
             } catch (err) {
+                console.log('failed to send email')
                 Sentry.captureException(err)
             }
         }
@@ -321,6 +370,7 @@ async function driver_passenger_give_up(payload, req) {
 }
 
 async function alarm_dispatched(payload, req) {
+    console.log('alarm dispatched webhook handler')
     Sentry.addBreadcrumb({
         category: 'webhook',
         message: 'Sending alarm dispatched email',
@@ -330,6 +380,9 @@ async function alarm_dispatched(payload, req) {
     let user_id = payload['user_id']
     let resource_url = payload['resource_url']
     let required_scopes = ['trips:read']
+    console.log(user_id)
+    console.log(resource_url)
+    console.log('getting user')
     let trip
     // Get user from mongo
     let user = await utils.userHasScopes(user_id, required_scopes)
@@ -342,18 +395,22 @@ async function alarm_dispatched(payload, req) {
     })
     // If user is found
     if (user) {
+        console.log('user recovered')
+        console.log(user)
         Sentry.addBreadcrumb({
             category: 'webhook',
             message: 'Got user. Getting trip',
             level: 'info'
         })
         // Get the trip
+        console.log('getting trip')
         trip = await user
             .request(resource_url)
             .then(response => {
                 return response.data
             })
             .catch(error => {
+                console.log('failed to get trip')
                 Sentry.addBreadcrumb({
                     category: 'webhook',
                     message: 'Error while getting trip',
@@ -365,6 +422,8 @@ async function alarm_dispatched(payload, req) {
             })
         // If the trip was found
         if (trip) {
+            console.log('trip recovered')
+            console.log(trip)
             Sentry.addBreadcrumb({
                 category: 'webhook',
                 message: 'Got trip. Sending email',
@@ -372,6 +431,7 @@ async function alarm_dispatched(payload, req) {
                 level: 'info'
             })
             try {
+                console.log('send email')
                 // Send email
                 trip['app_name'] = process.env.APP_NAME
                 trip['user'] = user
@@ -381,6 +441,7 @@ async function alarm_dispatched(payload, req) {
                 data['actionUrl'] = utils.getSearchUrl(req, trip.id)
                 return actionEmail(data)
             } catch (err) {
+                console.log('failed to send email')
                 Sentry.captureException(error)
             }
         }
