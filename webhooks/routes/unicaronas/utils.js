@@ -124,22 +124,47 @@ function buildEmailData(payload, parent) {
     return data
 }
 
+function byteCount(s) {
+    return encodeURI(s).split(/%(?:u[0-9A-F]{2})?[0-9A-F]{2}|./).length - 1
+}
+
 function buildErrorMessage(error) {
     let response = error.response
     let request = error.request
-    let err = {
-        response: {
+    let err
+    if (response) {
+        err.response = {
             status: response.status,
             statusText: response.statusText,
             data: response.data
-        },
-        request: {
+        }
+    } else {
+        err.response_error = 'no response data'
+    }
+    if (request) {
+        err.request = {
             url: request.url,
             method: request.method,
             baseUrl: request.baseUrl,
             data: request.data,
             params: request.params
         }
+    } else {
+        err.request_error = 'no request data'
+    }
+    try {
+        let raw = JSON.stringfy(error)
+        let bcount = byteCount(raw)
+        if (bcount > 20000) {
+            raw = raw.slice(0, 20000)
+            err.raw_error = 'raw data too large'
+            if (byteCount(raw) > 20000) {
+                return err
+            }
+        }
+        err.raw = raw
+    } catch (cerr) {
+        err.raw_error = 'unsable to stringfy raw error'
     }
     return err
 }
