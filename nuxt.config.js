@@ -63,6 +63,7 @@ module.exports = {
     plugins: [
         '@/plugins/vuetify',
         { src: '~/plugins/localStorage.js', ssr: false },
+        { src: '~/plugins/cookieStorage7.js', ssr: false },
         '~/plugins/universityMap'
     ],
 
