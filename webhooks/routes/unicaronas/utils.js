@@ -131,7 +131,7 @@ function byteCount(s) {
 function buildErrorMessage(error) {
     let response = error.response
     let request = error.request
-    let err
+    let err = {}
     if (response) {
         err.response = {
             status: response.status,
