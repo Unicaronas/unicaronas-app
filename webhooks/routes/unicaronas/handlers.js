@@ -47,6 +47,8 @@ async function base_passenger(payload, req, func, action) {
         trip = await user
             .request(resource_url)
             .then(response => {
+                console.log('TRIP RESPONSE')
+                console.log(response)
                 return response.data
             })
             .catch(error => {

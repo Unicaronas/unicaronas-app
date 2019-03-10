@@ -54,6 +54,7 @@ UserSchema.statics.CreateUser = function(req_data, cb) {
 }
 
 UserSchema.methods.refreshToken = function(cb) {
+    console.log('REFRESHING TOKEN')
     var request = {
         method: 'post',
         url: process.env.SERVER_URL + '/o/token/',
@@ -67,6 +68,8 @@ UserSchema.methods.refreshToken = function(cb) {
     return axios
         .request(request)
         .then(response => {
+            console.log('GOT REFRESH TOKEN RESPONSE')
+            console.log(response)
             this.set({
                 access_token: response.data.access_token,
                 refresh_token: response.data.refresh_token
@@ -77,11 +80,15 @@ UserSchema.methods.refreshToken = function(cb) {
             })
         })
         .catch(error => {
+            console.log('GOT ERROR REFRESHING TOKEN')
+            console.log(error.response)
             if (cb) return cb(null)
         })
 }
 
 UserSchema.methods.request = function(request) {
+    console.log('CALLING REQUEST ON')
+    console.log(request)
     if (typeof request === 'string' || request instanceof String)
         request = { url: request, method: 'get' }
     if (request.headers) {
@@ -89,19 +96,31 @@ UserSchema.methods.request = function(request) {
     } else {
         request['headers'] = { Authorization: 'Bearer ' + this.access_token }
     }
+    console.log('FORMATTED REQUEST')
+    console.log(request)
+    console.log('CALLING AXIOS')
     return axios
         .request(request)
         .then(response => {
+            console.log('AXIOS RESPONSE')
+            console.log(response)
             return response
         })
         .catch(error => {
-            if (error.response.status == 401)
+            console.log('AXIOS GOT AN ERROR')
+            console.log(error.response)
+            if (error.response.status == 401) {
+                console.log('ERROR 401. REFRESHING TOKEN')
                 this.refreshToken(instance => {
+                    console.log('INSTANCE')
+                    console.log(instance)
                     if (instance) return instance.request(request)
-                    return Promise.reject(error)
+                    console.log('NO INSTANCE. RETURNING ERROR PROMISE')
+                    return Promise.reject(error.response)
                 })
-            else {
-                return Promise.reject(error)
+            } else {
+                console.log('ERROR IS NOT 401')
+                return Promise.reject(error.response)
             }
         })
 }
