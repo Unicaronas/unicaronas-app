@@ -130,6 +130,7 @@ function byteCount(s) {
 
 function buildErrorMessage(error) {
     console.log('building error message')
+    console.log(error)
     let response = error.response
     let request = error.request
     let err = {}
