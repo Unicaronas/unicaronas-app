@@ -129,14 +129,15 @@ function byteCount(s) {
 }
 
 function buildErrorMessage(error) {
+    console.log('building error message')
     let response = error.response
     let request = error.request
     let err = {}
     if (response) {
         err.response = {
             status: response.status,
-            statusText: response.statusText,
-            data: response.data
+            statusText: response.statusText
+            // data: response.data
         }
     } else {
         err.response_error = 'no response data'
@@ -146,7 +147,7 @@ function buildErrorMessage(error) {
             url: request.url,
             method: request.method,
             baseUrl: request.baseUrl,
-            data: request.data,
+            // data: request.data,
             params: request.params
         }
     } else {
@@ -159,6 +160,7 @@ function buildErrorMessage(error) {
             raw = raw.slice(0, 20000)
             err.raw_error = 'raw data too large'
             if (byteCount(raw) > 20000) {
+                console.log(err)
                 return err
             }
         }
@@ -166,6 +168,7 @@ function buildErrorMessage(error) {
     } catch (cerr) {
         err.raw_error = 'unsable to stringfy raw error'
     }
+    console.log(err)
     return err
 }
 
