@@ -3,6 +3,7 @@ import mustache from 'mustache'
 import moment from 'moment-timezone'
 moment.tz.setDefault('America/Sao_Paulo')
 moment.locale('pt-br')
+import * as Sentry from '@sentry/node'
 
 import User from '../../../db/models/user'
 import universityMap from '../../../plugins/universityMap'
@@ -11,15 +12,30 @@ async function userHasScopes(user_id, scopes) {
     let user = await User.findOne()
         .byUserId(user_id)
         .then(obj => {
+            Sentry.addBreadcrumb({
+                category: 'user',
+                message: 'User recovered',
+                level: 'info',
+                data: obj
+            })
             return obj
         })
         .catch(error => {
+            Sentry.addBreadcrumb({
+                category: 'user',
+                message: 'Failed to recover user',
+                level: 'error'
+            })
+            Sentry.captureException(err)
             return null
         })
     if (user !== null) {
-        // Check if it has the passenger read permission to read
-        // info about the trip
         if (user.hasScopes(scopes)) {
+            Sentry.addBreadcrumb({
+                category: 'user',
+                message: 'User has the required scopes',
+                level: 'info'
+            })
             return user
         }
     }
