@@ -6,7 +6,7 @@
     "sharp",
     "tool"
   ],
-  "addons": [],
+  "addons": ["newrelic"],
   "env": {
     "API_VERSION": "v1.0",
     "CLIENT_ID": "KHFRkUbJlTKc4c9RvaCwvA6Tlc3vrly2604EsWt1",
@@ -17,6 +17,8 @@
     "NPM_CONFIG_PRODUCTION": "false",
     "SENTRY_ID": "1292000",
     "SENTRY_KEY": "REDACTED",
-    "SERVER_URL": "https://sandbox.unicaronas.com/"
+    "SERVER_URL": "https://sandbox.unicaronas.com/",
+    "NEW_RELIC_NO_CONFIG_FILE": true,
+    "NEW_RELIC_APP_NAME": "Unicaronas App"
   }
 }
