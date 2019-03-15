@@ -32,6 +32,7 @@ UserSchema.query.byUserId = function(id) {
 }
 
 UserSchema.statics.CreateUser = function(req_data, cb) {
+    consola.trace('Creating/Updating user', req_data)
     let user = req_data['user']
     if (!user) return
     let user_id = user['user_id']
@@ -52,9 +53,11 @@ UserSchema.statics.CreateUser = function(req_data, cb) {
             if (cb) cb(instance)
         }
     )
+    consola.success('User created/updated')
 }
 
 UserSchema.methods.refreshToken = function(cb) {
+    consola.trace('Refreshing user token')
     Sentry.configureScope(scope => {
         scope.setUser({
             id: this.user_id,
@@ -64,11 +67,6 @@ UserSchema.methods.refreshToken = function(cb) {
             access_token: this.access_token,
             scope: this.scope
         })
-    })
-    Sentry.addBreadcrumb({
-        category: 'token_refresh',
-        message: 'Refreshing token',
-        level: 'info'
     })
     var request = {
         method: 'post',
@@ -80,38 +78,60 @@ UserSchema.methods.refreshToken = function(cb) {
             client_id: process.env.CLIENT_ID
         })
     }
+    Sentry.addBreadcrumb({
+        category: 'token_refresh',
+        message: 'Refreshing token',
+        level: 'info',
+        data: request
+    })
+    consola.trace('User token request', request)
     return axios
         .request(request)
         .then(response => {
+            consola.success('Token refresh successful')
             Sentry.addBreadcrumb({
                 category: 'token_refresh',
                 message: 'Token refresh successful',
                 level: 'info',
                 data: response
             })
+            consola.trace('Saving new user info')
             this.set({
                 access_token: response.data.access_token,
                 refresh_token: response.data.refresh_token
             })
-            this.save(function(err, instance) {
-                Sentry.addBreadcrumb({
-                    category: 'user_edit',
-                    message: 'Error saving the user',
-                    level: 'error'
+            return this.save()
+                .then(instance => {
+                    Sentry.addBreadcrumb({
+                        category: 'user_edit',
+                        message: 'User data updated',
+                        level: 'info'
+                    })
+                    if (cb) return cb(instance)
+                    return null
                 })
-                Sentry.captureException(err)
-                if (!err && cb) return cb(instance)
-                if (cb) return cb(null)
-            })
+                .catch(err => {
+                    consola.error('Error saving the user')
+                    Sentry.addBreadcrumb({
+                        category: 'user_edit',
+                        message: 'Error saving the user',
+                        level: 'error'
+                    })
+                    Sentry.captureException(err)
+                    if (cb) return cb(null)
+                    return Promise.reject(err)
+                })
         })
         .catch(error => {
+            consola.error('Error refreshing token', error.response.status)
             Sentry.addBreadcrumb({
                 category: 'token_refresh',
                 message: 'Error refreshing token',
-                level: 'info'
+                level: 'error'
             })
             Sentry.captureException(error)
             if (cb) return cb(null)
+            return Promise.reject(error)
         })
 }
 
@@ -139,6 +159,7 @@ UserSchema.methods.request = function(request) {
         level: 'info',
         data: request
     })
+    consola.info('User made a request')
     return axios
         .request(request)
         .then(response => {
@@ -148,21 +169,56 @@ UserSchema.methods.request = function(request) {
                 level: 'info',
                 data: response
             })
+            consola.success('User request returned', response.status)
             return response
         })
         .catch(error => {
-            Sentry.addBreadcrumb({
-                category: 'user_request',
-                message: 'Error processing user request',
-                level: 'error'
-            })
-            Sentry.captureException(error)
             if (error.response.status == 401) {
-                this.refreshToken(instance => {
-                    if (instance) return instance.request(request)
-                    return Promise.reject(error.response)
+                Sentry.addBreadcrumb({
+                    category: 'user_request',
+                    message:
+                        'User token is expired or is invalid. Trying to refresh it',
+                    level: 'warning'
+                })
+                consola.warn(
+                    'User token expired or is invalid. Trying to refresh it'
+                )
+                return this.refreshToken(instance => {
+                    consola.trace('Inside token refesh callback')
+                    if (instance) {
+                        consola.debug('Instance recovered successfully')
+                        Sentry.addBreadcrumb({
+                            category: 'user_request',
+                            message:
+                                'Token refresh finished. Attempting to redo request',
+                            level: 'info',
+                            data: instance
+                        })
+                        return instance.request(request)
+                    } else {
+                        consola.error('Instance returned empty')
+                        Sentry.addBreadcrumb({
+                            category: 'user_request',
+                            message:
+                                'Instance returned empty. Unable to complete user request',
+                            level: 'error'
+                        })
+                        Sentry.captureException(error)
+                        return Promise.reject(error.response)
+                    }
                 })
             } else {
+                consola.error(
+                    'User request returned with an error',
+                    error.response.status
+                )
+                Sentry.addBreadcrumb({
+                    category: 'user_request',
+                    message:
+                        'Error not related to token refresh while processing user request.',
+                    level: 'error'
+                })
+                Sentry.captureException(error)
                 return Promise.reject(error.response)
             }
         })

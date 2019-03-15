@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node'
 import nodemailer from 'nodemailer'
 import fs from 'fs'
 import consola from 'consola'
@@ -90,6 +91,12 @@ async function sendEmail(
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             consola.error('Failed to send email', error)
+            Sentry.addBreadcrumb({
+                category: 'email',
+                message: 'Failed to send email',
+                level: 'error'
+            })
+            Sentry.captureException(err)
         }
         consola.success('Message sent:', info.messageId)
         consola.info('Sent to:', to)

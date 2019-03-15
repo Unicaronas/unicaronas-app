@@ -1,3 +1,5 @@
+import consola from 'consola'
+import * as Sentry from '@sentry/node'
 import { Router } from 'express'
 import Handlers from './handlers'
 
@@ -7,16 +9,15 @@ router.post('/unicaronas/', (req, res) => {
     let event = req.body['event']
     let payload = req.body['payload']
     try {
-        console.log('receiving webhook request')
-        console.log(event)
-        console.log(payload)
+        consola.info('Receiving webhook request')
+        consola.info(event)
+        consola.info(payload)
         Handlers[event](payload, req)
-        console.log('webhook processed')
         res.status(200)
         res.send()
     } catch (err) {
-        console.log('error processing webhook request')
-        console.log(err)
+        consola.error('Error processing webhook request')
+        Sentry.captureException(err)
         res.status(400)
         res.send()
     }

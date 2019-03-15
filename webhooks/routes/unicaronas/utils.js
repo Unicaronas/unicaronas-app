@@ -4,11 +4,13 @@ import moment from 'moment-timezone'
 moment.tz.setDefault('America/Sao_Paulo')
 moment.locale('pt-br')
 import * as Sentry from '@sentry/node'
+import consola from 'consola'
 
 import User from '../../../db/models/user'
 import universityMap from '../../../plugins/universityMap'
 
 async function userHasScopes(user_id, scopes) {
+    consola.trace('Getting user with scopes')
     let user = await User.findOne()
         .byUserId(user_id)
         .then(obj => {
@@ -18,9 +20,11 @@ async function userHasScopes(user_id, scopes) {
                 level: 'info',
                 data: obj
             })
+            consola.trace('User recovered')
             return obj
         })
         .catch(error => {
+            consola.error('Failed to recover user')
             Sentry.addBreadcrumb({
                 category: 'user',
                 message: 'Failed to recover user',
@@ -30,7 +34,9 @@ async function userHasScopes(user_id, scopes) {
             return null
         })
     if (user !== null) {
+        consola.trace('Checking user scopes')
         if (user.hasScopes(scopes)) {
+            consola.trace('User has the required scopes')
             Sentry.addBreadcrumb({
                 category: 'user',
                 message: 'User has the required scopes',
@@ -39,10 +45,12 @@ async function userHasScopes(user_id, scopes) {
             return user
         }
     }
+    consola.debug('User is null or does not have the necessary scopes. Returning null')
     return null
 }
 
 function getTripUrl(req, isDriver, trip_id) {
+    consola.trace('Getting trip url')
     let path
     if (isDriver) path = 'driver'
     else path = 'passenger'
@@ -58,10 +66,12 @@ function getTripUrl(req, isDriver, trip_id) {
 }
 
 function getSearchUrl(req, trip_id) {
+    consola.trace('Getting search url')
     return req.protocol + '://' + req.get('host') + '/search/' + trip_id
 }
 
 function buildEmailData(payload, parent) {
+    consola.trace('Building email data')
     let dataList = ['subject', 'title', 'subtitle', 'description']
     payload['toCalendar'] = function() {
         return function(date, render) {
@@ -144,55 +154,9 @@ function byteCount(s) {
     return encodeURI(s).split(/%(?:u[0-9A-F]{2})?[0-9A-F]{2}|./).length - 1
 }
 
-function buildErrorMessage(error) {
-    console.log('building error message')
-    console.log(error)
-    let response = error.response
-    let request = error.request
-    let err = {}
-    if (response) {
-        err.response = {
-            status: response.status,
-            statusText: response.statusText
-            // data: response.data
-        }
-    } else {
-        err.response_error = 'no response data'
-    }
-    if (request) {
-        err.request = {
-            url: request.url,
-            method: request.method,
-            baseUrl: request.baseUrl,
-            // data: request.data,
-            params: request.params
-        }
-    } else {
-        err.request_error = 'no request data'
-    }
-    try {
-        let raw = JSON.stringfy(error)
-        let bcount = byteCount(raw)
-        if (bcount > 20000) {
-            raw = raw.slice(0, 20000)
-            err.raw_error = 'raw data too large'
-            if (byteCount(raw) > 20000) {
-                console.log(err)
-                return err
-            }
-        }
-        err.raw = raw
-    } catch (cerr) {
-        err.raw_error = 'unsable to stringfy raw error'
-    }
-    console.log(err)
-    return err
-}
-
 export {
     userHasScopes,
     getTripUrl,
     getSearchUrl,
-    buildEmailData,
-    buildErrorMessage
+    buildEmailData
 }
