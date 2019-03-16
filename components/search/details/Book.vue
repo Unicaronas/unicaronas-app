@@ -19,7 +19,7 @@
                         class="v-label text-xs-center grey--text"
                         style="left: 0px; right: auto; position: relative;"><div>Vaga{{ trip.seats_left != 1 ? 's' : '' }} sobrando</div></label>
                     </v-flex>
-                    <v-flex xs12 pt-3>
+                    <v-flex xs12 pt-3 v-if="canBook">
                         <v-container>
                             <v-flex xs12 text-xs-center>
                                 <div v-if="trip.auto_approve" class="body text-xs-center">Sua reserva será aprovada <b>automaticamente</b></div>
@@ -145,6 +145,11 @@ export default {
                 items.push(item)
             }
             return items
+        },
+        canBook() {
+            let not_full = this.trip.seats_left > 0
+            let past = this.$moment().isAfter(this.trip.datetime)
+            return not_full && !past
         }
     },
     methods: {
