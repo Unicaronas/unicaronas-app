@@ -198,7 +198,32 @@
                 <v-card-text>
                     <v-layout row wrap class=" text-xs-center">
                         <v-flex d-flex xs12>
-                            <div slot="label" class="headline">Carona criada!</div>
+                            <div class="headline font-weight-thin">Compartilhe sua carona!</div>
+                        </v-flex>
+                        <v-flex d-flex md8 offset-md2>
+                            <div class="subheading mt-2">Copie o texto abaixo e compartilhe nos seus grupos de carona para preencher as vagas mais rápido:</div>
+                        </v-flex>
+                        <v-flex d-flex md8 offset-md2>
+                            <v-card class="mt-3">
+                                <v-card-text>
+                                    <div style="white-space: pre;" class="body-2">{{ shareMessage }}</div>
+                                    <a :href="shareUrl" target="_blank">{{ shareUrl }}</a>
+                                </v-card-text>
+                                <v-card-actions class="justify-center">
+                                    <v-tooltip v-model="copied" :disabled="!copied" top>
+                                        <v-btn
+                                        slot="activator"
+                                        flat
+                                        color="primary"
+                                        @click="share()"
+                                        >
+                                            <v-icon left>share</v-icon>
+                                            Clique para {{ canShare ? "compartilhar" : "copiar" }}
+                                        </v-btn>
+                                        <span>Texto copiado!</span>
+                                    </v-tooltip>
+                                </v-card-actions>
+                            </v-card>
                         </v-flex>
                         <v-flex
                         d-flex
@@ -261,6 +286,11 @@ export default {
         reset: {
             type: Boolean,
             required: true
+        },
+        createdTrip: {
+            type: Object,
+            required: false,
+            default: null
         }
     },
     data: () => ({
@@ -299,7 +329,8 @@ export default {
                 title: 'Pronto!',
                 fields: []
             }
-        }
+        },
+        copied: false
     }),
     computed: {
         currentTitle() {
@@ -323,6 +354,47 @@ export default {
                     })
                 })
             return formData
+        },
+        originCity() {
+            return this.getAddrComp(
+                'origin_address_components',
+                'administrative_area_level_2',
+                'long_name'
+            )
+        },
+        destinationCity() {
+            return this.getAddrComp(
+                'destination_address_components',
+                'administrative_area_level_2',
+                'long_name'
+            )
+        },
+        shareMessage() {
+            if (!this.createdTrip) return ''
+            return (
+                '[OFEREÇO]\n' +
+                this.originCity +
+                ' >> ' +
+                this.destinationCity +
+                ' \n' +
+                this.$moment(this.createdTrip.datetime).calendar() +
+                ' por R$' +
+                this.createdTrip.price +
+                ' \nPelo Unicaronas'
+            )
+        },
+        shareUrl() {
+            if (!this.createdTrip) return ''
+            return (
+                location.protocol +
+                '//' +
+                location.host +
+                '/search/' +
+                this.createdTrip.id
+            )
+        },
+        canShare() {
+            return Boolean(navigator.share)
         }
     },
     watch: {
@@ -363,6 +435,39 @@ export default {
             this.$emit('submit')
             this.$ga.event('trips', 'create')
             this.$fb.track('Create')
+        },
+        getAddrComp(source, component, short) {
+            // Get the address component from the trip
+            if (!this.createdTrip) return ''
+            return this.createdTrip[source].filter(comp =>
+                comp.types.includes(component)
+            )[0][short]
+        },
+        share() {
+            if (this.canShare) {
+                navigator
+                    .share({
+                        text: this.shareMessage,
+                        url: '/search/' + this.createdTrip.id
+                    })
+                    .then(() => {})
+                    .catch(error => {})
+            } else {
+                this.$copyText(
+                    this.shareMessage +
+                        ' \n' +
+                        location.protocol +
+                        '//' +
+                        location.host +
+                        '/search/' +
+                        this.createdTrip.id
+                )
+                    .then(() => {
+                        this.copied = true
+                        setTimeout(res => (this.copied = false), 3000)
+                    })
+                    .catch(err => {})
+            }
         }
     }
 }

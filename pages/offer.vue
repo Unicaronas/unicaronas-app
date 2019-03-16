@@ -64,6 +64,7 @@
                     v-model="formData"
                     :submitted="submitted"
                     :reset="resetForm"
+                    :createdTrip="createdTrip"
                     @submit="handleSubmit"/>
                 </v-flex>
                 <v-flex
@@ -90,6 +91,7 @@ export default {
             hasScope: false,
             submitted: false,
             resetForm: false,
+            createdTrip: null,
 
             formData: {},
 
@@ -128,7 +130,7 @@ export default {
                 data: data
             }
             try {
-                await this.$auth.request(payload)
+                this.createdTrip = await this.$auth.request(payload)
                 this.submitted = true
             } catch (err) {
                 this.error = true

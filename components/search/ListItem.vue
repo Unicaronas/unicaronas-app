@@ -169,6 +169,34 @@ export default {
         },
         canShare() {
             return Boolean(navigator.share)
+        },
+        originCity() {
+            return this.getAddrComp(
+                'origin_address_components',
+                'administrative_area_level_2',
+                'long_name'
+            )
+        },
+        originState() {
+            return this.getAddrComp(
+                'origin_address_components',
+                'administrative_area_level_1',
+                'short_name'
+            )
+        },
+        destinationCity() {
+            return this.getAddrComp(
+                'destination_address_components',
+                'administrative_area_level_2',
+                'long_name'
+            )
+        },
+        destinationState() {
+            return this.getAddrComp(
+                'destination_address_components',
+                'administrative_area_level_1',
+                'short_name'
+            )
         }
     },
     watch: {
@@ -205,20 +233,27 @@ export default {
             this.booking = false
         },
         share() {
+            let message =
+                'Carona pelo Unicaronas \n' +
+                this.originCity +
+                ' >> ' +
+                this.destinationCity +
+                ' \n' +
+                this.formattedDatetime +
+                ' por R$' + this.item.price
             if (this.canShare) {
                 navigator
                     .share({
-                        text:
-                            'Carona ' +
-                            this.formattedDatetime +
-                            ' pelo Unicaronas',
+                        text: message,
                         url: '/search/' + this.item.id
                     })
                     .then(() => {})
                     .catch(error => {})
             } else {
                 this.$copyText(
-                    location.protocol +
+                    message +
+                        ' \n' +
+                        location.protocol +
                         '//' +
                         location.host +
                         '/search/' +
@@ -230,6 +265,12 @@ export default {
                     })
                     .catch(err => {})
             }
+        },
+        getAddrComp(source, component, short) {
+            // Get the address component from the trip
+            return this.item[source].filter(comp => comp.types.includes(component))[0][
+                short
+            ]
         }
     }
 }
