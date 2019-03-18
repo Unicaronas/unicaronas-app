@@ -73,7 +73,7 @@ export default {
             this.canInstall = false
             this.deferredPrompt.userChoice.then(res => {
                 if (res.outcome === 'accepted') {
-                    this.$ga.event('user', 'install')
+                    this.$ga.event('install prompt', 'accept')
                 } else {
                     this.$store.commit('setPromptTimout')
                 }
@@ -85,6 +85,7 @@ export default {
         },
         dontInstallApp() {
             this.$store.commit('setPromptTimout')
+            this.$ga.event('install prompt', 'deny')
             this.canInstall = false
             window.removeEventListener(
                 'beforeinstallprompt',

@@ -28,6 +28,7 @@ export default {
     },
     methods: {
         query_click() {
+            this.$ga.event('past search', 'click')
             this.$emit('clicked', { origin: this.origin, destination: this.destination })
         },
         trimAddr(addr) {
