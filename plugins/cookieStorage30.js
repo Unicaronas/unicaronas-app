@@ -5,7 +5,7 @@ export default ({ store }) => {
     window.onNuxtReady(() => {
         createPersistedState({
             key: 'vuex-cookies-30',
-            paths: ['auth'],
+            paths: ['extraEmailDialog'],
             storage: {
                 getItem: key => Cookies.get(key),
                 setItem: (key, value) =>

@@ -2,13 +2,15 @@ import Vuex from 'vuex'
 import Theme from './theme.js'
 import pastSearches from './pastSearches.js'
 import installPromptTimeout from './installPromptTimeout.js'
+import extraEmailDialog from './extraEmailDialog.js'
 
 const createStore = () => {
     return new Vuex.Store({
         modules: {
             theme: Theme,
             pastSearches: pastSearches,
-            installPromptTimeout: installPromptTimeout
+            installPromptTimeout: installPromptTimeout,
+            extraEmailDialog: extraEmailDialog
         },
         state: {
             showDrawer: false,
