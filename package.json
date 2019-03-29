@@ -41,6 +41,7 @@
     "nuxt-clipboard2": "^0.2.1",
     "nuxt-device-detect": "^1.1.4",
     "nuxt-facebook-pixel-module": "^1.3.0",
+    "nuxt-google-maps-module": "^1.6.0",
     "nuxt-ts-module": "^2.0.7",
     "nuxt-validate": "^0.1.3",
     "vue-infinite-loading": "^2.4.3",
