@@ -4,53 +4,95 @@
             <template slot="card" slot-scope="theme">
                 <v-card-title primary-title>
                     <v-flex pb-0 xs6>
-                        <h3 class="display-2 text-xs-center">R${{ trip.price }}</h3>
+                        <h3 class="display-2 text-xs-center">
+                            R${{ trip.price }}
+                        </h3>
                         <label
-                        :class="{'text--lighten-2': theme.theme.theme_text == 'white--text', 'text--darken-2': theme.theme.theme_text == 'black--text'}"
+                        :class="{
+                            'text--lighten-2':
+                                theme.theme.theme_text == 'white--text',
+                            'text--darken-2':
+                                theme.theme.theme_text == 'black--text'
+                        }"
                         aria-hidden="true"
                         class="v-label text-xs-center grey--text"
-                        style="left: 0px; right: auto; position: relative;"><div>Por vaga</div></label>
+                        style="left: 0px; right: auto; position: relative;"
+                        ><div>Por vaga</div></label>
                     </v-flex>
                     <v-flex pb-0 xs6>
-                        <h3 class="display-2 text-xs-center">{{ trip.seats_left }}</h3>
+                        <h3 class="display-2 text-xs-center">
+                            {{ trip.seats_left }}
+                        </h3>
                         <label
-                        :class="{'text--lighten-2': theme.theme.theme_text == 'white--text', 'text--darken-2': theme.theme.theme_text == 'black--text'}"
+                        :class="{
+                            'text--lighten-2':
+                                theme.theme.theme_text == 'white--text',
+                            'text--darken-2':
+                                theme.theme.theme_text == 'black--text'
+                        }"
                         aria-hidden="true"
                         class="v-label text-xs-center grey--text"
-                        style="left: 0px; right: auto; position: relative;"><div>Vaga{{ trip.seats_left != 1 ? 's' : '' }} sobrando</div></label>
+                        style="left: 0px; right: auto; position: relative;"
+                        ><div>
+                            Vaga{{ trip.seats_left != 1 ? 's' : '' }}
+                            sobrando
+                        </div></label>
                     </v-flex>
-                    <v-flex xs12 pt-3 v-if="canBook">
+                    <v-flex v-if="canBook" xs12 pt-3>
                         <v-container>
                             <v-flex xs12 text-xs-center>
-                                <div v-if="trip.auto_approve" class="body text-xs-center">Sua reserva será aprovada <b>automaticamente</b></div>
+                                <div
+                                v-if="trip.auto_approve"
+                                class="body text-xs-center"
+                                >
+                                    Sua reserva será aprovada
+                                    <b>automaticamente</b>
+                                </div>
                                 <v-flex xs12 sm6 offset-sm3 md8 offset-md2>
                                     <v-select
-                                    :dark="theme.theme.theme_dark || theme.theme.theme_text == 'white--text'"
+                                    v-model="seats"
+                                    :dark="
+                                        theme.theme.theme_dark ||
+                                            theme.theme.theme_text ==
+                                            'white--text'
+                                    "
                                     :light="theme.theme.theme_light"
                                     :items="seatOptions"
-                                    v-model="seats"
-                                    label="Número de vagas"/>
+                                    label="Número de vagas"
+                                    />
                                 </v-flex>
-                                <v-btn large ripple color="primary" @click="bookDialog = true">Reservar</v-btn>
+                                <v-btn
+                                large
+                                ripple
+                                color="primary"
+                                @click="bookDialog = true"
+                                >
+                                    Reservar
+                                </v-btn>
                             </v-flex>
                         </v-container>
                     </v-flex>
                 </v-card-title>
             </template>
         </BaseCard>
-        <v-dialog
-        :persistent="booking"
-        v-model="bookDialog"
-        max-width="450"
-        >
+        <v-dialog v-model="bookDialog" :persistent="booking" max-width="450">
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">Reservar essa carona?</v-card-text>
+                    <v-card-text
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        Reservar essa carona?
+                    </v-card-text>
                     <v-card-text class="headline font-weight-thin">
-                        Você vai reservar {{ seats + ' vaga' + (seats != 1 ? 's' : '') }}<template v-if="!trip.auto_approve">, mas {{ trip.driver.first_name }} ainda terá que aceitar você na viagem</template>
+                        Você vai reservar
+                        {{ seats + ' vaga' + (seats != 1 ? 's' : '')
+                        }}<template v-if="!trip.auto_approve">
+                            , mas {{ trip.driver.first_name }} ainda terá que
+                            aceitar você na viagem
+                        </template>
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer/>
+                        <v-spacer />
 
                         <v-btn
                         v-if="!booking"
@@ -76,17 +118,20 @@
                 </v-container>
             </v-card>
         </v-dialog>
-        <v-dialog
-        v-model="booked"
-        max-width="450"
-        persistent
-        >
+        <v-dialog v-model="booked" max-width="450" persistent>
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">Reserva feita!</v-card-text>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">🎉🎉🎉</v-card-text>
                     <v-card-text
-                    class="text-xs-center">
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        Reserva feita!
+                    </v-card-text>
+                    <v-card-text
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        🎉🎉🎉
+                    </v-card-text>
+                    <v-card-text class="text-xs-center">
                         <v-btn color="primary" to="/trips/passenger">
                             ver reservas
                         </v-btn>

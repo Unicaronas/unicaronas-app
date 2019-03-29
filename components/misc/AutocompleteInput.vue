@@ -66,19 +66,21 @@ export default {
                 return
             }
             this.loading = true
-            this.getGoogleAutocomplete(val).then(results => {
-                if (results) {
-                    this.items = results.map(
-                        prediction => prediction.description
-                    )
-                } else {
-                    this.items = this.value ? [this.value] : []
-                }
-                this.loading = false
-            }).catch(error => {
-                console.error(error)
-                this.loading = false
-            })
+            this.getGoogleAutocomplete(val)
+                .then(results => {
+                    if (results) {
+                        this.items = results.map(
+                            prediction => prediction.description
+                        )
+                    } else {
+                        this.items = this.value ? [this.value] : []
+                    }
+                    this.loading = false
+                })
+                .catch(error => {
+                    console.error(error)
+                    this.loading = false
+                })
         }
     }
 }

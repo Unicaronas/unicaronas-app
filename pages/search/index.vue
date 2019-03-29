@@ -1,23 +1,24 @@
 <template>
     <v-container>
         <v-layout row wrap>
-            <v-flex
-            d-flex
-            xs12
-            mt-5
-            offset-lg2>
-                <h1 class="display-3 font-weight-thin mb-3">Pesquisar caronas</h1>
+            <v-flex d-flex xs12 mt-5 offset-lg2>
+                <h1 class="display-3 font-weight-thin mb-3">
+                    Pesquisar caronas
+                </h1>
             </v-flex>
             <v-flex d-flex xs12 md4 mt-5 offset-md2>
-                <v-alert v-model="error" dismissible type="error" >
+                <v-alert v-model="error" dismissible type="error">
                     {{ errorMessage }}
                 </v-alert>
             </v-flex>
             <v-flex d-flex xs12 md4 />
             <template v-if="!hasScope">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
-                    <v-alert value="true" type="error" >
-                        <b>Algumas permissões estão faltando</b>. Por favor, refaça o login e aceite pelo menos as permissões de pesquisa de caronas, de entrada de caronas e de criação de alarmes.
+                    <v-alert value="true" type="error">
+                        <b>Algumas permissões estão faltando</b>. Por favor,
+                        refaça o login e aceite pelo menos as permissões de
+                        pesquisa de caronas, de entrada de caronas e de criação
+                        de alarmes.
                     </v-alert>
                 </v-flex>
                 <v-flex
@@ -26,8 +27,11 @@
                 mb-5
                 md2
                 mt-3
-                offset-md5>
-                    <v-btn round color="primary" ripple @click="$auth.login()">Refazer login</v-btn>
+                offset-md5
+                >
+                    <v-btn round color="primary" ripple @click="$auth.login()">
+                        Refazer login
+                    </v-btn>
                 </v-flex>
             </template>
             <template v-else>
@@ -38,8 +42,13 @@
                 md4
                 lg3
                 mt-3
-                offset-lg2>
-                    <Form ref="form" :loading="formLoading" @search="handleSearch"/>
+                offset-lg2
+                >
+                    <Form
+                    ref="form"
+                    :loading="formLoading"
+                    @search="handleSearch"
+                    />
                 </v-flex>
                 <v-flex
                 id="searchResults"
@@ -50,29 +59,42 @@
                 lg5
                 mt-3
                 offset-md1
-                offset-lg2>
+                offset-lg2
+                >
                     <template v-if="!searchedOnce">
                         <v-layout row align-start justify-start wrap>
                             <v-flex d-flex xs12 text-xs-center text-lg-left>
-                                <PastSearches @clicked="$refs.form.manualOriDest($event)"/>
+                                <PastSearches
+                                @clicked="$refs.form.manualOriDest($event)"
+                                />
                             </v-flex>
                         </v-layout>
                     </template>
                     <template v-else-if="!formLoading">
-                        <v-layout v-if="searchResults" row align-start justify-start wrap>
+                        <v-layout
+                        v-if="searchResults"
+                        row
+                        align-start
+                        justify-start
+                        wrap
+                        >
                             <v-flex d-flex xs12 text-xs-center text-lg-left>
-                                <SearchStats
-                                :count="searchResults.count"/>
+                                <SearchStats :count="searchResults.count" />
                             </v-flex>
-                            <v-flex v-if="searchResults.count == 0 && !formLoading" d-flex xs12>
-                                <AlarmDialog/>
+                            <v-flex
+                            v-if="searchResults.count == 0 && !formLoading"
+                            d-flex
+                            xs12
+                            >
+                                <AlarmDialog />
                             </v-flex>
                             <v-flex d-flex xs12>
                                 <List
                                 :reset-infinite="resetInfinite"
                                 :items="searchResultsData"
                                 :search-type="searchType"
-                                @loadMore="loadMore"/>
+                                @loadMore="loadMore"
+                                />
                             </v-flex>
                         </v-layout>
                     </template>
@@ -81,10 +103,19 @@
                             <v-layout align-center justify-center>
                                 <v-layout row wrap>
                                     <v-flex d-flex xs12>
-                                        <h1 class="display-1 font-weight-thin mb-3 text-xs-center">Pesquisando caronas...</h1>
+                                        <h1
+                                        class="display-1 font-weight-thin mb-3 text-xs-center"
+                                        >
+                                            Pesquisando caronas...
+                                        </h1>
                                     </v-flex>
                                     <v-flex d-flex xs12>
-                                        <v-progress-circular :size="70" :width="7" color="blue" indeterminate />
+                                        <v-progress-circular
+                                        :size="70"
+                                        :width="7"
+                                        color="blue"
+                                        indeterminate
+                                        />
                                     </v-flex>
                                 </v-layout>
                             </v-layout>
@@ -133,7 +164,7 @@ export default {
     },
     methods: {
         genericSearch(endpoint, data) {
-            this.searchedOnce = true;
+            this.searchedOnce = true
             let API_URL =
                 process.env.SERVER_URL + '/api/' + process.env.API_VERSION
             let url = API_URL + endpoint

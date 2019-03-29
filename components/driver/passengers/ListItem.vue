@@ -4,17 +4,30 @@
             <template slot="card" slot-scope="theme">
                 <v-card-title primary-title>
                     <v-flex py-2 xs12>
-                        <span :class="statusColor" style="float: right; width: 100%; text-transform: uppercase;" class="pa-1 headline text-xs-center font-weight-bold white--text">{{ statusText }}</span>
+                        <span
+                        :class="statusColor"
+                        style="float: right; width: 100%; text-transform: uppercase;"
+                        class="pa-1 headline text-xs-center font-weight-bold white--text"
+                        >{{ statusText }}</span>
                     </v-flex>
                     <v-flex pb-0 xs12>
                         <h3 class="display-1 mb-0">
-                            {{ item.first_name }} {{ item.last_name }} <v-icon
-                            :dark="theme.theme.theme_dark || theme.theme.theme_text == 'white--text'"
+                            {{ item.first_name }} {{ item.last_name }}
+                            <v-icon
+                            :dark="
+                                theme.theme.theme_dark ||
+                                    theme.theme.theme_text == 'white--text'
+                            "
                             :light="theme.theme.theme_light"
-                            size="1em">{{ genderIcon }}</v-icon>
+                            size="1em"
+                            >
+                                {{ genderIcon }}
+                            </v-icon>
                         </h3>
                         <v-flex xs12>
-                            <div class="title mb-0 font-weight-thin">{{ age }} anos</div>
+                            <div class="title mb-0 font-weight-thin">
+                                {{ age }} anos
+                            </div>
                         </v-flex>
                     </v-flex>
                     <v-flex xs12>
@@ -22,20 +35,41 @@
                             <v-divider />
                         </v-flex>
                         <v-flex xs12>
-                            <div class="headline mb-0 font-weight-thin">Contato</div>
+                            <div class="headline mb-0 font-weight-thin">
+                                Contato
+                            </div>
                         </v-flex>
                         <v-flex xs12>
-                            <div class="title mb-0 font-weight-thin">Celular: <v-tooltip top><span slot="activator" style="cursor: pointer;" @click="copyPhone()"><b>{{ formatPhone(item.profile.phone) }}</b>  <v-icon>fas fa-copy</v-icon></span><span>{{ copyText }}</span></v-tooltip></div>
+                            <div class="title mb-0 font-weight-thin">
+                                Celular:
+                                <v-tooltip top>
+                                    <span
+                                    slot="activator"
+                                    style="cursor: pointer;"
+                                    @click="copyPhone()"
+                                    ><b>{{
+                                         formatPhone(item.profile.phone)
+                                     }}</b>
+                                        <v-icon>fas fa-copy</v-icon></span><span>{{ copyText }}</span>
+                                </v-tooltip>
+                            </div>
                         </v-flex>
                         <v-flex xs12 py-2>
                             <v-divider />
                         </v-flex>
                         <v-flex xs12>
-                            <div class="headline mb-0 font-weight-thin">Pedido</div>
+                            <div class="headline mb-0 font-weight-thin">
+                                Pedido
+                            </div>
                         </v-flex>
                         <v-flex xs12>
-                            <div class="title mb-0 font-weight-thin">Vagas: <b>{{ item.seats }}</b></div>
-                            <div class="title mb-0 font-weight-thin">Reservou <b>{{ $moment(item.book_time).fromNow() }}</b></div>
+                            <div class="title mb-0 font-weight-thin">
+                                Vagas: <b>{{ item.seats }}</b>
+                            </div>
+                            <div class="title mb-0 font-weight-thin">
+                                Reservou
+                                <b>{{ $moment(item.book_time).fromNow() }}</b>
+                            </div>
                         </v-flex>
                     </v-flex>
                     <v-flex xs12>
@@ -43,20 +77,34 @@
                             <v-divider />
                         </v-flex>
                         <v-flex xs12>
-                            <div class="headline mb-0 font-weight-thin">Ensino</div>
+                            <div class="headline mb-0 font-weight-thin">
+                                Ensino
+                            </div>
                         </v-flex>
                         <v-flex xs12>
-                            <div class="title mb-0 font-weight-thin"><b>{{ getUniversity(item.student.university) }}</b></div>
+                            <div class="title mb-0 font-weight-thin">
+                                <b>{{
+                                    getUniversity(item.student.university)
+                                }}</b>
+                            </div>
                         </v-flex>
                         <v-flex xs12>
-                            <div class="title mb-0 font-weight-thin"><b>{{ capitalize(item.student.course) }} {{ item.student.enroll_year }}</b></div>
+                            <div class="title mb-0 font-weight-thin">
+                                <b>{{ capitalize(item.student.course) }}
+                                    {{ item.student.enroll_year }}</b>
+                            </div>
                         </v-flex>
                     </v-flex>
                 </v-card-title>
                 <v-card-actions>
                     <v-container>
                         <v-layout row wrap>
-                            <v-flex v-if="item.status != 'approved'" d-flex xs12 sm4>
+                            <v-flex
+                            v-if="item.status != 'approved'"
+                            d-flex
+                            xs12
+                            sm4
+                            >
                                 <v-btn
                                 :loading="loading"
                                 :disabled="loading"
@@ -64,12 +112,18 @@
                                 class="white--text"
                                 ripple
                                 raised
-                                @click="callAction('approve')">
+                                @click="callAction('approve')"
+                                >
                                     Aprovar
                                 </v-btn>
                             </v-flex>
                             <v-spacer />
-                            <v-flex v-if="item.status == 'pending'" d-flex xs12 sm4>
+                            <v-flex
+                            v-if="item.status == 'pending'"
+                            d-flex
+                            xs12
+                            sm4
+                            >
                                 <v-btn
                                 :loading="loading"
                                 :disabled="loading"
@@ -77,11 +131,17 @@
                                 class="white--text"
                                 ripple
                                 raised
-                                @click="callAction('deny')">
+                                @click="callAction('deny')"
+                                >
                                     Negar
                                 </v-btn>
                             </v-flex>
-                            <v-flex v-else-if="item.status == 'approved'" d-flex xs12 sm4>
+                            <v-flex
+                            v-else-if="item.status == 'approved'"
+                            d-flex
+                            xs12
+                            sm4
+                            >
                                 <v-btn
                                 :loading="loading"
                                 :disabled="loading"
@@ -89,7 +149,8 @@
                                 class="white--text"
                                 ripple
                                 raised
-                                @click="callAction('forfeit')">
+                                @click="callAction('forfeit')"
+                                >
                                     Remover
                                 </v-btn>
                             </v-flex>
@@ -101,17 +162,34 @@
         <v-dialog v-model="dialog" :persistant="loading" max-width="450">
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">{{ capitalize(dialogText) }} {{ item.first_name }}?</v-card-text>
+                    <v-card-text
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        {{ capitalize(dialogText) }}
+                        {{ item.first_name }}?
+                    </v-card-text>
                     <v-card-text class="headline font-weight-thin">
-                        {{ capitalize(genderNoun) }} receberá uma notificação sobre isso!
+                        {{ capitalize(genderNoun) }} receberá uma notificação
+                        sobre isso!
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer/>
-                        <v-btn v-if="!loading" color="primary" flat="flat" @click="dialog = false" >
+                        <v-spacer />
+                        <v-btn
+                        v-if="!loading"
+                        color="primary"
+                        flat="flat"
+                        @click="dialog = false"
+                        >
                             Não, pera
                         </v-btn>
 
-                        <v-btn :loading="loading" :disabled="loading" color="error" flat="flat" @click="execAction()" >
+                        <v-btn
+                        :loading="loading"
+                        :disabled="loading"
+                        color="error"
+                        flat="flat"
+                        @click="execAction()"
+                        >
                             {{ dialogText }}
                         </v-btn>
                     </v-card-actions>

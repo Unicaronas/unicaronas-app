@@ -1,8 +1,10 @@
 export const state = () => ({
-    dialog: true
+    timeout: false
 })
+
 export const mutations = {
-    deny(state) {
-        state.dialog = false
+    set(state) {
+        state.timeout = true
     }
 }
+

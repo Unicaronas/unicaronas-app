@@ -4,55 +4,91 @@
             <template slot="card" slot-scope="theme">
                 <v-card-title primary-title>
                     <v-flex py-2 xs12>
-                        <span :class="statusColor" style="float: right; width: 100%; text-transform: uppercase;" class="pa-1 headline text-xs-center font-weight-bold white--text">{{ statusText }}</span>
+                        <span
+                        :class="statusColor"
+                        style="float: right; width: 100%; text-transform: uppercase;"
+                        class="pa-1 headline text-xs-center font-weight-bold white--text"
+                        >{{ statusText }}</span>
                     </v-flex>
                     <v-flex xs12 pt-3>
                         <v-container>
                             <v-flex xs12 text-xs-center>
-                                <div class="headline text-xs-center font-weight-thin">Você reservou <b>{{ trip.seats }}</b> vaga{{ trip.seats != 1 ? 's' : '' }} por <b>R${{ trip.price * trip.seats }}</b> nessa carona</div>
+                                <div
+                                class="headline text-xs-center font-weight-thin"
+                                >
+                                    Você reservou <b>{{ trip.seats }}</b> vaga{{
+                                        trip.seats != 1 ? 's' : ''
+                                    }}
+                                    por
+                                    <b>R${{ trip.price * trip.seats }}</b> nessa
+                                    carona
+                                </div>
                                 <br>
-                                <v-btn v-if="trip.status != 'denied' && $moment(trip.datetime).isAfter($moment())" large ripple color="error" @click="dialog = true">Desistir</v-btn>
+                                <v-btn
+                                v-if="
+                                    trip.status != 'denied' &&
+                                        $moment(trip.datetime).isAfter(
+                                            $moment()
+                                        )
+                                "
+                                large
+                                ripple
+                                color="error"
+                                @click="dialog = true"
+                                >
+                                    Desistir
+                                </v-btn>
                             </v-flex>
                         </v-container>
                     </v-flex>
                 </v-card-title>
             </template>
         </BaseCard>
-        <v-dialog
-        :persistent="givingUp"
-        v-model="dialog"
-        max-width="450"
-        >
+        <v-dialog v-model="dialog" :persistent="givingUp" max-width="450">
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">Desistir da carona?</v-card-text>
+                    <v-card-text
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        Desistir da carona?
+                    </v-card-text>
                     <v-card-text class="headline font-weight-thin">
                         Tem certeza? Você não poderá viajar nela!
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer/>
+                        <v-spacer />
 
-                        <v-btn v-if="!givingUp" color="primary" flat="flat" @click="dialog = false" >
+                        <v-btn
+                        v-if="!givingUp"
+                        color="primary"
+                        flat="flat"
+                        @click="dialog = false"
+                        >
                             Não, pera
                         </v-btn>
 
-                        <v-btn :loading="givingUp" :disabled="givingUp" color="error" flat="flat" @click="giveUp()" >
+                        <v-btn
+                        :loading="givingUp"
+                        :disabled="givingUp"
+                        color="error"
+                        flat="flat"
+                        @click="giveUp()"
+                        >
                             Desistir!
                         </v-btn>
                     </v-card-actions>
                 </v-container>
             </v-card>
         </v-dialog>
-        <v-dialog
-        v-model="gaveUp"
-        max-width="450"
-        persistent
-        >
+        <v-dialog v-model="gaveUp" max-width="450" persistent>
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">Pronto!</v-card-text>
                     <v-card-text
-                    class="text-xs-center">
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        Pronto!
+                    </v-card-text>
+                    <v-card-text class="text-xs-center">
                         <v-btn color="primary" to="/trips/passenger">
                             voltar
                         </v-btn>

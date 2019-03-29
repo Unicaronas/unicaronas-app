@@ -1,22 +1,22 @@
 <template>
-    <v-container
-    fluid
-    grid-list-lg>
+    <v-container fluid grid-list-lg>
         <v-layout row wrap>
-            <template v-if="searchType == 'external'" >
+            <template v-if="searchType == 'external'">
                 <ListItemBasic
                 v-for="(item, i) in items"
                 :key="i"
-                :item="item" />
+                :item="item"
+                />
             </template>
             <template v-else>
-                <ListItem
-                v-for="(item, i) in items"
-                :key="i"
-                :item="item" />
+                <ListItem v-for="(item, i) in items" :key="i" :item="item" />
             </template>
         </v-layout>
-        <infinite-loading v-if="searchType == 'local'" :reset="resetInfinite" @infinite="loadMore"/>
+        <infinite-loading
+        v-if="searchType == 'local'"
+        :reset="resetInfinite"
+        @infinite="loadMore"
+        />
     </v-container>
 </template>
 

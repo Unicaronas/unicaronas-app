@@ -10,17 +10,27 @@
                     right
                     small
                     fab
-                    @click="share()">
+                    @click="share()"
+                    >
                         <v-tooltip v-model="copied" :disabled="!copied" top>
-                            <v-icon slot="activator">share</v-icon>
+                            <v-icon slot="activator">
+                                share
+                            </v-icon>
                             <span>Link copiado!</span>
                         </v-tooltip>
                     </v-btn>
                     <div>
-                        <h3 class="display-1 mb-0">{{ formattedDatetime }}</h3>
-                        <div class="title mt-3 mb-3 font-weight-thin">{{ item.driver.first_name }} da {{ capitalUniversity }}</div>
+                        <h3 class="display-1 mb-0">
+                            {{ formattedDatetime }}
+                        </h3>
+                        <div class="title mt-3 mb-3 font-weight-thin">
+                            {{ item.driver.first_name }} da
+                            {{ capitalUniversity }}
+                        </div>
                         <v-chip small color="green" text-color="white">
-                            <v-icon left>attach_money</v-icon>{{ item.price }} reais
+                            <v-icon left>
+                                attach_money
+                            </v-icon>{{ item.price }} reais
                         </v-chip>
                         <v-chip small color="blue" text-color="white">
                             {{ item.seats_left }}
@@ -30,8 +40,11 @@
                         v-if="item.auto_approve"
                         small
                         color="yellow"
-                        text-color="black">
-                            <v-icon left>offline_bolt</v-icon>
+                        text-color="black"
+                        >
+                            <v-icon left>
+                                offline_bolt
+                            </v-icon>
                             Auto Aprovação
                         </v-chip>
                     </div>
@@ -44,7 +57,12 @@
                                 color="secondary"
                                 ripple
                                 raised
-                                @click="showDriverDialog = !showDriverDialog">{{ item.driver.first_name }}</v-btn>
+                                @click="
+                                    showDriverDialog = !showDriverDialog
+                                "
+                                >
+                                    {{ item.driver.first_name }}
+                                </v-btn>
                             </v-flex>
                             <v-flex d-flex xs6 sm4>
                                 <v-btn
@@ -52,15 +70,18 @@
                                 ripple
                                 raised
                                 dark
-                                @click="showTripDialog = !showTripDialog">A carona</v-btn>
-
+                                @click="showTripDialog = !showTripDialog"
+                                >
+                                    A carona
+                                </v-btn>
                             </v-flex>
                             <v-flex d-flex xs12 sm4>
                                 <v-btn
                                 color="primary"
                                 ripple
                                 raised
-                                @click="bookDialog = true">
+                                @click="bookDialog = true"
+                                >
                                     Reservar!
                                 </v-btn>
                             </v-flex>
@@ -69,25 +90,26 @@
                 </v-card-actions>
             </template>
         </BaseCard>
-        <BasicDriverDetails
-        :item="item"
-        :show-dialog="showDriverDialog" />
-        <BasicTripDetails
-        :item="item"
-        :show-dialog="showTripDialog" />
-        <v-dialog
-        :persistent="booking"
-        v-model="bookDialog"
-        max-width="450"
-        >
+        <BasicDriverDetails :item="item" :show-dialog="showDriverDialog" />
+        <BasicTripDetails :item="item" :show-dialog="showTripDialog" />
+        <v-dialog v-model="bookDialog" :persistent="booking" max-width="450">
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">Reservar essa carona?</v-card-text>
+                    <v-card-text
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        Reservar essa carona?
+                    </v-card-text>
                     <v-card-text class="headline font-weight-thin">
-                        Você vai reservar {{ seats + ' vaga' + (seats != 1 ? 's' : '') }}<template v-if="!item.auto_approve">, mas {{ item.driver.first_name }} ainda terá que aceitar você na viagem</template>
+                        Você vai reservar
+                        {{ seats + ' vaga' + (seats != 1 ? 's' : '')
+                        }}<template v-if="!item.auto_approve">
+                            , mas {{ item.driver.first_name }} ainda terá que
+                            aceitar você na viagem
+                        </template>
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer/>
+                        <v-spacer />
 
                         <v-btn
                         v-if="!booking"
@@ -113,17 +135,20 @@
                 </v-container>
             </v-card>
         </v-dialog>
-        <v-dialog
-        v-model="booked"
-        max-width="450"
-        persistent
-        >
+        <v-dialog v-model="booked" max-width="450" persistent>
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">Reserva feita!</v-card-text>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">🎉🎉🎉</v-card-text>
                     <v-card-text
-                    class="text-xs-center">
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        Reserva feita!
+                    </v-card-text>
+                    <v-card-text
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        🎉🎉🎉
+                    </v-card-text>
+                    <v-card-text class="text-xs-center">
                         <v-btn color="primary" to="/trips/passenger">
                             ver reservas
                         </v-btn>
@@ -240,7 +265,8 @@ export default {
                 this.destinationCity +
                 ' \n' +
                 this.formattedDatetime +
-                ' por R$' + this.item.price
+                ' por R$' +
+                this.item.price
             if (this.canShare) {
                 navigator
                     .share({
@@ -268,9 +294,9 @@ export default {
         },
         getAddrComp(source, component, short) {
             // Get the address component from the trip
-            return this.item[source].filter(comp => comp.types.includes(component))[0][
-                short
-            ]
+            return this.item[source].filter(comp =>
+                comp.types.includes(component)
+            )[0][short]
         }
     }
 }

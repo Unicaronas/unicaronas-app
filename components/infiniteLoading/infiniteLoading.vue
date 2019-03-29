@@ -3,7 +3,12 @@
         <v-layout align-center justify-center>
             <v-layout row wrap>
                 <v-flex d-flex xs12 mt-5>
-                    <v-progress-circular :size="70" :width="7" color="blue" indeterminate />
+                    <v-progress-circular
+                    :size="70"
+                    :width="7"
+                    color="blue"
+                    indeterminate
+                    />
                 </v-flex>
             </v-layout>
         </v-layout>

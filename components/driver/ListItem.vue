@@ -4,7 +4,12 @@
             <template slot="card" slot-scope="theme">
                 <v-card-title primary-title>
                     <v-flex v-if="pendingPassengers.length" py-2 xs12>
-                        <a :href="`/trips/driver/${item.id}/passengers/`" nuxt style="float: right; width: 100%; text-transform: uppercase;" class="pa-1 headline text-xs-center font-weight-bold white--text orange">{{ pendingPassengersText }}</a>
+                        <a
+                        :href="`/trips/driver/${item.id}/passengers/`"
+                        nuxt
+                        style="float: right; width: 100%; text-transform: uppercase;"
+                        class="pa-1 headline text-xs-center font-weight-bold white--text orange"
+                        >{{ pendingPassengersText }}</a>
                     </v-flex>
                     <v-flex pt-0 pb-0 xs12>
                         <div class="display-1 mt-0 mb-3 font-weight-thin">
@@ -16,7 +21,9 @@
                     </v-flex>
                     <v-flex pt-0 pb-0 xs12>
                         <div class="headline mt-0 mb-3 font-weight-thin">
-                            Passageiros: <b>{{ item.max_seats - item.seats_left }} de {{ item.max_seats }}</b>
+                            Passageiros:
+                            <b>{{ item.max_seats - item.seats_left }} de
+                                {{ item.max_seats }}</b>
                         </div>
                     </v-flex>
                     <v-flex pt-0 pb-0 xs12>
@@ -62,12 +69,18 @@
                                 class="white--text"
                                 ripple
                                 nuxt
-                                raised>
+                                raised
+                                >
                                     Detalhes
                                 </v-btn>
                             </v-flex>
-                            <v-spacer/>
-                            <v-flex v-if="$moment(item.datetime).isAfter($moment())" d-flex xs12 sm4>
+                            <v-spacer />
+                            <v-flex
+                            v-if="$moment(item.datetime).isAfter($moment())"
+                            d-flex
+                            xs12
+                            sm4
+                            >
                                 <v-btn
                                 :loading="deleting"
                                 :disabled="deleting"
@@ -75,7 +88,8 @@
                                 class="white--text"
                                 ripple
                                 raised
-                                @click="dialog = true">
+                                @click="dialog = true"
+                                >
                                     Apagar
                                 </v-btn>
                             </v-flex>
@@ -87,18 +101,26 @@
         <v-dialog v-model="dialog" max-width="450">
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">Apagar carona?</v-card-text>
+                    <v-card-text
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        Apagar carona?
+                    </v-card-text>
                     <v-card-text class="headline font-weight-thin">
                         Tem certeza? Não há como desfazer isso!
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer/>
+                        <v-spacer />
 
-                        <v-btn color="primary" flat="flat" @click="dialog = false" >
+                        <v-btn
+                        color="primary"
+                        flat="flat"
+                        @click="dialog = false"
+                        >
                             Não, pera
                         </v-btn>
 
-                        <v-btn color="error" flat="flat" @click="deleteItem()" >
+                        <v-btn color="error" flat="flat" @click="deleteItem()">
                             Apagar!
                         </v-btn>
                     </v-card-actions>

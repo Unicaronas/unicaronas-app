@@ -1,14 +1,15 @@
 <template>
     <v-app
     :dark="$store.state.theme.appColor == 'dark'"
-    :light="$store.state.theme.appColor == 'light'">
+    :light="$store.state.theme.appColor == 'light'"
+    >
         <NavDrawer />
         <Toolbar />
         <v-content>
             <nuxt />
         </v-content>
-        <InstallPrompt/>
-        <EmailDialog/>
+        <InstallPrompt />
+        <EmailDialog />
         <Footer />
     </v-app>
 </template>

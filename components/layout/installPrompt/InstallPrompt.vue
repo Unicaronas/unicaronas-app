@@ -1,26 +1,45 @@
 <template>
     <v-fade-transition>
-        <v-card v-show="installDialog && canInstall" id="installDialog" class="elevation-5">
+        <v-card
+        v-show="installDialog && canInstall"
+        id="installDialog"
+        class="elevation-5"
+        >
             <v-container>
                 <v-layout>
                     <v-flex xs3>
                         <v-img
-                        :src="$store.state.theme.appColor == 'dark' ? '/img/logo_white.svg' : '/img/logo_black.svg'"
+                        :src="
+                            $store.state.theme.appColor == 'dark'
+                                ? '/img/logo_white.svg'
+                                : '/img/logo_black.svg'
+                        "
                         height="5em"
                         class="mt-4"
-                        contain/>
+                        contain
+                        />
                     </v-flex>
                     <v-flex xs9>
                         <v-card-title primary-title>
-                            <div class="headline">Instale o Unicaronas</div><br>
-                            <div>Quer adicionar o Unicaronas à sua página principal?</div>
+                            <div class="headline">
+                                Instale o Unicaronas
+                            </div>
+                            <br>
+                            <div>
+                                Quer adicionar o Unicaronas à sua página
+                                principal?
+                            </div>
                         </v-card-title>
                     </v-flex>
                 </v-layout>
                 <v-card-actions>
                     <v-layout justify-end>
-                        <v-btn flat color="primary" @click="dontInstallApp()">Não, valeu</v-btn>
-                        <v-btn color="primary" @click="installApp()">Quero!</v-btn>
+                        <v-btn flat color="primary" @click="dontInstallApp()">
+                            Não, valeu
+                        </v-btn>
+                        <v-btn color="primary" @click="installApp()">
+                            Quero!
+                        </v-btn>
                     </v-layout>
                 </v-card-actions>
             </v-container>
@@ -40,7 +59,7 @@ export default {
     mounted() {
         if (
             this.$auth.loggedIn &&
-            !this.$store.state.installPromptTimeout.timeout
+            !this.$store.state.promptTimeout.timeout
         ) {
             window.addEventListener(
                 'beforeinstallprompt',
@@ -75,7 +94,7 @@ export default {
                 if (res.outcome === 'accepted') {
                     this.$ga.event('install prompt', 'accept')
                 } else {
-                    this.$store.commit('setPromptTimout')
+                    this.$store.commit('promptTimout/set')
                 }
                 window.removeEventListener(
                     'beforeinstallprompt',
@@ -84,7 +103,7 @@ export default {
             })
         },
         dontInstallApp() {
-            this.$store.commit('setPromptTimout')
+            this.$store.commit('promptTimout/set')
             this.$ga.event('install prompt', 'deny')
             this.canInstall = false
             window.removeEventListener(

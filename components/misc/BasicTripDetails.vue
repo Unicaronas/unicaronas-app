@@ -1,13 +1,15 @@
 <template>
     <v-layout row justify-center>
         <template v-if="$device.isMobile">
-            <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-dialog
+            v-model="dialog"
+            fullscreen
+            hide-overlay
+            transition="dialog-bottom-transition"
+            >
                 <v-card>
                     <v-toolbar dark color="primary">
-                        <v-btn
-                        icon
-                        dark
-                        @click.native="dialog = false">
+                        <v-btn icon dark @click.native="dialog = false">
                             <v-icon>close</v-icon>
                         </v-btn>
                         <v-toolbar-title>Sobre a carona</v-toolbar-title>
@@ -15,44 +17,73 @@
                     <v-container>
                         <v-layout row wrap>
                             <v-flex v-if="item.details" d-flex xs12>
-                                <v-card-text style="white-space: pre;" class="pb-1 headline font-weight-regular font-italic">
-                                    <ReadMore :text="item.details"/>
+                                <v-card-text
+                                style="white-space: pre;"
+                                class="pb-1 headline font-weight-regular font-italic"
+                                >
+                                    <ReadMore :text="item.details" />
                                 </v-card-text>
                             </v-flex>
                             <v-flex v-if="item.details" d-flex xs12>
-                                <v-card-text class="pt-1 title font-weight-thin">
+                                <v-card-text
+                                class="pt-1 title font-weight-thin"
+                                >
                                     - {{ firstName }}
                                 </v-card-text>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-title class="pb-0 headline font-weight-thin">Vai custar {{ item.price }} reais e {{ autoApproveText }}. Além disso, {{ seatsLeftText }}. </v-card-title>
+                                <v-card-title
+                                class="pb-0 headline font-weight-thin"
+                                >
+                                    Vai custar {{ item.price }} reais e
+                                    {{ autoApproveText }}. Além disso,
+                                    {{ seatsLeftText }}.
+                                </v-card-title>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-title class="pb-0 headline font-weight-thin">Dia e hora:</v-card-title>
+                                <v-card-title
+                                class="pb-0 headline font-weight-thin"
+                                >
+                                    Dia e hora:
+                                </v-card-title>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-text class="title pt-1 font-weight-bold">
+                                <v-card-text
+                                class="title pt-1 font-weight-bold"
+                                >
                                     {{ formattedDatetime }}.
                                 </v-card-text>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-title class="pb-0 headline font-weight-thin">Endereço aproximado de saída:</v-card-title>
+                                <v-card-title
+                                class="pb-0 headline font-weight-thin"
+                                >
+                                    Endereço aproximado de saída:
+                                </v-card-title>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-text class="pt-0 title font-weight-light">
-                                    <a
-                                    :href="originURL"
-                                    target="_blank">{{ item.origin }}</a>
+                                <v-card-text
+                                class="pt-0 title font-weight-light"
+                                >
+                                    <a :href="originURL" target="_blank">{{
+                                        item.origin
+                                    }}</a>
                                 </v-card-text>
                             </v-flex>
                             <v-flex d-flex mt-1 xs12>
-                                <v-card-title class="pb-0 headline font-weight-thin">Endereço aproximado de chegada:</v-card-title>
+                                <v-card-title
+                                class="pb-0 headline font-weight-thin"
+                                >
+                                    Endereço aproximado de chegada:
+                                </v-card-title>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-text class="pt-0 title font-weight-light">
-                                    <a
-                                    :href="destinationURL"
-                                    target="_blank">{{ item.destination }}</a>
+                                <v-card-text
+                                class="pt-0 title font-weight-light"
+                                >
+                                    <a :href="destinationURL" target="_blank">{{
+                                        item.destination
+                                    }}</a>
                                 </v-card-text>
                             </v-flex>
                         </v-layout>
@@ -61,52 +92,84 @@
             </v-dialog>
         </template>
         <template v-else>
-            <v-dialog v-model="dialog" max-width="768" >
+            <v-dialog v-model="dialog" max-width="768">
                 <v-card>
                     <v-container>
                         <v-layout row wrap>
                             <v-flex d-flex xs12>
-                                <v-card-title class="display-1 font-weight-thin">Sobre a carona</v-card-title>
+                                <v-card-title
+                                class="display-1 font-weight-thin"
+                                >
+                                    Sobre a carona
+                                </v-card-title>
                             </v-flex>
                             <v-flex v-if="item.details" d-flex xs12>
-                                <v-card-text class="pb-1 headline font-weight-regular font-italic">
-                                    <ReadMore :text="item.details"/>
+                                <v-card-text
+                                class="pb-1 headline font-weight-regular font-italic"
+                                >
+                                    <ReadMore :text="item.details" />
                                 </v-card-text>
                             </v-flex>
                             <v-flex v-if="item.details" d-flex xs12>
-                                <v-card-text class="pt-1 title font-weight-thin">
+                                <v-card-text
+                                class="pt-1 title font-weight-thin"
+                                >
                                     - {{ firstName }}
                                 </v-card-text>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-title class="pb-0 headline font-weight-thin">Vai custar {{ item.price }} reais e {{ autoApproveText }}. Além disso, {{ seatsLeftText }}. </v-card-title>
+                                <v-card-title
+                                class="pb-0 headline font-weight-thin"
+                                >
+                                    Vai custar {{ item.price }} reais e
+                                    {{ autoApproveText }}. Além disso,
+                                    {{ seatsLeftText }}.
+                                </v-card-title>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-title class="pb-0 headline font-weight-thin">Dia e hora:</v-card-title>
+                                <v-card-title
+                                class="pb-0 headline font-weight-thin"
+                                >
+                                    Dia e hora:
+                                </v-card-title>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-text class="title pt-1 font-weight-bold">
+                                <v-card-text
+                                class="title pt-1 font-weight-bold"
+                                >
                                     {{ formattedDatetime }}.
                                 </v-card-text>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-title class="pb-0 headline font-weight-thin">Endereço aproximado de saída:</v-card-title>
+                                <v-card-title
+                                class="pb-0 headline font-weight-thin"
+                                >
+                                    Endereço aproximado de saída:
+                                </v-card-title>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-text class="pt-0 title font-weight-light">
-                                    <a
-                                    :href="originURL"
-                                    target="_blank">{{ item.origin }}</a>
+                                <v-card-text
+                                class="pt-0 title font-weight-light"
+                                >
+                                    <a :href="originURL" target="_blank">{{
+                                        item.origin
+                                    }}</a>
                                 </v-card-text>
                             </v-flex>
                             <v-flex d-flex mt-1 xs12>
-                                <v-card-title class="pb-0 headline font-weight-thin">Endereço aproximado de chegada:</v-card-title>
+                                <v-card-title
+                                class="pb-0 headline font-weight-thin"
+                                >
+                                    Endereço aproximado de
+                                </v-card-title>
                             </v-flex>
                             <v-flex d-flex xs12>
-                                <v-card-text class="pt-0 title font-weight-light">
-                                    <a
-                                    :href="destinationURL"
-                                    target="_blank">{{ item.destination }}</a>
+                                <v-card-text
+                                class="pt-0 title font-weight-light"
+                                >
+                                    <a :href="destinationURL" target="_blank">{{
+                                        item.destination
+                                    }}</a>
                                 </v-card-text>
                             </v-flex>
                         </v-layout>

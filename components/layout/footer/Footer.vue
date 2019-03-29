@@ -14,7 +14,8 @@
                                 flat
                                 nuxt
                                 mdall
-                                round>
+                                round
+                                >
                                     {{ link.title }}
                                 </v-btn>
                             </v-flex>
@@ -25,12 +26,17 @@
                             text-md-left
                             ml-2
                             md5
-                            xs12>
+                            xs12
+                            >
                                 <v-layout row wrap>
                                     <v-flex xs12>
-                                        <h3 class="title font-weight-thin">Unicaronas App</h3>
+                                        <h3 class="title font-weight-thin">
+                                            Unicaronas App
+                                        </h3>
 
-                                        <h3 class="body mt-3 font-weight-thin">Aplicativo web oficial do Unicaronas</h3>
+                                        <h3 class="body mt-3 font-weight-thin">
+                                            Aplicativo web oficial do Unicaronas
+                                        </h3>
                                     </v-flex>
                                 </v-layout>
                             </v-flex>
@@ -39,7 +45,15 @@
                 </v-flex>
                 <v-spacer />
                 <v-flex xs12 md4 mt-3 text-xs-center>
-                    Made with <v-icon color="red" mdall>favorite</v-icon> by <a style="color: white" href="https://github.com/Maronato">Maronato</a>
+                    Made with
+                    <v-icon color="red" mdall>
+                        favorite
+                    </v-icon>
+                    by
+                    <a
+                    style="color: white"
+                    href="https://github.com/Maronato"
+                    >Maronato</a>
                 </v-flex>
             </v-layout>
         </v-container>

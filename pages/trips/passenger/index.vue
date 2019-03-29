@@ -2,19 +2,24 @@
     <v-container>
         <v-layout row wrap>
             <v-flex d-flex xs12 mt-5 offset-lg2>
-                <h1 class="display-3 font-weight-thin mb-3">Caronas pegas</h1>
+                <h1 class="display-3 font-weight-thin mb-3">
+                    Caronas pegas
+                </h1>
             </v-flex>
             <v-flex d-flex xs12 md4 />
             <v-flex d-flex xs12 lg8 mt-5 offset-lg2>
-                <v-alert v-model="error" dismissible type="error" >
+                <v-alert v-model="error" dismissible type="error">
                     {{ errorMessage }}
                 </v-alert>
             </v-flex>
             <v-flex d-flex xs12 md4 />
             <template v-if="!hasScope">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
-                    <v-alert value="true" type="error" >
-                        <b>Algumas permissões estão faltando</b>. Por favor, refaça o login e aceite pelo menos as permissões de informações sobre suas caronas e de entrada e saída delas.
+                    <v-alert value="true" type="error">
+                        <b>Algumas permissões estão faltando</b>. Por favor,
+                        refaça o login e aceite pelo menos as permissões de
+                        informações sobre suas caronas e de entrada e saída
+                        delas.
                     </v-alert>
                 </v-flex>
                 <v-flex
@@ -23,7 +28,8 @@
                 mb-5
                 md2
                 mt-3
-                offset-md5>
+                offset-md5
+                >
                     <v-btn round color="primary" ripple @click="$auth.login()">
                         Refazer login
                     </v-btn>
@@ -36,19 +42,25 @@
                 mb-5
                 lg8
                 offset-lg2
-                mt-3>
-                    <v-layout v-if="currentResults && oldResults" row align-start justify-start wrap>
+                mt-3
+                >
+                    <v-layout
+                    v-if="currentResults && oldResults"
+                    row
+                    align-start
+                    justify-start
+                    wrap
+                    >
                         <v-flex d-flex offset-md2 md8 xs12>
-                            <v-tabs
-                            centered
-                            grow
-                            icons-and-text>
-                                <v-tabs-slider color="primary"/>
+                            <v-tabs centered grow icons-and-text>
+                                <v-tabs-slider color="primary" />
 
                                 <v-tab href="#tab-current">
                                     atuais
                                     <v-badge right>
-                                        <span slot="badge">{{ currentResults.count }}</span>
+                                        <span slot="badge">{{
+                                            currentResults.count
+                                        }}</span>
                                         <v-icon>today</v-icon>
                                     </v-badge>
                                 </v-tab>
@@ -56,46 +68,52 @@
                                 <v-tab href="#tab-old">
                                     passadas
                                     <v-badge right>
-                                        <span slot="badge">{{ oldResults.count }}</span>
+                                        <span slot="badge">{{
+                                            oldResults.count
+                                        }}</span>
                                         <v-icon>event_available</v-icon>
                                     </v-badge>
                                 </v-tab>
 
-                                <v-tab-item
-                                :value="'tab-current'">
+                                <v-tab-item :value="'tab-current'">
                                     <v-flex
                                     v-if="currentResults.count == 0"
                                     d-flex
                                     class="text-xs-center"
                                     lg6
                                     offset-lg3
-                                    xs12>
-                                        <TripDialog/>
+                                    xs12
+                                    >
+                                        <TripDialog />
                                     </v-flex>
                                     <v-flex d-flex xs12>
                                         <List
                                         :items="currentData"
-                                        :reset-infinite="resetInfiniteCurrent"
+                                        :reset-infinite="
+                                            resetInfiniteCurrent
+                                        "
                                         @loadMore="loadMoreCurrent"
-                                        @giveUp="giveUp" />
+                                        @giveUp="giveUp"
+                                        />
                                     </v-flex>
                                 </v-tab-item>
-                                <v-tab-item
-                                :value="'tab-old'">
+                                <v-tab-item :value="'tab-old'">
                                     <v-flex
                                     v-if="oldResults.count == 0"
                                     d-flex
                                     class="text-xs-center"
                                     lg6
                                     offset-lg3
-                                    xs12>
-                                        <TripDialog/>
+                                    xs12
+                                    >
+                                        <TripDialog />
                                     </v-flex>
                                     <v-flex d-flex xs12>
                                         <List
                                         :items="oldData"
                                         :reset-infinite="resetInfiniteOld"
-                                        @loadMore="loadMoreOld"/>
+                                        @loadMore="loadMoreOld"
+                                        />
                                     </v-flex>
                                 </v-tab-item>
                             </v-tabs>
@@ -105,10 +123,19 @@
                         <v-layout align-center justify-center>
                             <v-layout row wrap>
                                 <v-flex d-flex xs12>
-                                    <h1 class="display-1 font-weight-thin mb-3 text-xs-center">Carregando caronas...</h1>
+                                    <h1
+                                    class="display-1 font-weight-thin mb-3 text-xs-center"
+                                    >
+                                        Carregando caronas...
+                                    </h1>
                                 </v-flex>
                                 <v-flex d-flex xs12>
-                                    <v-progress-circular :size="70" :width="7" color="blue" indeterminate />
+                                    <v-progress-circular
+                                    :size="70"
+                                    :width="7"
+                                    color="blue"
+                                    indeterminate
+                                    />
                                 </v-flex>
                             </v-layout>
                         </v-layout>
@@ -122,10 +149,9 @@
 <script>
 import List from '~/components/passenger/List.vue'
 import TripDialog from '~/components/passenger/TripDialog.vue'
-import TripStats from '~/components/passenger/TripStats.vue'
 
 export default {
-    components: { List, TripDialog, TripStats },
+    components: { List, TripDialog },
     data() {
         return {
             hasScope: false,

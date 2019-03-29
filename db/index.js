@@ -1,12 +1,9 @@
 import mongoose from 'mongoose'
 import consola from 'consola'
 
-mongoose.connect(
-    process.env.MONGODB_URI,
-    {
-        useNewUrlParser: true
-    }
-)
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true
+})
 
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise

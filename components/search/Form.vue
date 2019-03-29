@@ -1,12 +1,18 @@
 <template>
     <form>
         <v-radio-group v-model="source_type" required>
-            <div slot="label"><strong>Onde</strong> pesquisar as caronas?</div>
+            <div slot="label">
+                <strong>Onde</strong> pesquisar as caronas?
+            </div>
             <v-radio value="local">
-                <div slot="label">No Unicaronas</div>
+                <div slot="label">
+                    No Unicaronas
+                </div>
             </v-radio>
             <v-radio value="external">
-                <div slot="label">Fora do Unicaronas</div>
+                <div slot="label">
+                    Fora do Unicaronas
+                </div>
             </v-radio>
         </v-radio-group>
 
@@ -14,68 +20,80 @@
             <label
             aria-hidden="true"
             class="v-label"
-            style="left: 0px; right: auto; position: relative;"><div>Quais fontes usar na pesquisa?</div></label>
+            style="left: 0px; right: auto; position: relative;"
+            ><div>Quais fontes usar na pesquisa?</div></label>
             <label
             aria-hidden="true"
             class="v-label red--text"
             style="left: 0px; right: auto; position: relative;"
-            v-html="errors.collect('sources')[0] ? 'Escolha pelo menos uma fonte' : ''" />
+            >
+                {{
+                    errors.collect('sources')[0]
+                        ? 'Escolha pelo menos uma fonte'
+                        : ''
+                }}
+            </label>
             <v-checkbox
-            v-validate="'required|is_not:[]'"
             v-for="(option, i) in source_options"
             :key="i"
             v-model="sources"
+            v-validate="'required|is_not:[]'"
             :value="option.toLowerCase()"
             :label="option"
             data-vv-as="Fontes"
-            data-vv-name="sources"/>
+            data-vv-name="sources"
+            />
         </template>
 
         <AutocompleteInput
-        v-validate="'required|max:500'"
         v-model="origin"
+        v-validate="'required|max:500'"
         :error-messages="errors.collect('origin')"
         data-vv-as="Origem"
         data-vv-name="origin"
-        label="De onde você vai sair?"/>
+        label="De onde você vai sair?"
+        />
         <AutocompleteInput
-        v-validate="'required|max:500'"
         v-model="destination"
+        v-validate="'required|max:500'"
         :error-messages="errors.collect('destination')"
         data-vv-as="Destino"
         data-vv-name="destination"
-        label="Para onde você vai?"/>
+        label="Para onde você vai?"
+        />
 
         <v-layout row wrap>
             <v-flex d-flex xs12 sm5>
                 <v-text-field
-                v-validate="'required|min_value:0|numeric|max_value:32767'"
                 v-model="price"
+                v-validate="'required|min_value:0|numeric|max_value:32767'"
                 :error-messages="errors.collect('price')"
                 type="number"
                 data-vv-as="Preço máximo"
                 data-vv-name="price"
                 label="Preço máximo"
-                required/>
+                required
+                />
             </v-flex>
             <v-flex v-if="source_type == 'local'" d-flex xs12 offset-sm1 sm6>
                 <v-text-field
-                v-validate="'required|min_value:1|max_value:10|numeric'"
                 v-model="seatsLeft"
+                v-validate="'required|min_value:1|max_value:10|numeric'"
                 :error-messages="errors.collect('seatsLeft')"
                 type="number"
                 data-vv-as="Numero de vagas"
                 data-vv-name="seatsLeft"
                 label="# de vagas"
-                required/>
+                required
+                />
             </v-flex>
         </v-layout>
 
         <v-layout row wrap>
             <v-flex d-flex xs12 sm6>
                 <v-menu
-                :close-on-content-click="false"
                 v-model="minDateMenu"
+                :close-on-content-click="false"
                 :nudge-right="40"
                 lazy
                 transition="slide-y-transition"
@@ -85,29 +103,31 @@
                 min-width="290px"
                 >
                     <v-text-field
-                    v-validate="'required|date_format:DD/MM/YYYY'"
                     ref="minDate"
                     slot="activator"
                     v-model="computedMinDate"
+                    v-validate="'required|date_format:dd/MM/yyyy'"
                     :error-messages="errors.collect('minDate')"
                     data-vv-as="Data mínima"
                     data-vv-name="minDate"
                     label="Data mínima"
                     prepend-icon="event"
                     readonly
-                    required/>
+                    required
+                    />
                     <v-date-picker
-                    :min="new Date().toISOString().substr(0, 10)"
                     v-model="minDate"
+                    :min="new Date().toISOString().substr(0, 10)"
                     locale="pt-br"
-                    @input="minDateMenu = false"/>
+                    @input="minDateMenu = false"
+                    />
                 </v-menu>
             </v-flex>
             <v-flex d-flex xs12 sm6>
                 <v-menu
                 ref="minTimeMenu"
-                :close-on-content-click="false"
                 v-model="minTimeMenu"
+                :close-on-content-click="false"
                 :nudge-right="40"
                 :return-value.sync="minTime"
                 lazy
@@ -118,16 +138,20 @@
                 min-width="290px"
                 >
                     <v-text-field
-                    v-validate="{required: true, regex: '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'}"
                     slot="activator"
                     v-model="minTime"
+                    v-validate="{
+                        required: true,
+                        regex: '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'
+                    }"
                     :error-messages="errors.collect('minTime')"
                     data-vv-as="Hora mínima"
                     data-vv-name="minTime"
                     label="Hora mínima"
                     prepend-icon="access_time"
                     readonly
-                    required/>
+                    required
+                    />
                     <v-time-picker
                     v-if="minTimeMenu"
                     v-model="minTime"
@@ -139,14 +163,14 @@
             </v-flex>
         </v-layout>
 
-        <v-switch v-model="advancedOptions" label="Mais opções"/>
+        <v-switch v-model="advancedOptions" label="Mais opções" />
 
         <template v-if="advancedOptions">
             <v-layout row wrap>
                 <v-flex d-flex xs12 sm6>
                     <v-menu
-                    :close-on-content-click="false"
                     v-model="maxDateMenu"
+                    :close-on-content-click="false"
                     :nudge-right="40"
                     lazy
                     transition="slide-y-transition"
@@ -156,28 +180,32 @@
                     min-width="290px"
                     >
                         <v-text-field
-                        v-validate="'required|date_format:DD/MM/YYYY|after:minDate,true'"
                         slot="activator"
                         v-model="computedMaxDate"
+                        v-validate="
+                            'required|date_format:dd/MM/yyyy|after:minDate,true'
+                        "
                         :error-messages="errors.collect('maxDate')"
                         data-vv-as="Data máxima"
                         data-vv-name="maxDate"
                         label="Data máxima"
                         prepend-icon="event"
                         readonly
-                        required/>
+                        required
+                        />
                         <v-date-picker
-                        :min="new Date().toISOString().substr(0, 10)"
                         v-model="maxDate"
+                        :min="new Date().toISOString().substr(0, 10)"
                         locale="pt-br"
-                        @input="maxDateMenu = false"/>
+                        @input="maxDateMenu = false"
+                        />
                     </v-menu>
                 </v-flex>
                 <v-flex d-flex xs12 sm6>
                     <v-menu
                     ref="maxTimeMenu"
-                    :close-on-content-click="false"
                     v-model="maxTimeMenu"
+                    :close-on-content-click="false"
                     :nudge-right="40"
                     :return-value.sync="maxTime"
                     lazy
@@ -188,16 +216,21 @@
                     min-width="290px"
                     >
                         <v-text-field
-                        v-validate="{required: true, regex: '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'}"
                         slot="activator"
                         v-model="maxTime"
+                        v-validate="{
+                            required: true,
+                            regex:
+                                '^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'
+                        }"
                         :error-messages="errors.collect('maxTime')"
                         data-vv-as="Hora máxima"
                         data-vv-name="maxTime"
                         label="Hora máxima"
                         prepend-icon="access_time"
                         readonly
-                        required/>
+                        required
+                        />
                         <v-time-picker
                         v-if="maxTimeMenu"
                         v-model="maxTime"
@@ -210,43 +243,56 @@
             </v-layout>
             <template v-if="source_type == 'local'">
                 <v-radio-group v-model="auto_approve" required>
-                    <div slot="label">Tipo de carona</div>
+                    <div slot="label">
+                        Tipo de carona
+                    </div>
                     <v-radio value="any">
-                        <div slot="label">Qualquer uma</div>
+                        <div slot="label">
+                            Qualquer uma
+                        </div>
                     </v-radio>
                     <v-radio value="on">
-                        <div slot="label">Com aprovação automática</div>
+                        <div slot="label">
+                            Com aprovação automática
+                        </div>
                     </v-radio>
                 </v-radio-group>
 
                 <v-layout row wrap>
                     <v-flex d-flex xs12 sm6>
                         <v-text-field
-                        v-validate="'required|min_value:0.05|max_value:20|decimal'"
                         v-model="originRadius"
+                        v-validate="
+                            'required|min_value:0.05|max_value:20|decimal'
+                        "
                         :error-messages="errors.collect('originRadius')"
                         type="number"
                         step="0.01"
                         data-vv-as="Raio da origem (em km)"
                         data-vv-name="originRadius"
                         label="Raio da origem (em km)"
-                        required/>
+                        required
+                        />
                     </v-flex>
                     <v-flex v-if="source_type == 'local'" d-flex xs12 sm6>
                         <v-text-field
-                        v-validate="'required|min_value:0.05|max_value:20|decimal'"
                         v-model="destinationRadius"
-                        :error-messages="errors.collect('destinationRadius')"
+                        v-validate="
+                            'required|min_value:0.05|max_value:20|decimal'
+                        "
+                        :error-messages="
+                            errors.collect('destinationRadius')
+                        "
                         type="number"
                         step="0.01"
                         data-vv-as="Raio do destino (em km)"
                         data-vv-name="destinationRadius"
                         label="Raio do destino (em km)"
-                        required/>
+                        required
+                        />
                     </v-flex>
                 </v-layout>
             </template>
-
         </template>
         <div class="text-xs-center">
             <v-btn
@@ -256,22 +302,19 @@
             class="white--text"
             large
             round
-            @click="submit()">
-                <v-icon
-                left
-                dark>search</v-icon>
+            @click="submit()"
+            >
+                <v-icon left dark>
+                    search
+                </v-icon>
                 Pesquisar
             </v-btn>
-            <v-btn
-            color="info"
-            class="white--text"
-            round
-            large
-            @click="clear">
-                <v-icon
-                left
-                dark>clear</v-icon>
-                Limpar</v-btn>
+            <v-btn color="info" class="white--text" round large @click="clear">
+                <v-icon left dark>
+                    clear
+                </v-icon>
+                Limpar
+            </v-btn>
         </div>
     </form>
 </template>
@@ -351,7 +394,10 @@ export default {
                     if (this.sources) query['sources'] = this.sources.join(' ')
                     this.$router.push({ query: query })
                     this.$store.commit('setSearchData', data)
-                    this.$store.commit('appendSearchQuery', [this.origin, this.destination])
+                    this.$store.commit('pastSearches/append', [
+                        this.origin,
+                        this.destination
+                    ])
                     this.$emit('search')
                     this.$ga.event('trips', 'search', this.source_type)
                     this.$fb.track('Search')

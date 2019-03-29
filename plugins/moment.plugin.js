@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import moment from 'moment-timezone'
 
-<%= options.locales.map(l => `import 'moment/locale/${l}'`).join('\n') %>
+// <%= options.locales.map(l => `import 'moment/locale/${l}'`).join('\n') %>
 
 if (!Vue.prototype.hasOwnProperty('$moment')) {
     Object.defineProperty(Vue.prototype, '$moment', {
