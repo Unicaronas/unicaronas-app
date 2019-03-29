@@ -22,14 +22,6 @@ module.exports = {
                 content: pkg.description
             }
         ],
-        script: [
-            {
-                src:
-                    'https://maps.googleapis.com/maps/api/js?key=' +
-                    process.env.GOOGLE_AUTOCOMPLETE_KEY +
-                    '&libraries=places&language=pt-BR&region=BR'
-            }
-        ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
             {
@@ -109,7 +101,8 @@ module.exports = {
                 pixelId: process.env.FACEBOOK_PIXEL_ID,
                 disabled: false
             }
-        ]
+        ],
+        'nuxt-google-maps-module'
     ],
     /*
      ** Axios module configuration
@@ -157,7 +150,8 @@ module.exports = {
         API_VERSION: process.env.API_VERSION,
         CLIENT_ID: process.env.CLIENT_ID,
         APP_NAME: process.env.APP_NAME,
-        BASE_URL: process.env.BASE_URL
+        BASE_URL: process.env.BASE_URL,
+        GOOGLE_AUTOCOMPLETE_KEY: process.env.GOOGLE_AUTOCOMPLETE_KEY
     },
 
     // Sentry stuff
@@ -183,6 +177,12 @@ module.exports = {
         short_name: 'Unicaronas',
         theme_color: '#2979FF',
         lang: 'pt-BR'
+    },
+
+    // Google Maps settings
+    maps: {
+        key: process.env.GOOGLE_AUTOCOMPLETE_KEY,
+        libraries: ['places&language=pt-BR&region=BR']
     },
 
     // OAuth2 options
