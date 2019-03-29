@@ -16,7 +16,12 @@
                         </v-flex>
                         <v-flex pb-0 xs12>
                             <h3 class="headline mb-0">
-                                Saída aproximada <small>{{ item.origin_radius ? '(+/- ' + item.origin_radius + ' km)' : '' }}</small>
+                                Saída aproximada
+                                <small>{{
+                                    item.origin_radius
+                                        ? '(+/- ' + item.origin_radius + ' km)'
+                                        : ''
+                                }}</small>
                             </h3>
                         </v-flex>
                         <v-flex pt-0 xs12>
@@ -28,7 +33,14 @@
                         </v-flex>
                         <v-flex pb-0 xs12>
                             <h3 class="headline mb-0">
-                                Chegada aproximada <small>{{ item.destination_radius ? '(+/- ' + item.destination_radius + ' km)' : '' }}</small>
+                                Chegada aproximada
+                                <small>{{
+                                    item.destination_radius
+                                        ? '(+/- ' +
+                                            item.destination_radius +
+                                            ' km)'
+                                        : ''
+                                }}</small>
                             </h3>
                         </v-flex>
                         <v-flex pt-0 xs12>
@@ -42,21 +54,31 @@
                         v-if="item.price__lte"
                         small
                         color="green"
-                        text-color="white"><v-icon left>attach_money</v-icon>&lt;= {{ item.price__lte }} reais
+                        text-color="white"
+                        >
+                            <v-icon left>
+                                attach_money
+                            </v-icon>&lt;= >&lt;=
+                            {{ item.price__lte }} reais
                         </v-chip>
                         <v-chip
                         v-if="item.seats_left__gte"
                         small
                         color="blue"
-                        text-color="white">
-                            &gt;= {{ item.seats_left__gte }} assento {{ item.seats_left__gte > 1 ? 's' : '' }}
+                        text-color="white"
+                        >
+                            &gt;= {{ item.seats_left__gte }} assento
+                            {{ item.seats_left__gte > 1 ? 's' : '' }}
                         </v-chip>
                         <v-chip
                         v-if="item.auto_approve"
                         small
                         color="yellow"
-                        text-color="black">
-                            <v-icon left>offline_bolt</v-icon>
+                        text-color="black"
+                        >
+                            <v-icon left>
+                                offline_bolt
+                            </v-icon>
                             Auto aprovação
                         </v-chip>
                     </div>
@@ -64,8 +86,8 @@
                 <v-card-actions>
                     <v-container>
                         <v-layout row wrap>
-                            <v-flex d-flex sm4/>
-                            <v-flex d-flex offset-sm0 sm4/>
+                            <v-flex d-flex sm4 />
+                            <v-flex d-flex offset-sm0 sm4 />
                             <v-flex d-flex xs12 sm4>
                                 <v-btn
                                 :loading="deleting"
@@ -74,7 +96,8 @@
                                 class="white--text"
                                 ripple
                                 raised
-                                @click="dialog = true">
+                                @click="dialog = true"
+                                >
                                     Apagar!
                                 </v-btn>
                             </v-flex>
@@ -86,18 +109,26 @@
         <v-dialog v-model="dialog" max-width="450">
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">Apagar esse alarme?</v-card-text>
+                    <v-card-text
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        Apagar esse alarme?
+                    </v-card-text>
                     <v-card-text class="headline font-weight-thin">
                         Tem certeza? Não há como recuperá-lo depois!
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer/>
+                        <v-spacer />
 
-                        <v-btn color="primary" flat="flat" @click="dialog = false" >
+                        <v-btn
+                        color="primary"
+                        flat="flat"
+                        @click="dialog = false"
+                        >
                             Não, pera
                         </v-btn>
 
-                        <v-btn color="error" flat="flat" @click="deleteItem()" >
+                        <v-btn color="error" flat="flat" @click="deleteItem()">
                             Apagar!
                         </v-btn>
                     </v-card-actions>

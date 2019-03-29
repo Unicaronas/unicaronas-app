@@ -6,7 +6,8 @@
                 v-for="(item, i) in items"
                 :key="i"
                 :item="item"
-                @modified="$emit('modified')"/>
+                @modified="$emit('modified')"
+                />
             </v-flex>
         </v-layout>
     </v-container>

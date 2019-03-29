@@ -3,8 +3,12 @@
         <template slot="card" slot-scope="theme">
             <v-card-title primary-title>
                 <div>
-                    <h3 class="display-1 mb-0">{{ formattedDatetime }}</h3>
-                    <div>Por <b>{{ item.price }}</b> reais</div>
+                    <h3 class="display-1 mb-0">
+                        {{ formattedDatetime }}
+                    </h3>
+                    <div>
+                        Por <b>{{ item.price }}</b> reais
+                    </div>
                 </div>
             </v-card-title>
             <v-card-actions>
@@ -13,7 +17,8 @@
                 :class="theme.theme.theme_text"
                 :dark="theme.theme.theme_dark"
                 :light="theme.theme.theme_light"
-                flat>
+                flat
+                >
                     Abrir no {{ item.source }}
                 </v-btn>
             </v-card-actions>

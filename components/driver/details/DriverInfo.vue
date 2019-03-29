@@ -1,7 +1,7 @@
 <template>
     <BaseCard>
         <template slot="card" slot-scope="theme">
-            <v-card-title primary-title >
+            <v-card-title primary-title>
                 <v-flex xs12>
                     <div class="display-1 font-weight-thin">
                         Você é {{ gender }} motorista

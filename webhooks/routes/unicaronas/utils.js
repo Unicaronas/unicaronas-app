@@ -45,7 +45,9 @@ async function userHasScopes(user_id, scopes) {
             return user
         }
     }
-    consola.debug('User is null or does not have the necessary scopes. Returning null')
+    consola.debug(
+        'User is null or does not have the necessary scopes. Returning null'
+    )
     return null
 }
 
@@ -154,9 +156,4 @@ function byteCount(s) {
     return encodeURI(s).split(/%(?:u[0-9A-F]{2})?[0-9A-F]{2}|./).length - 1
 }
 
-export {
-    userHasScopes,
-    getTripUrl,
-    getSearchUrl,
-    buildEmailData
-}
+export { userHasScopes, getTripUrl, getSearchUrl, buildEmailData }

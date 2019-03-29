@@ -10,7 +10,7 @@
     direction="top"
     transition="scale-transition"
     >
-        <v-btn slot="activator" v-model="fab" color="blue darken-2" dark fab >
+        <v-btn slot="activator" v-model="fab" color="blue darken-2" dark fab>
             <v-icon>account_circle</v-icon>
             <v-icon>close</v-icon>
         </v-btn>
@@ -23,7 +23,8 @@
                 small
                 dark
                 icon
-                ripple>
+                ripple
+                >
                     <v-icon>{{ tab.icon }}</v-icon>
                 </v-btn>
 

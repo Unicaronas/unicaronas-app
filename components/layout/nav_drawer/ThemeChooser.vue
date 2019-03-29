@@ -10,75 +10,77 @@
                         <v-container grid-list-md>
                             <v-layout wrap>
                                 <v-flex xs12>
-                                    <span class="pb-0 md-0 headline font-weight-thin">Geral</span>
+                                    <span
+                                    class="pb-0 md-0 headline font-weight-thin"
+                                    >Geral</span>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-radio-group
                                     v-model="app"
                                     row
-                                    @click="$store.commit('setAppTheme', app)">
-                                        <v-radio label="Escuro" value="dark"/>
-                                        <v-radio label="Claro" value="light"/>
+                                    >
+                                        <v-radio label="Escuro" value="dark" />
+                                        <v-radio label="Claro" value="light" />
                                     </v-radio-group>
                                 </v-flex>
                                 <v-flex xs12>
-                                    <span class="pb-0 md-0 headline font-weight-thin">Barra superior</span>
+                                    <span
+                                    class="pb-0 md-0 headline font-weight-thin"
+                                    >Barra superior</span>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-radio-group
                                     v-model="toolbar"
                                     row
-                                    @click="$store.commit('setToolbarTheme', toolbar)">
-                                        <v-radio label="Escuro" value="dark"/>
-                                        <v-radio label="Claro" value="light"/>
+                                    >
+                                        <v-radio label="Escuro" value="dark" />
+                                        <v-radio label="Claro" value="light" />
                                     </v-radio-group>
                                 </v-flex>
                                 <v-flex xs12>
-                                    <span class="headline font-weight-thin">Barra lateral</span>
+                                    <span
+                                    class="headline font-weight-thin"
+                                    >Barra lateral</span>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-radio-group
                                     v-model="navbar"
                                     row
-                                    @click="$store.commit('setNavTheme', navbar)">
-                                        <v-radio
-                                        label="Escuro"
-                                        value="dark"/>
-                                        <v-radio
-                                        label="Claro"
-                                        value="light"/>
+                                    >
+                                        <v-radio label="Escuro" value="dark" />
+                                        <v-radio label="Claro" value="light" />
                                     </v-radio-group>
                                 </v-flex>
-                                <v-flex
-                                xs12>
-                                    <span class="headline font-weight-thin">Cartões</span>
+                                <v-flex xs12>
+                                    <span
+                                    class="headline font-weight-thin"
+                                    >Cartões</span>
                                 </v-flex>
-                                <v-flex
-                                xs12>
+                                <v-flex xs12>
                                     <v-radio-group
                                     v-model="cards"
                                     row
-                                    @click="$store.commit('setCardsTheme', cards)">
-                                        <v-radio
-                                        label="Escuro"
-                                        value="dark"/>
-                                        <v-radio
-                                        label="Claro"
-                                        value="light"/>
+                                    >
+                                        <v-radio label="Escuro" value="dark" />
+                                        <v-radio label="Claro" value="light" />
                                         <v-radio
                                         label="Colorido"
-                                        value="random"/>
+                                        value="random"
+                                        />
                                     </v-radio-group>
                                 </v-flex>
                             </v-layout>
                         </v-container>
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer/>
+                        <v-spacer />
                         <v-btn
                         color="blue darken-1"
                         flat
-                        @click.native="dialog = false">Fechar</v-btn>
+                        @click.native="dialog = false"
+                        >
+                            Fechar
+                        </v-btn>
                     </v-card-actions>
                 </v-container>
             </v-card>
@@ -96,11 +98,53 @@ export default {
     },
     data() {
         return {
-            dialog: false,
-            toolbar: null,
-            navbar: null,
-            cards: null,
-            app: null
+            dialog: false
+        }
+    },
+    computed: {
+        toolbar: {
+            get() {
+                return this.$store.state.theme.toolbarColor
+            },
+            set(value) {
+                this.$store.commit(
+                    'theme/setToolbarTheme',
+                    value
+                )
+            }
+        },
+        navbar: {
+            get() {
+                return this.$store.state.theme.navColor
+            },
+            set(value) {
+                this.$store.commit(
+                    'theme/setNavTheme',
+                    value
+                )
+            }
+        },
+        cards: {
+            get() {
+                return this.$store.state.theme.cardColor
+            },
+            set(value) {
+                this.$store.commit(
+                    'theme/setCardsTheme',
+                    value
+                )
+            }
+        },
+        app: {
+            get() {
+                return this.$store.state.theme.appColor
+            },
+            set(value) {
+                this.$store.commit(
+                    'theme/setAppTheme',
+                    value
+                )
+            }
         }
     },
     watch: {
@@ -109,12 +153,6 @@ export default {
                 this.dialog = true
             }
         }
-    },
-    mounted() {
-        this.toolbar = this.$store.state.theme.toolbarColor
-        this.navbar = this.$store.state.theme.navColor
-        this.cards = this.$store.state.theme.cardColor
-        this.app = this.$store.state.theme.appColor
     }
 }
 </script>

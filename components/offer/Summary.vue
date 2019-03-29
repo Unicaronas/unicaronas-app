@@ -3,19 +3,28 @@
         <v-flex d-flex xs12>
             <v-card>
                 <v-container>
-                    <v-card-title class="display-1 font-weight-thin">Resumo</v-card-title>
+                    <v-card-title class="display-1 font-weight-thin">
+                        Resumo
+                    </v-card-title>
                     <v-divider />
                     <v-list v-if="formData">
-                        <v-list-tile
-                        v-for="(value, key) in formData"
-                        v-if="mapKey(key)"
-                        :key="key"
-                        class="mt-2">
-                            <v-list-tile-content>
-                                <v-list-tile-title class="font-weight-light" v-text="mapValue(key, value)"/>
-                                <v-list-tile-sub-title v-text="mapKey(key)"/>
-                            </v-list-tile-content>
-                        </v-list-tile>
+                        <template v-for="(value, key) in formData">
+                            <v-list-tile
+                            v-if="mapKey(key)"
+                            :key="key"
+                            class="mt-2"
+                            >
+                                <v-list-tile-content>
+                                    <v-list-tile-title
+                                    class="font-weight-light"
+                                    v-text="mapValue(key, value)"
+                                    />
+                                    <v-list-tile-sub-title
+                                    v-text="mapKey(key)"
+                                    />
+                                </v-list-tile-content>
+                            </v-list-tile>
+                        </template>
                     </v-list>
                 </v-container>
             </v-card>

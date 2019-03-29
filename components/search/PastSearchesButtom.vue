@@ -1,8 +1,14 @@
 <template>
-    <v-btn
-    color="info"
-    round
-    @click="query_click()"><v-icon class="mr-2">query_builder</v-icon> {{ compOrigin }} <v-icon class="ml-2 mr-2">arrow_forward</v-icon> {{ compDest }}</v-btn>
+    <v-btn color="info" round @click="query_click()">
+        <v-icon class="mr-2">
+            query_builder
+        </v-icon>
+        {{ compOrigin }}
+        <v-icon class="ml-2 mr-2">
+            arrow_forward
+        </v-icon>
+        {{ compDest }}
+    </v-btn>
 </template>
 <script>
 export default {
@@ -29,11 +35,13 @@ export default {
     methods: {
         query_click() {
             this.$ga.event('past search', 'click')
-            this.$emit('clicked', { origin: this.origin, destination: this.destination })
+            this.$emit('clicked', {
+                origin: this.origin,
+                destination: this.destination
+            })
         },
         trimAddr(addr) {
-            return addr
-                .split('-')[0].trim()
+            return addr.split('-')[0].trim()
         },
         compactAddr(addr) {
             let maxLength = 11

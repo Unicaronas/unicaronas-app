@@ -4,12 +4,19 @@
         :dark="$store.state.theme.appColor == 'dark'"
         :light="$store.state.theme.appColor == 'light'"
         flat
-        color="rgba(0, 0, 0, 0)">
+        color="rgba(0, 0, 0, 0)"
+        >
             <v-layout row align-center wrap>
                 <v-flex xs10 offset-xs1>
                     <v-container>
-                        <h5 class="title font-weight-light font-italic mb-3 text-xs-center">"{{ title }}"</h5>
-                        <p class="subheading text-xs-center">{{ author }}</p>
+                        <h5
+                        class="title font-weight-light font-italic mb-3 text-xs-center"
+                        >
+                            "{{ title }}"
+                        </h5>
+                        <p class="subheading text-xs-center">
+                            {{ author }}
+                        </p>
                     </v-container>
                 </v-flex>
             </v-layout>

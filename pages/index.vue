@@ -10,15 +10,35 @@
                     <v-flex ref="heroCard" class="hero" d-flex xs12 lg5>
                         <v-card color="primary" dark>
                             <v-container fill-height fluid>
-                                <v-layout class="hero-text" align-center justify-center column fill-height >
-                                    <h1 class="display-2 font-weight-thin mb-3">A maior plataforma de caronas universitárias</h1>
-                                    <h4 class="subheading">O Unicaronas foi construído para atender às necessidades dos universitários que precisam ir e voltar de suas universidades para suas casas aos finais de semana</h4>
+                                <v-layout
+                                class="hero-text"
+                                align-center
+                                justify-center
+                                column
+                                fill-height
+                                >
+                                    <h1 class="display-2 font-weight-thin mb-3">
+                                        A maior plataforma de caronas
+                                        universitárias
+                                    </h1>
+                                    <h4 class="subheading">
+                                        O Unicaronas foi construído para atender
+                                        às necessidades dos universitários que
+                                        precisam ir e voltar de suas
+                                        universidades para suas casas aos finais
+                                        de semana
+                                    </h4>
                                 </v-layout>
                             </v-container>
                         </v-card>
                     </v-flex>
                     <v-flex d-flex md12 lg7>
-                        <v-parallax :height="heroHeight" class="hidden-sm-and-down" dark src="/img/finger-up.jpeg" />
+                        <v-parallax
+                        :height="heroHeight"
+                        class="hidden-sm-and-down"
+                        dark
+                        src="/img/finger-up.jpeg"
+                        />
                     </v-flex>
                 </v-layout>
             </v-flex>
@@ -26,7 +46,9 @@
             <v-container d-flex xs12>
                 <v-layout class="vertical-separator" row align-center wrap>
                     <v-flex class="text-xs-center" xs12>
-                        <v-icon color="red" size="100">favorite</v-icon>
+                        <v-icon color="red" size="100">
+                            favorite
+                        </v-icon>
                     </v-flex>
                     <v-flex xs12>
                         <h1 class="display-3 text-xs-center">
@@ -61,8 +83,13 @@
                 <v-layout row align-center wrap>
                     <v-flex mt-5 mb-5 xs12 offset-sm1 md4>
                         <v-container>
-                            <h1 class="display-3 font-weight-thin">Uma plataforma para a todas unir</h1>
-                            <v-subheader>Além das criadas no Unicaronas, pesquise por caronas em grupos de Facebook e no BlaBlaCar</v-subheader>
+                            <h1 class="display-3 font-weight-thin">
+                                Uma plataforma para a todas unir
+                            </h1>
+                            <v-subheader>
+                                Além das criadas no Unicaronas, pesquise por
+                                caronas em grupos de Facebook e no BlaBlaCar
+                            </v-subheader>
                             <v-btn
                             to="/search"
                             class="mt-3"
@@ -70,15 +97,29 @@
                             color="secondary"
                             nuxt
                             large
-                            dark>
+                            dark
+                            >
                                 Pesquisar caronas
                             </v-btn>
                         </v-container>
                     </v-flex>
                     <v-flex md7 xs12>
-                        <v-img :aspect-ratio="18/9" src="/img/darjeeling.jpg" class="grey lighten-2" >
-                            <v-layout slot="placeholder" fill-height align-center justify-center ma-0>
-                                <v-progress-circular indeterminate color="grey lighten-5"/>
+                        <v-img
+                        :aspect-ratio="18 / 9"
+                        src="/img/darjeeling.jpg"
+                        class="grey lighten-2"
+                        >
+                            <v-layout
+                            slot="placeholder"
+                            fill-height
+                            align-center
+                            justify-center
+                            ma-0
+                            >
+                                <v-progress-circular
+                                indeterminate
+                                color="grey lighten-5"
+                                />
                             </v-layout>
                         </v-img>
                     </v-flex>
@@ -90,16 +131,35 @@
                 <!-- Row itself -->
                 <v-layout row align-center wrap>
                     <v-flex md7 xs12>
-                        <v-img :aspect-ratio="18/9" src="/img/time.jpg" class="grey lighten-2">
-                            <v-layout slot="placeholder" fill-height align-center justify-center ma-0>
-                                <v-progress-circular indeterminate color="grey lighten-5"/>
+                        <v-img
+                        :aspect-ratio="18 / 9"
+                        src="/img/time.jpg"
+                        class="grey lighten-2"
+                        >
+                            <v-layout
+                            slot="placeholder"
+                            fill-height
+                            align-center
+                            justify-center
+                            ma-0
+                            >
+                                <v-progress-circular
+                                indeterminate
+                                color="grey lighten-5"
+                                />
                             </v-layout>
                         </v-img>
                     </v-flex>
                     <v-flex mt-5 mb-5 xs12 md4>
                         <v-container>
-                            <h1 class="display-3 font-weight-thin">Tenha suas viagens sob controle</h1>
-                            <v-subheader>Controle cada detalhe da sua carona ou coloque no piloto automático e nós cuidaremos de tudo por você</v-subheader>
+                            <h1 class="display-3 font-weight-thin">
+                                Tenha suas viagens sob controle
+                            </h1>
+                            <v-subheader>
+                                Controle cada detalhe da sua carona ou coloque
+                                no piloto automático e nós cuidaremos de tudo
+                                por você
+                            </v-subheader>
                             <v-btn
                             to="/offer"
                             class="mt-3"
@@ -107,7 +167,8 @@
                             color="primary"
                             nuxt
                             large
-                            dark>
+                            dark
+                            >
                                 Oferecer caronas
                             </v-btn>
                         </v-container>
@@ -126,18 +187,29 @@
                             </template>
                         </h1>
                     </v-flex>
-                    <v-flex
-                    class="text-xs-center text-sm-center"
-                    mt-5
-                    xs12>
+                    <v-flex class="text-xs-center text-sm-center" mt-5 xs12>
                         <template v-if="$auth.loggedIn">
-                            <v-btn :href="SERVER_URL + '/accounts/profile/'" color="primary" dark large>
+                            <v-btn
+                            :href="SERVER_URL + '/accounts/profile/'"
+                            color="primary"
+                            dark
+                            large
+                            >
                                 Abrir Minha Conta
-                                <v-icon right dark>launch</v-icon>
+                                <v-icon right dark>
+                                    launch
+                                </v-icon>
                             </v-btn>
                         </template>
                         <template v-else>
-                            <v-btn color="primary" dark large @click="$auth.login()">Experimente o Unicaronas</v-btn>
+                            <v-btn
+                            color="primary"
+                            dark
+                            large
+                            @click="$auth.login()"
+                            >
+                                Experimente o Unicaronas
+                            </v-btn>
                         </template>
                     </v-flex>
                 </v-layout>

@@ -1,12 +1,27 @@
 <template>
     <v-dialog v-model="dialog" persistent max-width="414">
         <v-card>
-            <v-card-title class="headline">Topa mudar seu email?</v-card-title>
-            <v-card-text class="subheading">Seu email primário é o seu <b>acadêmico</b>. Troque por outro que você entra com mais frequência pra não perder suas notificações de caronas 😊</v-card-text>
+            <v-card-title class="headline">
+                Topa mudar seu email?
+            </v-card-title>
+            <v-card-text class="subheading">
+                Seu email primário é o seu <b>acadêmico</b>. Troque por outro
+                que você entra com mais frequência pra não perder suas
+                notificações de caronas 😊
+            </v-card-text>
             <v-card-actions>
-                <v-spacer/>
-                <v-btn color="red" :disabled="load" flat @click="deny()">Não, valeu</v-btn>
-                <v-btn color="primary" :loading="load" :disabled="load" @click="accept()">Topo sim!</v-btn>
+                <v-spacer />
+                <v-btn :disabled="load" color="red" flat @click="deny()">
+                    Não, valeu
+                </v-btn>
+                <v-btn
+                :loading="load"
+                :disabled="load"
+                color="primary"
+                @click="accept()"
+                >
+                    Topo sim!
+                </v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -34,7 +49,7 @@ export default {
     },
     methods: {
         deny() {
-            this.$store.commit('denyExtraEmailDialog')
+            this.$store.commit('extraEmailDialog/deny')
             this.dialog = false
             this.$ga.event('email dialog', 'deny')
         },

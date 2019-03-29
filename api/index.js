@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 app.use(users)
 
 // Export the server middleware
-module.exports = {
+export default {
     path: '/api',
     handler: app
 }

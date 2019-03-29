@@ -1,24 +1,24 @@
 <template>
     <v-container>
         <v-layout row wrap>
-            <v-flex
-            d-flex
-            xs12
-            mt-5
-            offset-lg2>
-                <h1 class="display-3 font-weight-thin mb-3">Seus alarmes</h1>
+            <v-flex d-flex xs12 mt-5 offset-lg2>
+                <h1 class="display-3 font-weight-thin mb-3">
+                    Seus alarmes
+                </h1>
             </v-flex>
             <v-flex d-flex xs12 md4 />
             <v-flex d-flex xs12 lg8 mt-5 offset-lg2>
-                <v-alert v-model="error" dismissible type="error" >
+                <v-alert v-model="error" dismissible type="error">
                     {{ errorMessage }}
                 </v-alert>
             </v-flex>
             <v-flex d-flex xs12 md4 />
             <template v-if="!hasScope">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
-                    <v-alert value="true" type="error" >
-                        <b>Algumas permissões estão faltando</b>. Por favor, refaça o login e aceite pelo menos as permissões de leitura e criação de alarmes.
+                    <v-alert value="true" type="error">
+                        <b>Algumas permissões estão faltando</b>. Por favor,
+                        refaça o login e aceite pelo menos as permissões de
+                        leitura e criação de alarmes.
                     </v-alert>
                 </v-flex>
                 <v-flex
@@ -27,7 +27,8 @@
                 mb-5
                 md2
                 mt-3
-                offset-md5>
+                offset-md5
+                >
                     <v-btn round color="primary" ripple @click="$auth.login()">
                         Refazer login
                     </v-btn>
@@ -40,10 +41,17 @@
                 mb-5
                 lg8
                 offset-lg2
-                mt-3>
-                    <v-layout v-if="alarmList" row align-start justify-start wrap>
+                mt-3
+                >
+                    <v-layout
+                    v-if="alarmList"
+                    row
+                    align-start
+                    justify-start
+                    wrap
+                    >
                         <v-flex d-flex class="text-xs-center" xs12>
-                            <AlarmStats :count="alarmList.count"/>
+                            <AlarmStats :count="alarmList.count" />
                         </v-flex>
                         <v-flex
                         v-if="alarmList.count == 0"
@@ -51,25 +59,36 @@
                         class="text-xs-center"
                         lg6
                         offset-lg3
-                        xs12>
-                            <AlarmDialog/>
+                        xs12
+                        >
+                            <AlarmDialog />
                         </v-flex>
                         <v-flex d-flex xs12>
                             <List
                             :items="alarmListData"
                             :reset-infinite="resetInfinite"
                             @loadMore="loadMore"
-                            @item-deleted="alarmDeleted" />
+                            @item-deleted="alarmDeleted"
+                            />
                         </v-flex>
                     </v-layout>
                     <v-container v-else-if="!error" fluid fill-height>
                         <v-layout align-center justify-center>
                             <v-layout row wrap>
                                 <v-flex d-flex xs12>
-                                    <h1 class="display-1 font-weight-thin mb-3 text-xs-center">Carregando alarmes...</h1>
+                                    <h1
+                                    class="display-1 font-weight-thin mb-3 text-xs-center"
+                                    >
+                                        Carregando alarmes...
+                                    </h1>
                                 </v-flex>
                                 <v-flex d-flex xs12>
-                                    <v-progress-circular :size="70" :width="7" color="blue" indeterminate />
+                                    <v-progress-circular
+                                    :size="70"
+                                    :width="7"
+                                    color="blue"
+                                    indeterminate
+                                    />
                                 </v-flex>
                             </v-layout>
                         </v-layout>

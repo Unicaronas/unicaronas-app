@@ -6,7 +6,8 @@
             :class="`elevation-${hover ? 12 : 2}` + ' ' + themeClass"
             :dark="themeDark"
             :light="themeLight"
-            raised>
+            raised
+            >
                 <slot :theme="theme" name="card" />
             </v-card>
         </v-hover>

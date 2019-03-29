@@ -3,19 +3,24 @@
         <v-layout row wrap>
             <template v-if="!created">
                 <v-flex d-flex pb-4 lg8 xs12>
-                    <v-alert v-model="error" dismissible type="error" >
+                    <v-alert v-model="error" dismissible type="error">
                         {{ errorMessage }}
                     </v-alert>
                 </v-flex>
+                <v-flex d-flex pb-4 offset-sm0 lg8 xs12>
+                    <h1 class="headline font-weight-thin text-xs-center">
+                        Precisa bastante ir nesse horário? Que tal se a gente te
+                        avisar caso alguma carona apareça?
+                    </h1>
+                </v-flex>
                 <v-flex
                 d-flex
-                pb-4
-                offset-sm0
-                lg8
-                xs12>
-                    <h1 class="headline font-weight-thin text-xs-center">Precisa bastante ir nesse horário? Que tal se a gente te avisar caso alguma carona apareça?</h1>
-                </v-flex>
-                <v-flex d-flex offset-lg1 xs8 offset-xs2 offset-sm3 sm6>
+                offset-lg1
+                xs8
+                offset-xs2
+                offset-sm3
+                sm6
+                >
                     <v-btn
                     :loading="creating"
                     :disabled="creating"
@@ -23,24 +28,40 @@
                     class="white--text"
                     round
                     large
-                    @click="createAlarm()">
-                        <v-icon
-                        left
-                        dark>add</v-icon>Criar alarme</v-btn>
+                    @click="createAlarm()"
+                    >
+                        <v-icon left dark>
+                            add
+                        </v-icon>Criar alarme
+                    </v-btn>
                 </v-flex>
             </template>
             <template v-else>
                 <v-flex d-flex pb-4 lg8 xs12>
-                    <h1 class="headline font-weight-thin text-xs-center"><b>Alarme criado!</b><br> Te mandaremos um email quando uma carona for criada nesse horário.</h1>
+                    <h1 class="headline font-weight-thin text-xs-center">
+                        <b>Alarme criado!</b><br>
+                        Te mandaremos um email quando uma carona for criada
+                        nesse horário.
+                    </h1>
                 </v-flex>
-                <v-flex d-flex offset-lg1 xs8 offset-xs2 offset-sm3 sm6>
+                <v-flex
+                d-flex
+                offset-lg1
+                xs8
+                offset-xs2
+                offset-sm3
+                sm6
+                >
                     <v-btn
                     color="secondary"
                     class="white--text"
                     round
                     to="/alarms"
                     nuxt
-                    large>Ver seus alarmes</v-btn>
+                    large
+                    >
+                        Ver seus alarmes
+                    </v-btn>
                 </v-flex>
             </template>
         </v-layout>

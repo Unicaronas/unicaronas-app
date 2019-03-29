@@ -3,7 +3,9 @@
         <template slot="card" slot-scope="theme">
             <v-card-title primary-title>
                 <div>
-                    <h3 class="display-1 mb-3">{{ formattedDatetime }}</h3>
+                    <h3 class="display-1 mb-3">
+                        {{ formattedDatetime }}
+                    </h3>
                 </div>
                 <v-flex pb-0 xs12>
                     <h3 class="headline mb-0">
@@ -13,7 +15,12 @@
                 <v-flex pt-0 xs12>
                     <div class="title mt-0 mb-3 font-weight-thin">
                         <a :href="originURL" target="_blank">
-                            {{ trip.origin.split('-').slice(0, 2).join('-') }}
+                            {{
+                                trip.origin
+                                    .split('-')
+                                    .slice(0, 2)
+                                    .join('-')
+                            }}
                         </a>
                     </div>
                 </v-flex>
@@ -25,13 +32,18 @@
                 <v-flex pt-0 xs12>
                     <div class="title mt-0 mb-3 font-weight-thin">
                         <a :href="destinationURL" target="_blank">
-                            {{ trip.destination.split('-').slice(0, 2).join('-') }}
+                            {{
+                                trip.destination
+                                    .split('-')
+                                    .slice(0, 2)
+                                    .join('-')
+                            }}
                         </a>
                     </div>
                 </v-flex>
                 <v-flex v-if="trip.details" pt-0 xs12>
                     <div class="title mb-3 font-weight-thin">
-                        <i><ReadMore :text="trip.details"/></i>
+                        <i><ReadMore :text="trip.details" /></i>
                         - {{ driver.first_name }}
                     </div>
                 </v-flex>

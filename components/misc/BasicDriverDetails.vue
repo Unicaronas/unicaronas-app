@@ -1,13 +1,15 @@
 <template>
     <v-layout row justify-center>
         <template v-if="$device.isMobile">
-            <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+            <v-dialog
+            v-model="dialog"
+            fullscreen
+            hide-overlay
+            transition="dialog-bottom-transition"
+            >
                 <v-card>
                     <v-toolbar dark color="primary">
-                        <v-btn
-                        icon
-                        dark
-                        @click.native="dialog = false">
+                        <v-btn icon dark @click.native="dialog = false">
                             <v-icon>close</v-icon>
                         </v-btn>
                         <v-toolbar-title>Sobre {{ firstName }}</v-toolbar-title>
@@ -16,10 +18,17 @@
                         <v-layout row wrap>
                             <v-flex d-flex xs12>
                                 <v-card-text class="headline font-weight-light">
-                                    {{ capitalize(genderNoun) }} tem {{ yearsOld }} anos e estuda {{ item.driver.student.course }} na {{ capitalUniversity }} desde {{ item.driver.student.enroll_year }}.
+                                    {{ capitalize(genderNoun) }} tem
+                                    {{ yearsOld }} anos e estuda
+                                    {{ item.driver.student.course }} na
+                                    {{ capitalUniversity }} desde
+                                    {{ item.driver.student.enroll_year }}.
                                     <br>
                                     <br>
-                                    {{ capitalize(petText) }}. Sobre cigarro, {{ smokingText }}. {{ capitalize(musicText) }} e {{ talkingText }}.
+                                    {{ capitalize(petText) }}. Sobre cigarro,
+                                    {{ smokingText }}.
+                                    {{ capitalize(musicText) }} e
+                                    {{ talkingText }}.
                                 </v-card-text>
                             </v-flex>
                         </v-layout>
@@ -28,19 +37,30 @@
             </v-dialog>
         </template>
         <template v-else>
-            <v-dialog v-model="dialog" max-width="500" >
+            <v-dialog v-model="dialog" max-width="500">
                 <v-card>
                     <v-container>
                         <v-layout row wrap>
                             <v-flex d-flex xs12>
-                                <v-card-title class="display-1 font-weight-thin">Sobre {{ firstName }}</v-card-title>
+                                <v-card-title
+                                class="display-1 font-weight-thin"
+                                >
+                                    Sobre {{ firstName }}
+                                </v-card-title>
                             </v-flex>
                             <v-flex d-flex xs12>
                                 <v-card-text class="title font-weight-light">
-                                    {{ capitalize(genderNoun) }} tem {{ yearsOld }} anos e estuda {{ item.driver.student.course }} na {{ capitalUniversity }} desde {{ item.driver.student.enroll_year }}.
+                                    {{ capitalize(genderNoun) }} tem
+                                    {{ yearsOld }} anos e estuda
+                                    {{ item.driver.student.course }} na
+                                    {{ capitalUniversity }} desde
+                                    {{ item.driver.student.enroll_year }}.
                                     <br>
                                     <br>
-                                    {{ capitalize(petText) }} Sobre cigarro, {{ smokingText }}. {{ capitalize(musicText) }} e {{ talkingText }}.
+                                    {{ capitalize(petText) }} Sobre cigarro,
+                                    {{ smokingText }}.
+                                    {{ capitalize(musicText) }} e
+                                    {{ talkingText }}.
                                 </v-card-text>
                             </v-flex>
                         </v-layout>

@@ -6,10 +6,14 @@
                 v-for="(item, i) in items"
                 :key="i"
                 :item="item"
-                @giveUp="$emit('giveUp', $event)"/>
+                @giveUp="$emit('giveUp', $event)"
+                />
             </v-flex>
         </v-layout>
-        <infinite-loading :reset="resetInfinite" @infinite="$emit('loadMore', $event)"/>
+        <infinite-loading
+        :reset="resetInfinite"
+        @infinite="$emit('loadMore', $event)"
+        />
     </v-container>
 </template>
 

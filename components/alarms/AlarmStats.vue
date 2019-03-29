@@ -2,7 +2,10 @@
     <v-container>
         <v-layout row wrap>
             <v-flex d-flex xs12>
-                <h1 class="display-1 font-weight-thin">{{ counter() }} {{ pluralize('alarme') }} {{ pluralize('encontrado') }}</h1>
+                <h1 class="display-1 font-weight-thin">
+                    {{ counter() }} {{ pluralize('alarme') }}
+                    {{ pluralize('encontrado') }}
+                </h1>
             </v-flex>
         </v-layout>
     </v-container>

@@ -3,13 +3,15 @@
     :dark="$store.state.theme.appColor == 'dark'"
     :light="$store.state.theme.appColor == 'light'"
     height="20em"
-    hide-delimiters>
+    hide-delimiters
+    >
         <CarouselQuoteItem
         v-for="(item, index) in items"
         :key="index"
         :title="item.title"
         :content="item.content"
-        :author="item.author"/>
+        :author="item.author"
+        />
     </v-carousel>
 </template>
 

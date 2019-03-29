@@ -1,12 +1,10 @@
 <template>
     <v-container>
         <v-layout row wrap>
-            <v-flex
-            d-flex
-            xs12
-            mt-5
-            offset-lg2>
-                <h1 class="display-3 font-weight-thin mb-3">Oferecer uma carona</h1>
+            <v-flex d-flex xs12 mt-5 offset-lg2>
+                <h1 class="display-3 font-weight-thin mb-3">
+                    Oferecer uma carona
+                </h1>
             </v-flex>
             <v-flex d-flex xs12 lg8 mt-5 offset-lg2>
                 <v-alert v-model="error" dismissible type="error">
@@ -15,8 +13,10 @@
             </v-flex>
             <template v-if="!hasScope">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
-                    <v-alert value="true" type="error" >
-                        <b>Algumas permissões estão faltando</b>. Por favor, refaça o login e aceite pelo menos a permissão de criação de caronas.
+                    <v-alert value="true" type="error">
+                        <b>Algumas permissões estão faltando</b>. Por favor,
+                        refaça o login e aceite pelo menos a permissão de
+                        criação de caronas.
                     </v-alert>
                 </v-flex>
                 <v-flex
@@ -25,7 +25,8 @@
                 mb-5
                 md2
                 mt-3
-                offset-md5>
+                offset-md5
+                >
                     <v-btn round color="primary" ripple @click="$auth.login()">
                         Refazer login
                     </v-btn>
@@ -33,8 +34,9 @@
             </template>
             <template v-else-if="!$auth.user.driver">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
-                    <v-alert value="true" type="error" >
-                        <b>Você não é motorista!</b> Para criar caronas, você precisa preencher seus dados como motorista.
+                    <v-alert value="true" type="error">
+                        <b>Você não é motorista!</b> Para criar caronas, você
+                        precisa preencher seus dados como motorista.
                     </v-alert>
                 </v-flex>
                 <v-flex
@@ -43,12 +45,16 @@
                 mb-5
                 md2
                 mt-3
-                offset-md5>
+                offset-md5
+                >
                     <v-btn
                     :href="SERVER_URL + '/accounts/profile/edit/'"
                     round
                     color="primary"
-                    ripple>Editar perfil</v-btn>
+                    ripple
+                    >
+                        Editar perfil
+                    </v-btn>
                 </v-flex>
             </template>
             <template v-else>
@@ -59,21 +65,18 @@
                 mt-3
                 offset-lg2
                 lg5
-                md6>
+                md6
+                >
                     <OfferFlow
                     v-model="formData"
                     :submitted="submitted"
                     :reset="resetForm"
-                    :createdTrip="createdTrip"
-                    @submit="handleSubmit"/>
+                    :created-trip="createdTrip"
+                    @submit="handleSubmit"
+                    />
                 </v-flex>
-                <v-flex
-                hidden-md-and-down
-                d-flex
-                offset-md1
-                lg4
-                md5>
-                    <OfferSummary :form-data="formData"/>
+                <v-flex hidden-md-and-down d-flex offset-md1 lg4 md5>
+                    <OfferSummary :form-data="formData" />
                 </v-flex>
             </template>
         </v-layout>

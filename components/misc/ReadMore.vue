@@ -1,8 +1,10 @@
 <template>
     <div>
-        <span v-html="formattedString"/>
+        <span style="white-space: pre">{{ formattedString }}</span>
         <template v-if="showReadMore">
-            <a v-if="!isReadMore" @click="triggerReadMore(true)">{{ moreStr }}</a>
+            <a v-if="!isReadMore" @click="triggerReadMore(true)">{{
+                moreStr
+            }}</a>
             <a v-else @click="triggerReadMore(false)">{{ lessStr }}</a>
         </template>
     </div>

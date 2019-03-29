@@ -6,8 +6,8 @@ module.exports = {
     mode: 'spa',
 
     /*
-  ** Headers of the page
-  */
+     ** Headers of the page
+     */
     head: {
         title: process.env.APP_NAME,
         meta: [
@@ -45,21 +45,21 @@ module.exports = {
     },
 
     /*
-  ** Customize the progress-bar color
-  */
+     ** Customize the progress-bar color
+     */
     loading: { color: '#fff' },
 
     /*
-  ** Global CSS
-  */
+     ** Global CSS
+     */
     css: [
         '~/assets/style/app.styl',
         '~/assets/style/light_and_dark_links.scss'
     ],
 
     /*
-  ** Plugins to load before mounting the App
-  */
+     ** Plugins to load before mounting the App
+     */
     plugins: [
         '@/plugins/vuetify',
         { src: '~/plugins/localStorage.js', ssr: false },
@@ -70,8 +70,8 @@ module.exports = {
     ],
 
     /*
-  ** Nuxt.js modules
-  */
+     ** Nuxt.js modules
+     */
     modules: [
         // Doc: https://github.com/nuxt-community/axios-module#usage
         '@nuxtjs/axios',
@@ -112,20 +112,20 @@ module.exports = {
         ]
     ],
     /*
-  ** Axios module configuration
-  */
+     ** Axios module configuration
+     */
     axios: {
         // See https://github.com/nuxt-community/axios-module#options
     },
 
     /*
-  ** Build configuration
-  */
+     ** Build configuration
+     */
     build: {
         watch: ['api', 'db', 'webhooks'],
         /*
-    ** You can extend webpack config here
-    */
+         ** You can extend webpack config here
+         */
         extend(config, ctx) {
             // Run ESLint on save
             if (ctx.isDev && ctx.isClient) {

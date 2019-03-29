@@ -12,7 +12,7 @@ app.use(bodyParser.json())
 app.use(unicaronas)
 
 // Export the server middleware
-module.exports = {
+export default {
     path: '/webhooks',
     handler: app
 }

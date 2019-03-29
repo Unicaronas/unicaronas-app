@@ -1,29 +1,34 @@
 <template>
     <div>
         <v-navigation-drawer
-        v-model="$store.state.showDrawer"
+        v-model="showDrawer"
         :dark="$store.state.theme.navColor == 'dark'"
         :light="$store.state.theme.navColor == 'light'"
         fixed
         clipped
-        app>
+        app
+        >
             <v-list>
                 <v-list-tile
                 v-for="(item, i) in items"
-                :to="item.to"
                 :key="i"
+                :to="item.to"
                 :href="item.href"
                 router
                 nuxt
-                exact>
+                exact
+                >
                     <v-list-tile-action>
-                        <v-icon v-html="item.icon" />
+                        <v-icon>{{ item.icon }}</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title v-text="item.title" />
                     </v-list-tile-content>
                 </v-list-tile>
-                <v-list-tile v-if="$auth.loggedIn" @click="showThemeDialog = true">
+                <v-list-tile
+                v-if="$auth.loggedIn"
+                @click="showThemeDialog = true"
+                >
                     <v-list-tile-action>
                         <v-icon>color_lens</v-icon>
                     </v-list-tile-action>
@@ -45,12 +50,14 @@
                         <v-icon>cake</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>Entrar no Unicaronas</v-list-tile-title>
+                        <v-list-tile-title>
+                            Entrar no Unicaronas
+                        </v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
         </v-navigation-drawer>
-        <ThemeChooser :show-dialog="showThemeDialog"/>
+        <ThemeChooser :show-dialog="showThemeDialog" />
     </div>
 </template>
 <script>
@@ -99,6 +106,14 @@ export default {
                 })
             }
             return items
+        },
+        showDrawer: {
+            get() {
+                return this.$store.state.showDrawer
+            },
+            set(value) {
+                this.$store.commit('setDrawer', value)
+            }
         }
     },
     watch: {

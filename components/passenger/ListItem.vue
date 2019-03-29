@@ -4,7 +4,11 @@
             <template slot="card" slot-scope="theme">
                 <v-card-title primary-title>
                     <v-flex py-2 xs12>
-                        <span :class="statusColor" style="float: right; width: 100%; text-transform: uppercase;" class="pa-1 headline text-xs-center font-weight-bold white--text">{{ statusText }}</span>
+                        <span
+                        :class="statusColor"
+                        style="float: right; width: 100%; text-transform: uppercase;"
+                        class="pa-1 headline text-xs-center font-weight-bold white--text"
+                        >{{ statusText }}</span>
                     </v-flex>
                     <v-flex pt-0 pb-0 xs12>
                         <div class="display-1 mt-0 mb-3 font-weight-thin">
@@ -50,7 +54,7 @@
                     </v-flex>
                     <v-flex v-if="item.details" pt-0 xs12>
                         <div class="title mt-0 font-weight-thin font-italics">
-                            <ReadMore :text="item.details"/>
+                            <ReadMore :text="item.details" />
                         </div>
                     </v-flex>
                     <v-flex pt-0 xs12>
@@ -64,7 +68,23 @@
                     <v-flex pt-0 xs12>
                         <div class="title mt-0 mb-3 font-weight-light">
                             <b>{{ driver.first_name }}</b>
-                            <template v-if="item.status == 'approved'"><br><br><v-tooltip top><span slot="activator" style="cursor: pointer;" @click="copyPhone()"><b>{{ formatPhone(item.driver.profile.phone) }}</b>  <v-icon>fas fa-copy</v-icon></span><span>{{ copyText }}</span></v-tooltip><br><br>Carro: <b>{{ item.driver.driver.car_make }} {{ item.driver.driver.car_model }} {{ item.driver.driver.car_color }}</b></template>
+                            <template v-if="item.status == 'approved'">
+                                <br><br><v-tooltip top>
+                                    <span
+                                    slot="activator"
+                                    style="cursor: pointer;"
+                                    @click="copyPhone()"
+                                    ><b>{{
+                                         formatPhone(
+                                             item.driver.profile.phone
+                                         )
+                                     }}</b>
+                                        <v-icon>fas fa-copy</v-icon></span><span>{{ copyText }}</span>
+                                </v-tooltip><br><br>Carro:
+                                <b>{{ item.driver.driver.car_make }}
+                                    {{ item.driver.driver.car_model }}
+                                    {{ item.driver.driver.car_color }}</b>
+                            </template>
                         </div>
                     </v-flex>
                 </v-card-title>
@@ -78,12 +98,23 @@
                                 class="white--text"
                                 ripple
                                 nuxt
-                                raised>
+                                raised
+                                >
                                     detalhes
                                 </v-btn>
                             </v-flex>
-                            <v-spacer/>
-                            <v-flex v-if="item.status != 'denied' && $moment(item.datetime).isAfter($moment())" d-flex xs12 sm4>
+                            <v-spacer />
+                            <v-flex
+                            v-if="
+                                item.status != 'denied' &&
+                                    $moment(item.datetime).isAfter(
+                                        $moment()
+                                    )
+                            "
+                            d-flex
+                            xs12
+                            sm4
+                            >
                                 <v-btn
                                 :loading="givingUp"
                                 :disabled="givingUp"
@@ -91,7 +122,8 @@
                                 class="white--text"
                                 ripple
                                 raised
-                                @click="dialog = true">
+                                @click="dialog = true"
+                                >
                                     Desistir
                                 </v-btn>
                             </v-flex>
@@ -103,18 +135,26 @@
         <v-dialog v-model="dialog" max-width="450">
             <v-card>
                 <v-container>
-                    <v-card-text class="display-1 font-weight-thin text-xs-center">Desistir da carona?</v-card-text>
+                    <v-card-text
+                    class="display-1 font-weight-thin text-xs-center"
+                    >
+                        Desistir da carona?
+                    </v-card-text>
                     <v-card-text class="headline font-weight-thin">
                         Tem certeza? Você não poderá viajar nela!
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer/>
+                        <v-spacer />
 
-                        <v-btn color="primary" flat="flat" @click="dialog = false" >
+                        <v-btn
+                        color="primary"
+                        flat="flat"
+                        @click="dialog = false"
+                        >
                             Não, pera
                         </v-btn>
 
-                        <v-btn color="error" flat="flat" @click="giveUp()" >
+                        <v-btn color="error" flat="flat" @click="giveUp()">
                             Desistir!
                         </v-btn>
                     </v-card-actions>
