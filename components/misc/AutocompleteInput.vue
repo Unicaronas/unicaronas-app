@@ -45,8 +45,6 @@ export default {
     },
     data() {
         return {
-            autocomplete: null,
-            session: null,
             items: [],
             search: '',
             loading: false
@@ -60,10 +58,6 @@ export default {
             this.searchGoogle(this.value)
         }
     },
-    mounted() {
-        this.session = new google.maps.places.AutocompleteSessionToken()
-        this.autocomplete = new google.maps.places.AutocompleteService()
-    },
     methods: {
         searchGoogle(val) {
             if (!val) return
@@ -71,34 +65,20 @@ export default {
                 this.items = ['Unicamp', 'São Paulo']
                 return
             }
-            let data = {
-                input: val,
-                sessionToken: this.session,
-                componentRestrictions: {
-                    country: 'br'
-                }
-            }
             this.loading = true
-            this.autocomplete.getPlacePredictions(
-                data,
-                (predictions, status) => {
-                    if (
-                        status ==
-                        google.maps.places.PlacesServiceStatus.ZERO_RESULTS
-                    ) {
-                        this.items = this.value ? [this.value] : []
-                    } else if (
-                        status == google.maps.places.PlacesServiceStatus.OK
-                    ) {
-                        this.items = predictions.map(
-                            prediction => prediction.description
-                        )
-                    } else {
-                        console.log("Autocomplete error: " + status)
-                    }
-                    this.loading = false
+            this.getGoogleAutocomplete(val).then(results => {
+                if (results) {
+                    this.items = results.map(
+                        prediction => prediction.description
+                    )
+                } else {
+                    this.items = this.value ? [this.value] : []
                 }
-            )
+                this.loading = false
+            }).catch(error => {
+                console.error(error)
+                this.loading = false
+            })
         }
     }
 }
