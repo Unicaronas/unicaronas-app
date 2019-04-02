@@ -7,7 +7,8 @@ function universityMap(university) {
         usp: 'USP',
         ifsp: 'IFSP',
         unesp: 'Unesp',
-        unifesp: 'Unifesp'
+        unifesp: 'Unifesp',
+        facamp: 'FACAMP'
     }
     return map[university] || university
 }
