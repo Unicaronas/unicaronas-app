@@ -1,6 +1,6 @@
 <template>
     <div>
-        <span style="white-space: pre">{{ formattedString }}</span>
+        <span>{{ formattedString }}</span>
         <template v-if="showReadMore">
             <a v-if="!isReadMore" @click="triggerReadMore(true)">{{
                 moreStr
@@ -43,6 +43,14 @@ export default {
         string() {
             return this.text.trim()
         },
+        showReadMore() {
+            let breaklines = this.string.match(/\n/g)
+            return !this.isReadMore && (
+                this.string.length > this.maxChars ||
+                this.getPosition(this.string, '\n', 3) != this.string.length - 1 &&
+                breaklines && breaklines.length > 3
+            )
+        },
         formattedString() {
             var val_container = this.string
 
@@ -53,22 +61,12 @@ export default {
 
             // Also limit newlines to 3
             let n_pos = this.getPosition(val_container, '\n', 3)
-            if (n_pos != val_container.length - 1 && !this.isReadMore) {
+            let breaklines = val_container.match(/\n/g)
+            if (breaklines && breaklines.length > 3 && n_pos != val_container.length - 1 && !this.isReadMore) {
                 val_container = val_container.substring(0, n_pos).trim() + '...'
             }
 
             return `"${val_container}"`
-        },
-        showReadMore() {
-            let n_pos = this.getPosition(this.string, '\n', 3)
-
-            if (this.string.length > this.maxChars) {
-                return true
-            } else if (n_pos != this.string.length - 1) {
-                return true
-            } else {
-                return false
-            }
         }
     },
     methods: {
