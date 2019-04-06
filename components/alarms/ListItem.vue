@@ -58,7 +58,7 @@
                         >
                             <v-icon left>
                                 attach_money
-                            </v-icon>&lt;= >&lt;=
+                            </v-icon>&lt;=
                             {{ item.price__lte }} reais
                         </v-chip>
                         <v-chip
