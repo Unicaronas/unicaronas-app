@@ -196,6 +196,7 @@ module.exports = {
                 authorization_endpoint:
                     process.env.SERVER_URL + '/o/authorize/',
                 access_token_endpoint: process.env.SERVER_URL + '/o/token/',
+                refresh_endpoint: process.env.SERVER_URL + '/o/token/',
                 userinfo_endpoint:
                     process.env.SERVER_URL +
                     '/api/' +

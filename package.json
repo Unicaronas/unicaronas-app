@@ -14,7 +14,7 @@
     "heroku-postbuild": "npm run build"
   },
   "dependencies": {
-    "@nuxtjs/auth": "git+https://github.com/maronato/auth-module.git",
+    "@nuxtjs/auth": "git+https://github.com/Maronato/auth-module.git",
     "@nuxtjs/axios": "^5.4.1",
     "@nuxtjs/dotenv": "^1.3.0",
     "@nuxtjs/google-analytics": "^2.2.0",
