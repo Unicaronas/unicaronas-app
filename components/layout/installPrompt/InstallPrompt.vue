@@ -61,6 +61,7 @@ export default {
             this.$auth.loggedIn &&
             !this.$store.state.promptTimeout.timeout
         ) {
+            if (process.browser)
             window.addEventListener(
                 'beforeinstallprompt',
                 this.handleInstallPrompt
@@ -68,12 +69,15 @@ export default {
         }
     },
     created() {
+        if (process.browser)
         window.addEventListener('scroll', this.handleScroll)
     },
     destroyed() {
+        if (process.browser)
         window.removeEventListener('scroll', this.handleScroll)
     },
     beforeDestroy() {
+        if (process.browser)
         window.addEventListener('beforeinstallprompt', this.handleInstallPrompt)
     },
     methods: {
@@ -84,8 +88,10 @@ export default {
             this.canInstall = true
         },
         handleScroll() {
-            this.installDialog = this.lastScroll >= window.scrollY
-            this.lastScroll = window.scrollY
+            if (process.browser) {
+                this.installDialog = this.lastScroll >= window.scrollY
+                this.lastScroll = window.scrollY
+            }
         },
         installApp() {
             this.deferredPrompt.prompt()
@@ -96,6 +102,7 @@ export default {
                 } else {
                     this.$store.commit('promptTimout/set')
                 }
+                if (process.browser)
                 window.removeEventListener(
                     'beforeinstallprompt',
                     this.handleInstallPrompt
