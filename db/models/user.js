@@ -76,7 +76,10 @@ UserSchema.methods.refreshToken = function(cb) {
             grant_type: 'refresh_token',
             refresh_token: this.refresh_token,
             client_id: process.env.CLIENT_ID
-        })
+        }),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
     }
     Sentry.addBreadcrumb({
         category: 'token_refresh',
