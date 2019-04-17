@@ -19,3 +19,25 @@
         </v-layout>
     </v-container>
 </template>
+<script>
+    export default {
+        data() {
+            return {
+                timeout: null
+            }
+        },
+        mounted() {
+            if (process.browser) {
+                this.timeout = window.setTimeout(() => {
+                    this.$auth.logout()
+                    this.$auth.login()
+                }, 3000)
+            }
+        },
+        beforeDestroy() {
+            if (process.browser) {
+                window.clearTimeout(this.timeout)
+            }
+        }
+    }
+</script>
