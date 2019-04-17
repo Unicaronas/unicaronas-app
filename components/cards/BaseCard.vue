@@ -24,6 +24,9 @@ export default {
         }
     },
     computed: {
+        themeRound() {
+            return this.$store.state.theme.roundCards
+        },
         themeDark() {
             let theme = this.$store.state.theme
             if (theme.cardColor == 'dark') {
@@ -54,6 +57,8 @@ export default {
             }
             if (this.isDark) cls += ' dark-card'
             else cls += ' light-card'
+            if (this.themeRound)
+                cls += ' round-card'
             return cls
         },
         theme() {
@@ -114,5 +119,8 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+}
+.round-card {
+    border-radius: 20px;
 }
 </style>

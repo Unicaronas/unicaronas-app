@@ -2,7 +2,8 @@ export const state = () => ({
     toolbarColor: 'dark',
     navColor: 'light',
     cardColor: 'dark',
-    appColor: 'light'
+    appColor: 'light',
+    roundCards: true
 })
 export const mutations = {
     setNavTheme(state, theme) {
@@ -16,5 +17,8 @@ export const mutations = {
     },
     setAppTheme(state, theme) {
         state.appColor = theme
+    },
+    setRoundCardsTheme(state, theme) {
+        state.roundCards = theme
     }
 }

@@ -57,17 +57,23 @@
                                     >Cartões</span>
                                 </v-flex>
                                 <v-flex xs12>
-                                    <v-radio-group
-                                    v-model="cards"
-                                    row
-                                    >
-                                        <v-radio label="Escuro" value="dark" />
-                                        <v-radio label="Claro" value="light" />
-                                        <v-radio
-                                        label="Colorido"
-                                        value="random"
-                                        />
-                                    </v-radio-group>
+                                    <v-switch
+                                    v-model="roundCards"
+                                    label="Redondos"
+                                    />
+                                    <v-flex xs12>
+                                        <v-radio-group
+                                        v-model="cards"
+                                        row
+                                        >
+                                            <v-radio label="Escuro" value="dark" />
+                                            <v-radio label="Claro" value="light" />
+                                            <v-radio
+                                            label="Colorido"
+                                            value="random"
+                                            />
+                                        </v-radio-group>
+                                    </v-flex>
                                 </v-flex>
                             </v-layout>
                         </v-container>
@@ -131,6 +137,17 @@ export default {
             set(value) {
                 this.$store.commit(
                     'theme/setCardsTheme',
+                    value
+                )
+            }
+        },
+        roundCards: {
+            get() {
+                return this.$store.state.theme.roundCards
+            },
+            set(value) {
+                this.$store.commit(
+                    'theme/setRoundCardsTheme',
                     value
                 )
             }
