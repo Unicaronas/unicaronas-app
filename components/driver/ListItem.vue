@@ -348,4 +348,8 @@ export default {
         max-width: 4em;
         font-weight: bold;
     }
+    .v-btn--floating.v-btn--fixed,
+    .v-btn--floating.v-btn--absolute {
+        z-index: inherit;
+    }
 </style>

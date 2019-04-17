@@ -357,3 +357,9 @@ export default {
     }
 }
 </script>
+<style>
+    .v-btn--floating.v-btn--fixed,
+    .v-btn--floating.v-btn--absolute {
+        z-index: inherit;
+    }
+</style>
