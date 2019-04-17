@@ -230,7 +230,6 @@ export default {
         }
     },
     created() {
-        console.log('creating', this.item)
         this.trip = this.item
         this.seats = this.trip.max_seats
     },
