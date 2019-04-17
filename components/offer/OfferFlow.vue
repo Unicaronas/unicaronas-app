@@ -245,7 +245,7 @@
                         <v-flex d-flex md8 offset-md2>
                             <v-card class="mt-3">
                                 <v-card-text>
-                                    <div style="white-space: pre;" class="body-2">
+                                    <div style="white-space: pre-line;" class="body-2">
                                         {{ shareMessage }}
                                     </div>
                                     <a :href="shareUrl" target="_blank">{{
