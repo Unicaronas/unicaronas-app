@@ -2,7 +2,7 @@
     <v-container>
         <v-layout row wrap>
             <v-flex d-flex xs12 mt-5 offset-lg2>
-                <h1 class="display-3 font-weight-thin mb-3">
+                <h1 class="display-2 font-weight-thin">
                     Oferecer uma carona
                 </h1>
             </v-flex>
