@@ -2,12 +2,28 @@
     <div>
         <BaseCard>
             <template slot="card" slot-scope="theme">
-                <v-flex d-flex xs12>
-                    <v-alert v-model="error" dismissible type="error">
-                        Erro atualizando a carona!
-                    </v-alert>
-                </v-flex>
                 <v-card-title primary-title>
+                    <v-btn
+                    color="primary"
+                    absolute
+                    top
+                    right
+                    small
+                    fab
+                    @click="share()"
+                    >
+                        <v-tooltip v-model="copied" :disabled="!copied" top>
+                            <v-icon slot="activator">
+                                share
+                            </v-icon>
+                            <span>Link copiado!</span>
+                        </v-tooltip>
+                    </v-btn>
+                    <v-flex d-flex xs12>
+                        <v-alert v-model="error" dismissible type="error">
+                            Erro atualizando a carona!
+                        </v-alert>
+                    </v-flex>
                     <v-flex v-if="pendingPassengers.length" py-2 xs12>
                         <a
                         :href="`/trips/driver/${trip.id}/passengers/`"
@@ -173,10 +189,14 @@ export default {
             seats: 3,
             dialog: false,
             deleting: false,
-            pendingPassengers: []
+            pendingPassengers: [],
+            copied: false
         }
     },
     computed: {
+        canShare() {
+            return Boolean(navigator.share)
+        },
         formattedDatetime() {
             return this.$moment(this.trip.datetime).calendar()
         },
@@ -207,6 +227,20 @@ export default {
             }
             let max = Math.min(this.trip.max_seats + 3, 10)
             return [...Array(max).keys()].slice(Math.max(this.trip.max_seats - this.trip.seats_left, 1))
+        },
+        originCity() {
+            return this.getAddrComp(
+                'origin_address_components',
+                'administrative_area_level_2',
+                'long_name'
+            )
+        },
+        destinationCity() {
+            return this.getAddrComp(
+                'destination_address_components',
+                'administrative_area_level_2',
+                'long_name'
+            )
         }
     },
     watch: {
@@ -261,6 +295,49 @@ export default {
                 this.$emit('deleteItem', this.trip.id)
             } catch (err) {}
             this.deleting = false
+        },
+        getAddrComp(source, component, short) {
+            // Get the address component from the trip
+            if (!this.trip) return ''
+            return this.trip[source].filter(comp =>
+                comp.types.includes(component)
+            )[0][short]
+        },
+        share() {
+            let message =
+                '[OFEREÇO]\n' +
+                this.originCity +
+                ' >> ' +
+                this.destinationCity +
+                ' \n' +
+                this.$moment(this.trip.datetime).calendar() +
+                ' por R$' +
+                this.trip.price +
+                '\nPelo Unicaronas'
+            if (this.canShare) {
+                navigator
+                    .share({
+                        text: message,
+                        url: '/search/' + this.trip.id
+                    })
+                    .then(() => {})
+                    .catch(error => {})
+            } else {
+                this.$copyText(
+                    message +
+                        ' \n' +
+                        location.protocol +
+                        '//' +
+                        location.host +
+                        '/search/' +
+                        this.trip.id
+                )
+                    .then(() => {
+                        this.copied = true
+                        setTimeout(res => (this.copied = false), 3000)
+                    })
+                    .catch(err => {})
+            }
         }
     }
 }

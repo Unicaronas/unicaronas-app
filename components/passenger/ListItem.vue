@@ -3,6 +3,22 @@
         <BaseCard>
             <template slot="card" slot-scope="theme">
                 <v-card-title primary-title>
+                    <v-btn
+                    color="primary"
+                    absolute
+                    top
+                    right
+                    small
+                    fab
+                    @click="share()"
+                    >
+                        <v-tooltip v-model="copied" :disabled="!copied" top>
+                            <v-icon slot="activator">
+                                share
+                            </v-icon>
+                            <span>Link copiado!</span>
+                        </v-tooltip>
+                    </v-btn>
                     <v-flex py-2 xs12>
                         <span
                         :class="statusColor"
@@ -180,10 +196,14 @@ export default {
         return {
             dialog: false,
             givingUp: false,
-            copyText: 'copiar'
+            copyText: 'copiar',
+            copied: false
         }
     },
     computed: {
+        canShare() {
+            return Boolean(navigator.share)
+        },
         formattedDatetime() {
             return this.$moment(this.item.datetime).calendar()
         },
@@ -241,6 +261,20 @@ export default {
         driver() {
             if (this.item.status == 'approved') return this.item.driver
             return this.item.driver_basic
+        },
+        originCity() {
+            return this.getAddrComp(
+                'origin_address_components',
+                'administrative_area_level_2',
+                'long_name'
+            )
+        },
+        destinationCity() {
+            return this.getAddrComp(
+                'destination_address_components',
+                'administrative_area_level_2',
+                'long_name'
+            )
         }
     },
     methods: {
@@ -276,6 +310,48 @@ export default {
         copyPhone() {
             this.$copyText(this.formatPhone(this.item.driver.profile.phone))
             this.copyText = 'copiado!'
+        },
+        getAddrComp(source, component, short) {
+            // Get the address component from the trip
+            if (!this.item) return ''
+            return this.item[source].filter(comp =>
+                comp.types.includes(component)
+            )[0][short]
+        },
+        share() {
+            let message =
+                'Carona pelo Unicaronas\n' +
+                this.originCity +
+                ' >> ' +
+                this.destinationCity +
+                ' \n' +
+                this.$moment(this.item.datetime).calendar() +
+                ' por R$' +
+                this.item.price
+            if (this.canShare) {
+                navigator
+                    .share({
+                        text: message,
+                        url: '/search/' + this.item.id
+                    })
+                    .then(() => {})
+                    .catch(error => {})
+            } else {
+                this.$copyText(
+                    message +
+                        ' \n' +
+                        location.protocol +
+                        '//' +
+                        location.host +
+                        '/search/' +
+                        this.item.id
+                )
+                    .then(() => {
+                        this.copied = true
+                        setTimeout(res => (this.copied = false), 3000)
+                    })
+                    .catch(err => {})
+            }
         }
     }
 }
