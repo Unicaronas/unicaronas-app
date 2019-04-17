@@ -93,6 +93,7 @@ export default {
             try {
                 await this.$auth.request(payload)
                 this.created = true
+                this.$store.commit('significantEvent/trigger')
                 this.$ga.event('alarms', 'create')
             } catch (err) {
                 this.error = true

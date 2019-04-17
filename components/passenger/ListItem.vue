@@ -292,6 +292,7 @@ export default {
                 }
                 await this.$auth.request(payload)
                 this.$ga.event('passenger', 'give-up')
+                this.$store.commit('significantEvent/trigger')
                 this.$emit('giveUp', this.item.id)
             } catch (err) {}
             this.givingUp = false

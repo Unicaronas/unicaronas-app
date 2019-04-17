@@ -216,6 +216,7 @@ export default {
                 this.booked = true
                 this.$ga.event('trips', 'book')
                 this.$fb.track('Book')
+                this.$store.commit('significantEvent/trigger')
             } catch (err) {}
             this.booking = false
         }

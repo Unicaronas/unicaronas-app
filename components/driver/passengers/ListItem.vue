@@ -294,6 +294,7 @@ export default {
             }
             try {
                 await this.$auth.request(payload)
+                this.$store.commit('significantEvent/trigger')
                 this.$ga.event('driver', this.action)
                 this.$emit('modified')
             } catch (err) {}

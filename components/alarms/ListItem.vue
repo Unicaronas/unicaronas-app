@@ -214,6 +214,7 @@ export default {
                     url: endpoint
                 }
                 await this.$auth.request(payload)
+                this.$store.commit('significantEvent/trigger')
                 this.$ga.event('alarms', 'delete')
                 this.$emit('delete', this.item.id)
             } catch (err) {}

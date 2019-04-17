@@ -481,6 +481,7 @@ export default {
             this.submitting = true
             this.$emit('submit')
             this.$ga.event('trips', 'create')
+            this.$store.commit('significantEvent/trigger')
             this.$fb.track('Create')
         },
         getAddrComp(source, component, short) {

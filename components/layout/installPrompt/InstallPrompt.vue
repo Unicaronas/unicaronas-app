@@ -1,7 +1,7 @@
 <template>
     <v-fade-transition>
         <v-card
-        v-show="installDialog && canInstall"
+        v-show="installDialog && canInstall && significatEventTriggered"
         id="installDialog"
         class="elevation-5"
         >
@@ -56,6 +56,11 @@ export default {
             lastScroll: 0
         }
     },
+    computed: {
+        significatEventTriggered() {
+            return this.$store.state.significantEvent.trigger
+        }
+    },
     mounted() {
         if (
             this.$auth.loggedIn &&
@@ -101,6 +106,7 @@ export default {
                     this.$ga.event('install prompt', 'accept')
                 } else {
                     this.$store.commit('promptTimout/set')
+                    this.$store.commit('significantEvent/catch')
                 }
                 if (process.browser)
                 window.removeEventListener(
@@ -111,6 +117,7 @@ export default {
         },
         dontInstallApp() {
             this.$store.commit('promptTimout/set')
+            this.$store.commit('significantEvent/catch')
             this.$ga.event('install prompt', 'deny')
             this.canInstall = false
             window.removeEventListener(

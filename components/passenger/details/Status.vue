@@ -177,6 +177,7 @@ export default {
                     }
                 }
                 await this.$auth.request(payload)
+                this.$store.commit('significantEvent/trigger')
                 this.$ga.event('passenger', 'give-up')
                 this.dialog = false
                 this.gaveUp = true

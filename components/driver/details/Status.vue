@@ -175,6 +175,7 @@ export default {
                     url: endpoint
                 }
                 await this.$auth.request(payload)
+                this.$store.commit('significantEvent/trigger')
                 this.$ga.event('trips', 'delete')
                 this.dialog = false
                 this.deleted = true

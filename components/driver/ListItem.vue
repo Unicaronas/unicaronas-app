@@ -292,6 +292,7 @@ export default {
                 }
                 await this.$auth.request(payload)
                 this.$ga.event('trips', 'delete')
+                this.$store.commit('significantEvent/trigger')
                 this.$emit('deleteItem', this.trip.id)
             } catch (err) {}
             this.deleting = false
