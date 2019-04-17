@@ -12,7 +12,8 @@
                 </v-alert>
             </v-flex>
             <v-flex d-flex xs12 md4 />
-            <template v-if="!hasScope">
+            <LoadingPermissions v-if="!isMounted" />
+            <template v-else-if="!hasScope">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
                     <v-alert value="true" type="error">
                         <b>Algumas permissões estão faltando</b>. Por favor,
@@ -133,11 +134,13 @@ import List from '~/components/search/List.vue'
 import AlarmDialog from '~/components/search/AlarmDialog.vue'
 import SearchStats from '~/components/search/SearchStats.vue'
 import PastSearches from '~/components/search/PastSearches.vue'
+import LoadingPermissions from '~/components/misc/LoadingPermissions.vue'
 
 export default {
-    components: { Form, List, AlarmDialog, SearchStats, PastSearches },
+    components: { Form, List, AlarmDialog, SearchStats, PastSearches, LoadingPermissions },
     data() {
         return {
+            isMounted: false,
             hasScope: false,
             formLoading: false,
             searchResults: null,
@@ -157,6 +160,7 @@ export default {
         }
     },
     mounted() {
+        this.isMounted = true
         this.hasScope =
             this.$auth.hasScope('trips:read') &&
             this.$auth.hasScope('trips:passenger:write') &&

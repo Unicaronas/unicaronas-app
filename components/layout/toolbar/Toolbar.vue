@@ -7,9 +7,19 @@
     clipped-left
     app
     >
-        <v-toolbar-side-icon @click="toggleDrawer()" />
+        <v-toolbar-side-icon v-if="isMounted" @click="toggleDrawer()" />
         <v-avatar tile>
+            <template v-if="!isMounted">
+                <v-img contain>
+                    <v-progress-circular
+                    color="blue"
+                    :size="46"
+                    indeterminate
+                    />
+                </v-img>
+            </template>
             <v-img
+            v-else
             :src="
                 $store.state.theme.toolbarColor == 'dark'
                     ? '/img/logo_white.svg'
@@ -57,6 +67,7 @@
 export default {
     data() {
         return {
+            isMounted: false,
             title: '',
             SERVER_URL: process.env.SERVER_URL
         }
@@ -68,6 +79,9 @@ export default {
             }
             return {}
         }
+    },
+    mounted() {
+        this.isMounted = true
     },
     methods: {
         toggleDrawer() {

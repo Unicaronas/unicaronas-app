@@ -13,7 +13,8 @@
                 </v-alert>
             </v-flex>
             <v-flex d-flex xs12 md4 />
-            <template v-if="!hasScope">
+            <LoadingPermissions v-if="!isMounted" />
+            <template v-else-if="!hasScope">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
                     <v-alert value="true" type="error">
                         <b>Algumas permissões estão faltando</b>. Por favor,
@@ -103,11 +104,13 @@
 import List from '~/components/alarms/List.vue'
 import AlarmDialog from '~/components/alarms/AlarmDialog.vue'
 import AlarmStats from '~/components/alarms/AlarmStats.vue'
+import LoadingPermissions from '~/components/misc/LoadingPermissions.vue'
 
 export default {
-    components: { List, AlarmDialog, AlarmStats },
+    components: { List, AlarmDialog, AlarmStats, LoadingPermissions },
     data() {
         return {
+            isMounted: false,
             hasScope: false,
             alarmList: null,
             alarmListData: [],
@@ -123,6 +126,7 @@ export default {
         }
     },
     mounted() {
+        this.isMounted = true
         this.hasScope =
             this.$auth.hasScope('alarms:read') &&
             this.$auth.hasScope('alarms:write')

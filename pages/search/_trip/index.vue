@@ -13,7 +13,8 @@
                 </v-alert>
             </v-flex>
             <v-flex d-flex xs12 md4 />
-            <template v-if="!hasScope">
+            <LoadingPermissions v-if="!isMounted" />
+            <template v-else-if="!hasScope">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
                     <v-alert value="true" type="error">
                         <b>Algumas permissões estão faltando</b>. Por favor,
@@ -86,11 +87,13 @@
 import DriverInfo from '~/components/search/details/DriverInfo.vue'
 import TripInfo from '~/components/search/details/TripInfo.vue'
 import Book from '~/components/search/details/Book.vue'
+import LoadingPermissions from '~/components/misc/LoadingPermissions.vue'
 
 export default {
-    components: { DriverInfo, TripInfo, Book },
+    components: { DriverInfo, TripInfo, Book, LoadingPermissions },
     data() {
         return {
+            isMounted: false,
             trip: null,
             error: false,
             errorMessage: null,
@@ -115,6 +118,7 @@ export default {
             })
     },
     mounted() {
+        this.isMounted = true
         this.hasScope =
             this.$auth.hasScope('trips:read') &&
             this.$auth.hasScope('trips:passenger:write')

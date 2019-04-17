@@ -11,7 +11,8 @@
                     {{ errorMessage }}
                 </v-alert>
             </v-flex>
-            <template v-if="!hasScope">
+            <LoadingPermissions v-if="!isMounted" />
+            <template v-else-if="!hasScope">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
                     <v-alert value="true" type="error">
                         <b>Algumas permissões estão faltando</b>. Por favor,
@@ -86,11 +87,13 @@
 <script>
 import OfferFlow from '~/components/offer/OfferFlow.vue'
 import OfferSummary from '~/components/offer/Summary.vue'
+import LoadingPermissions from '~/components/misc/LoadingPermissions.vue'
 
 export default {
-    components: { OfferFlow, OfferSummary },
+    components: { OfferFlow, OfferSummary, LoadingPermissions },
     data() {
         return {
+            isMounted: false,
             hasScope: false,
             submitted: false,
             resetForm: false,
@@ -109,6 +112,7 @@ export default {
         }
     },
     mounted() {
+        this.isMounted = true
         this.hasScope =
             this.$auth.hasScope('alarms:read') &&
             this.$auth.hasScope('alarms:write')

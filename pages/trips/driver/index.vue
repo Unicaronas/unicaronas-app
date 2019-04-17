@@ -13,7 +13,8 @@
                 </v-alert>
             </v-flex>
             <v-flex d-flex xs12 md4 />
-            <template v-if="!hasScope">
+            <LoadingPermissions v-if="!isMounted" />
+            <template v-else-if="!hasScope">
                 <v-flex d-flex xs12 md8 mt-5 offset-md2>
                     <v-alert value="true" type="error">
                         <b>Algumas permissões estão faltando</b>. Por favor,
@@ -175,11 +176,13 @@
 <script>
 import List from '~/components/driver/List.vue'
 import TripDialog from '~/components/driver/TripDialog.vue'
+import LoadingPermissions from '~/components/misc/LoadingPermissions.vue'
 
 export default {
-    components: { List, TripDialog },
+    components: { List, TripDialog, LoadingPermissions },
     data() {
         return {
+            isMounted: false,
             hasScope: false,
             resetInfiniteCurrent: false,
             resetInfiniteOld: false,
@@ -202,6 +205,7 @@ export default {
         }
     },
     mounted() {
+        this.isMounted = true
         this.hasScope =
             this.$auth.hasScope('trips:driver:read') &&
             this.$auth.hasScope('trips:driver:write')
