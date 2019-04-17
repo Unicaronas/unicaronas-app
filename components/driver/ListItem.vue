@@ -2,10 +2,15 @@
     <div>
         <BaseCard>
             <template slot="card" slot-scope="theme">
+                <v-flex d-flex xs12>
+                    <v-alert v-model="error" dismissible type="error">
+                        Erro atualizando a carona!
+                    </v-alert>
+                </v-flex>
                 <v-card-title primary-title>
                     <v-flex v-if="pendingPassengers.length" py-2 xs12>
                         <a
-                        :href="`/trips/driver/${item.id}/passengers/`"
+                        :href="`/trips/driver/${trip.id}/passengers/`"
                         nuxt
                         style="float: right; width: 100%; text-transform: uppercase;"
                         class="pa-1 headline text-xs-center font-weight-bold white--text orange"
@@ -20,15 +25,34 @@
                         <v-divider />
                     </v-flex>
                     <v-flex pt-0 pb-0 xs12>
-                        <div class="headline mt-0 mb-3 font-weight-thin">
-                            Passageiros:
-                            <b>{{ item.max_seats - item.seats_left }} de
-                                {{ item.max_seats }}</b>
+                        <div class="headline mt-0 mb-3 font-weight-thin" style="display: inline-flex;">
+                            <v-layout row wrap>
+                                <v-flex mt-1>
+                                    Passageiros:
+                                    <b>{{ trip.max_seats - trip.seats_left }} de{{ $moment(trip.datetime).isBefore($moment()) ? " " + trip.max_seats : "" }}</b>
+                                </v-flex>
+                                <template v-if="$moment(trip.datetime).isAfter($moment())">
+                                    <div class="max-seats">
+                                        <v-select
+                                        v-model="seats"
+                                        single-line
+                                        outline
+                                        :dark="
+                                            theme.theme.theme_dark ||
+                                                theme.theme.theme_text ==
+                                                'white--text'
+                                        "
+                                        :light="theme.theme.theme_light"
+                                        :items="seatOptions"
+                                        />
+                                    </div>
+                                </template>
+                            </v-layout>
                         </div>
                     </v-flex>
                     <v-flex pt-0 pb-0 xs12>
                         <div class="headline mt-0 mb-3 font-weight-thin">
-                            Preço: <b>R${{ item.price }}</b>
+                            Preço: <b>R${{ trip.price }}</b>
                         </div>
                     </v-flex>
                     <v-flex pt-0 xs12>
@@ -42,7 +66,7 @@
                     <v-flex pt-0 xs12>
                         <div class="title mt-0 mb-3 font-weight-thin">
                             <a :href="originURL" target="_blank">
-                                {{ item.origin.split('-')[0] }}
+                                {{ trip.origin.split('-')[0] }}
                             </a>
                         </div>
                     </v-flex>
@@ -54,7 +78,7 @@
                     <v-flex pt-0 xs12>
                         <div class="title mt-0 mb-3 font-weight-thin">
                             <a :href="destinationURL" target="_blank">
-                                {{ item.destination.split('-')[0] }}
+                                {{ trip.destination.split('-')[0] }}
                             </a>
                         </div>
                     </v-flex>
@@ -64,7 +88,7 @@
                         <v-layout row wrap>
                             <v-flex d-flex xs12 sm4>
                                 <v-btn
-                                :to="`/trips/driver/${item.id}/`"
+                                :to="`/trips/driver/${trip.id}/`"
                                 color="green"
                                 class="white--text"
                                 ripple
@@ -76,7 +100,7 @@
                             </v-flex>
                             <v-spacer />
                             <v-flex
-                            v-if="$moment(item.datetime).isAfter($moment())"
+                            v-if="$moment(trip.datetime).isAfter($moment())"
                             d-flex
                             xs12
                             sm4
@@ -143,6 +167,10 @@ export default {
     },
     data() {
         return {
+            error: false,
+            mounted: false,
+            trip: {},
+            seats: 3,
             dialog: false,
             deleting: false,
             pendingPassengers: []
@@ -150,39 +178,72 @@ export default {
     },
     computed: {
         formattedDatetime() {
-            return this.$moment(this.item.datetime).calendar()
+            return this.$moment(this.trip.datetime).calendar()
         },
         originURL() {
             return (
                 'https://www.google.com/maps/place/' +
-                this.item.origin_coordinates.latitude +
+                this.trip.origin_coordinates.latitude +
                 ',' +
-                this.item.origin_coordinates.longitude
+                this.trip.origin_coordinates.longitude
             )
         },
         destinationURL() {
             return (
                 'https://www.google.com/maps/place/' +
-                this.item.destination_coordinates.latitude +
+                this.trip.destination_coordinates.latitude +
                 ',' +
-                this.item.destination_coordinates.longitude
+                this.trip.destination_coordinates.longitude
             )
         },
         pendingPassengersText() {
             let pp = this.pendingPassengers
             let s = pp.length != 1 ? 's' : ''
             return `${pp.length} passageiro${s} pendente${s}`
+        },
+        seatOptions() {
+            if (!this.trip.max_seats) {
+                return []
+            }
+            let max = Math.min(this.trip.max_seats + 3, 10)
+            return [...Array(max).keys()].slice(Math.max(this.trip.max_seats - this.trip.seats_left, 1))
         }
+    },
+    watch: {
+        seats(n) {
+            if (!this.mounted) {
+                return
+            }
+            this.$auth.request({
+                method: 'patch',
+                url: this.trip.url,
+                data: {
+                    max_seats: n
+                }
+            }).then(response => {
+                this.$auth.request(this.trip.url).then(response => {
+                    this.trip = response
+                })
+            }).catch(error => {
+                this.error = true
+            })
+        }
+    },
+    created() {
+        console.log('creating', this.item)
+        this.trip = this.item
+        this.seats = this.trip.max_seats
     },
     async mounted() {
         this.pendingPassengers = await this.getPendingPassengers()
+        this.mounted = true
     },
     methods: {
         async getPendingPassengers() {
-            if (this.$moment(this.item.datetime).isBefore(this.$moment())) {
+            if (this.$moment(this.trip.datetime).isBefore(this.$moment())) {
                 return []
             }
-            let passengers = await this.$auth.request(this.item.passengers)
+            let passengers = await this.$auth.request(this.trip.passengers)
             return passengers.results.filter(
                 passenger => passenger.status == 'pending'
             )
@@ -191,17 +252,23 @@ export default {
             this.deleting = true
             this.dialog = false
             try {
-                let endpoint = this.item.url
+                let endpoint = this.trip.url
                 let payload = {
                     method: 'delete',
                     url: endpoint
                 }
                 await this.$auth.request(payload)
                 this.$ga.event('trips', 'delete')
-                this.$emit('deleteItem', this.item.id)
+                this.$emit('deleteItem', this.trip.id)
             } catch (err) {}
             this.deleting = false
         }
     }
 }
 </script>
+<style>
+    .max-seats .v-input__control {
+        max-width: 4em;
+        font-weight: bold;
+    }
+</style>
