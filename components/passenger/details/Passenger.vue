@@ -14,8 +14,7 @@
                     <b>{{ capitalize(passenger.first_name) }}</b>
                     <v-icon size="1em">
                         {{ genderIcon }}
-                    </v-icon>, >, >, >,
-                    {{ age }} anos
+                    </v-icon>, {{ age }} anos
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                     {{ passenger.student.course }} na
