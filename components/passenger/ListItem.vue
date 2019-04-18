@@ -261,20 +261,6 @@ export default {
         driver() {
             if (this.item.status == 'approved') return this.item.driver
             return this.item.driver_basic
-        },
-        originCity() {
-            return this.getAddrComp(
-                'origin_address_components',
-                'administrative_area_level_2',
-                'long_name'
-            )
-        },
-        destinationCity() {
-            return this.getAddrComp(
-                'destination_address_components',
-                'administrative_area_level_2',
-                'long_name'
-            )
         }
     },
     methods: {
@@ -312,19 +298,12 @@ export default {
             this.$copyText(this.formatPhone(this.item.driver.profile.phone))
             this.copyText = 'copiado!'
         },
-        getAddrComp(source, component, short) {
-            // Get the address component from the trip
-            if (!this.item) return ''
-            return this.item[source].filter(comp =>
-                comp.types.includes(component)
-            )[0][short]
-        },
         share() {
             let message =
                 'Carona pelo Unicaronas\n' +
-                this.originCity +
+                this.getOriginText(this.item) +
                 ' >> ' +
-                this.destinationCity +
+                this.getDestinationText(this.item) +
                 ' \n' +
                 this.$moment(this.item.datetime).calendar() +
                 ' por R$' +

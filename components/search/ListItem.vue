@@ -194,34 +194,6 @@ export default {
         },
         canShare() {
             return Boolean(navigator.share)
-        },
-        originCity() {
-            return this.getAddrComp(
-                'origin_address_components',
-                'administrative_area_level_2',
-                'long_name'
-            )
-        },
-        originState() {
-            return this.getAddrComp(
-                'origin_address_components',
-                'administrative_area_level_1',
-                'short_name'
-            )
-        },
-        destinationCity() {
-            return this.getAddrComp(
-                'destination_address_components',
-                'administrative_area_level_2',
-                'long_name'
-            )
-        },
-        destinationState() {
-            return this.getAddrComp(
-                'destination_address_components',
-                'administrative_area_level_1',
-                'short_name'
-            )
         }
     },
     watch: {
@@ -262,9 +234,9 @@ export default {
         share() {
             let message =
                 'Carona pelo Unicaronas \n' +
-                this.originCity +
+                this.getOriginText(this.item) +
                 ' >> ' +
-                this.destinationCity +
+                this.getDestinationText(this.item) +
                 ' \n' +
                 this.formattedDatetime +
                 ' por R$' +
@@ -293,12 +265,6 @@ export default {
                     })
                     .catch(err => {})
             }
-        },
-        getAddrComp(source, component, short) {
-            // Get the address component from the trip
-            return this.item[source].filter(comp =>
-                comp.types.includes(component)
-            )[0][short]
         }
     }
 }

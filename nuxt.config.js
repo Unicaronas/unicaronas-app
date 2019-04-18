@@ -58,6 +58,7 @@ module.exports = {
         { src: '~/plugins/cookieStorage7.js', ssr: false },
         { src: '~/plugins/cookieStorage30.js', ssr: false },
         { src: '~/plugins/universityMap', ssr: false},
+        { src: '~/plugins/tripData', ssr: false},
         { src: '~/plugins/googleAutocomplete', ssr: false}
     ],
 

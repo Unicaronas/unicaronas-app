@@ -227,20 +227,6 @@ export default {
             }
             let max = Math.min(this.trip.max_seats + 3, 10)
             return [...Array(max).keys()].slice(Math.max(this.trip.max_seats - this.trip.seats_left, 1))
-        },
-        originCity() {
-            return this.getAddrComp(
-                'origin_address_components',
-                'administrative_area_level_2',
-                'long_name'
-            )
-        },
-        destinationCity() {
-            return this.getAddrComp(
-                'destination_address_components',
-                'administrative_area_level_2',
-                'long_name'
-            )
         }
     },
     watch: {
@@ -297,19 +283,12 @@ export default {
             } catch (err) {}
             this.deleting = false
         },
-        getAddrComp(source, component, short) {
-            // Get the address component from the trip
-            if (!this.trip) return ''
-            return this.trip[source].filter(comp =>
-                comp.types.includes(component)
-            )[0][short]
-        },
         share() {
             let message =
                 '[OFEREÇO]\n' +
-                this.originCity +
+                this.getOriginText(this.trip) +
                 ' >> ' +
-                this.destinationCity +
+                this.getDestinationText(this.trip) +
                 ' \n' +
                 this.$moment(this.trip.datetime).calendar() +
                 ' por R$' +
