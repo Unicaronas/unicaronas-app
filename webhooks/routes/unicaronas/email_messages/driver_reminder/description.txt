@@ -1,0 +1,17 @@
+Tá chegando a hora da sua carona de <b>{{#toCalendar}}{{ datetime }}{{/toCalendar}}</b>!
+<br>
+<br>
+Você tem <b>{{#js}}{{ max_seats }} - {{ seats_left }}{{/js}} {{#js}}{{ max_seats }} - {{ seats_left }} == 1 ? 'passageiro na carona com você' : 'passageiros na carona com você'{{/js}}</b>.
+<br>
+<br>
+<h3>{{#locationLink}}{{ origin }}{{/locationLink}}</h3>
+
+<h3>⬇️</h3>
+
+<h3>{{#locationLink}}{{ destination }}{{/locationLink}}</h3>
+<br>
+<br>
+<i><b>"{{ details }}"</b></i><br>- Você ❤️{{/details}}
+<br>
+<br>
+<b>Precisa alterar alguma coisa ou não pode mais ir?</b> Clique no botão abaixo para acessar sua carona:

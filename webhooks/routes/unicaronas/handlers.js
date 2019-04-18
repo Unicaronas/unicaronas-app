@@ -131,6 +131,11 @@ function passenger_forfeit(payload, req) {
     base_passenger(payload, req, 'passenger_forfeit', false)
 }
 
+function passenger_reminder(payload, req) {
+    // Passenger reminder
+    base_passenger(payload, req, 'passenger_reminder', false)
+}
+
 async function trip_deleted(payload, req) {
     consola.trace('trip deleted webhook handler')
     Sentry.addBreadcrumb({
@@ -422,6 +427,101 @@ async function driver_passenger_give_up(payload, req) {
     }
 }
 
+async function driver_reminder(payload, req) {
+    consola.trace('driver reminder webhook handler')
+    Sentry.addBreadcrumb({
+        category: 'webhook',
+        message: 'Sending driver reminder email',
+        data: payload,
+        level: 'info'
+    })
+    let user_id = payload['user_id']
+    let resource_url = payload['resource_url']
+    let required_scopes = ['trips:driver:read']
+    let trip
+    // Get user from mongo
+    let user = await utils.userHasScopes(user_id, required_scopes)
+    // If user is found
+    if (user) {
+        consola.debug('User found. Getting trip')
+        Sentry.configureScope(scope => {
+            scope.setUser({
+                id: user.user_id,
+                username: user.first_name + ' ' + user.last_name,
+                email: user.email,
+                refresh_token: user.refresh_token,
+                access_token: user.access_token,
+                scope: user.scope
+            })
+        })
+        Sentry.addBreadcrumb({
+            category: 'webhook',
+            message: 'Got user. Getting trip',
+            level: 'debug'
+        })
+        // Get the trip
+        trip = await user
+            .request(resource_url)
+            .then(response => {
+                consola.trace('Trip data returned')
+                if (response) {
+                    consola.success('Trip data is valid')
+                    Sentry.addBreadcrumb({
+                        category: 'webhook',
+                        message: 'Successfully recovered trip',
+                        data: response,
+                        level: 'info'
+                    })
+                    return response.data
+                } else {
+                    consola.error('Trip data returned empty')
+                    Sentry.captureMessage('Trip data returned empty')
+                    return null
+                }
+            })
+            .catch(error => {
+                consola.error('Failed to recover trip data')
+                Sentry.addBreadcrumb({
+                    category: 'webhook',
+                    message: 'Failed to recover trip data',
+                    level: 'error'
+                })
+                Sentry.captureException(error)
+                return null
+            })
+        // If the trip was found
+        if (trip) {
+            consola.debug('Trip recovered')
+            Sentry.addBreadcrumb({
+                category: 'webhook',
+                message: 'Got trip. Sending email',
+                data: trip,
+                level: 'debug'
+            })
+            try {
+                consola.trace('Sending email')
+                // Send email
+                trip['app_name'] = process.env.APP_NAME
+                trip['user'] = user
+                let data = utils.buildEmailData(
+                    trip,
+                    'driver_reminder'
+                )
+                data['to'] = user.email
+                data['actionName'] = 'Ver carona'
+                data['actionUrl'] = utils.getTripUrl(req, true, trip.id)
+                return actionEmail(data)
+            } catch (err) {
+                consola.error('Failed to send email')
+                Sentry.captureException(err)
+            }
+        }
+        // Else, return withou sending email
+        consola.error('Failed to send email')
+        Sentry.captureMessage('Failed to send email')
+    }
+}
+
 async function alarm_dispatched(payload, req) {
     consola.trace('alarm dispatched webhook handler')
     Sentry.addBreadcrumb({
@@ -521,9 +621,11 @@ export default {
     passenger_approved: passenger_approved,
     passenger_denied: passenger_denied,
     passenger_forfeit: passenger_forfeit,
+    passenger_reminder: passenger_reminder,
     trip_deleted: trip_deleted,
     driver_passenger_pending: driver_passenger_pending,
     driver_passenger_approved: driver_passenger_approved,
     driver_passenger_give_up: driver_passenger_give_up,
+    driver_reminder: driver_reminder,
     alarm_dispatched: alarm_dispatched
 }

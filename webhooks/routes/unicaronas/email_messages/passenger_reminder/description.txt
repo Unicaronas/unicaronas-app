@@ -1,0 +1,22 @@
+Só um lembrete rápido de que sua carona vai ser <b>{{#toCalendar}}{{ datetime }}{{/toCalendar}}</b> e vai custar <b>R$ {{ price }}</b>.
+Você reservou {{#js}}{{ seats }} > 1 ? {{ seats }} + ' vagas' : 'uma vaga'{{/js}} e vai viajar com {{ driver.first_name }}, que é lá da {{#universityMap}}{{ driver.student.university }}{{/universityMap}}{{#js}}{{ approved_passengers.length }} != 1 ? ({{ approved_passengers.length }} != 2 ? ', e outras ' + {{ approved_passengers.length }} + ' pessoas' : ', e uma outra pessoa') : ''{{/js}}.
+<br>
+<br>
+<h3>{{#locationLink}}{{ origin }}{{/locationLink}}</h3>
+
+<h3>⬇️</h3>
+
+<h3>{{#locationLink}}{{ destination }}{{/locationLink}}</h3>
+<br>
+<br>
+Para falar com {{ driver.first_name }}, use <b>{{ driver.profile.phone }}</b>
+<br>
+<br>
+Carro: <b>{{ driver.driver.car_model }} {{ driver.driver.car_color }} da {{ driver.driver.car_make }}</b>
+{{#details}}
+<br>
+<br>
+<i><b>"{{ details }}"</b></i><br>- {{ driver.first_name }}{{/details}}
+<br>
+<br>
+<b>Não vai poder ir?</b> Não se esqueça de avisar o motorista e cancelar sua reserva!
