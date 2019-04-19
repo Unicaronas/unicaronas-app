@@ -33,27 +33,81 @@ UserSchema.query.byUserId = function(id) {
 
 UserSchema.statics.CreateUser = function(req_data, cb) {
     consola.trace('Creating/Updating user', req_data)
-    let user = req_data['user']
-    if (!user) return
-    let user_id = user['user_id']
-    let user_data = {
-        first_name: user['first_name'],
-        last_name: user['last_name'],
-        email: user['email'],
-        gender: user['profile']['gender'],
-        access_token: req_data['access_token'],
-        refresh_token: req_data['refresh_token'],
-        scope: req_data['scope']
+    Sentry.addBreadcrumb({
+        category: 'user_edit',
+        message: 'Creating/Updating user',
+        level: 'info',
+        data: req_data
+    })
+    let access_token = req_data['access_token']
+    let refresh_token = req_data['refresh_token']
+
+    if (access_token.startsWith('Bearer')) {
+        access_token = access_token.replace('Bearer ', '')
     }
-    this.findOneAndUpdate(
-        { user_id: user_id },
-        user_data,
-        { upsert: true },
-        function(err, instance) {
-            if (cb) cb(instance)
+
+    return axios.request({
+        url: process.env.SERVER_URL + '/api/' + process.env.API_VERSION + '/user/?fields=user_id,first_name,last_name,email,profile{gender}',
+        baseURL: false,
+        headers: {
+            Authorization: 'Bearer ' + access_token
         }
-    )
-    consola.success('User created/updated')
+    }).then(response => {
+        consola.trace('Received user from API', response.data)
+        Sentry.addBreadcrumb({
+                category: 'user_edit',
+                message: 'Received user from API',
+                level: 'info',
+                data: response.data
+            })
+        let user = response.data
+        return axios.request({
+            url: process.env.SERVER_URL + '/o/introspect/?token=' + access_token,
+            baseURL: false,
+            headers: {
+                Authorization: 'Bearer ' + access_token
+            }
+        }).then(response => {
+            consola.trace('Received token introspection from API', response.data)
+            Sentry.addBreadcrumb({
+                category: 'user_edit',
+                message: 'Received token introspection from API',
+                level: 'info',
+                data: response.data
+            })
+            let introspection = response.data
+            let user_id = user.user_id
+            let user_data = {
+                first_name: user.first_name,
+                last_name: user.last_name,
+                email: user.email,
+                gender: user.profile.gender,
+                access_token: access_token,
+                refresh_token: refresh_token,
+                scope: introspection.scopes
+            }
+            this.findOneAndUpdate(
+                { user_id: user_id },
+                user_data,
+                { upsert: true },
+                function(err, instance) {
+                    if (cb) cb(instance)
+                }
+            )
+            consola.success('User created/updated')
+            return Promise.resolve()
+        })
+    }).catch(error => {
+        consola.error('Error saving the user')
+        Sentry.addBreadcrumb({
+            category: 'user_edit',
+            message: 'Error creating/updating the user',
+            level: 'error'
+        })
+        Sentry.captureException(error)
+        if (cb) cb(null)
+        return Promise.reject(error)
+    })
 }
 
 UserSchema.methods.refreshToken = function(cb) {
