@@ -15,7 +15,10 @@
                 <v-flex d-flex xs12>
                     <h1 class="header font-weight-thin mb-3 text-xs-center">
                         {{ message
-                        }}<template v-if="code != 400">
+                        }}<template v-if="code == 404">
+                            <br>Ela provavelmente foi apagada por seu motorista :(
+                        </template>
+                        <template v-if="code != 400">
                             <br>Com problemas? Manda um
                             <a href="mailto:contato@unicaronas.com">email</a> ou
                             fala pelo

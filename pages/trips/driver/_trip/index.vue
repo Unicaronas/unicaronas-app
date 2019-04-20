@@ -129,11 +129,14 @@ export default {
             .then(res => {
                 return { trip: res }
             })
-            .catch(e => {
-                error({ statusCode: 404, message: 'Carona não encontrada' })
-            })
+            .catch(e => {})
     },
     mounted() {
+        if (this.trip == null) {
+            this.$router.push({
+                path: '/search/' + this.$route.params.trip + '/'
+            })
+        }
         this.isMounted = true
         this.hasScope =
             this.$auth.hasScope('trips:driver:read') &&
