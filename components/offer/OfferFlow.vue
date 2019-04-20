@@ -403,26 +403,12 @@ export default {
                 })
             return formData
         },
-        originCity() {
-            return this.getAddrComp(
-                'origin_address_components',
-                'administrative_area_level_2',
-                'long_name'
-            )
-        },
-        destinationCity() {
-            return this.getAddrComp(
-                'destination_address_components',
-                'administrative_area_level_2',
-                'long_name'
-            )
-        },
         shareMessage() {
             if (!this.createdTrip) return ''
             return ('[OFEREÇO]\n' +
-                this.originCity +
+                this.getOriginText(this.createdTrip) +
                 ' >> ' +
-                this.destinationCity +
+                this.getDestinationText(this.createdTrip) +
                 ' \n' +
                 this.$moment(this.createdTrip.datetime).calendar() +
                 ' por R$' +
@@ -483,13 +469,6 @@ export default {
             this.$ga.event('trips', 'create')
             this.$store.commit('significantEvent/trigger')
             this.$fb.track('Create')
-        },
-        getAddrComp(source, component, short) {
-            // Get the address component from the trip
-            if (!this.createdTrip) return ''
-            return this.createdTrip[source].filter(comp =>
-                comp.types.includes(component)
-            )[0][short]
         },
         share() {
             if (this.canShare) {
