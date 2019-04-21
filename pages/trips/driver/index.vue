@@ -227,7 +227,7 @@ export default {
                     datetime__lte: this.$moment()
                         .subtract(1, 'days')
                         .format(),
-                    ordering: 'datetime'
+                    ordering: '-datetime'
                 }
             }
             try {
