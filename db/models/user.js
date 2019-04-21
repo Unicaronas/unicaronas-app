@@ -84,7 +84,7 @@ UserSchema.statics.CreateUser = function(req_data, cb) {
                 gender: user.profile.gender,
                 access_token: access_token,
                 refresh_token: refresh_token,
-                scope: introspection.scopes
+                scope: introspection.scopes.split(' ')
             }
             this.findOneAndUpdate(
                 { user_id: user_id },
