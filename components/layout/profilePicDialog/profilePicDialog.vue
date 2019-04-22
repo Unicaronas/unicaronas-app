@@ -37,7 +37,7 @@ export default {
         window.setTimeout(() => {
             if (
                 this.$auth.loggedIn &&
-                this.$auth.user.profile.picture.original &&
+                !this.$auth.user.profile.picture.original &&
                 this.$store.state.profilePicDialog.dialog
             ) {
                 this.dialog = true
