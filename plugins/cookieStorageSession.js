@@ -5,7 +5,7 @@ export default ({ store }) => {
     window.onNuxtReady(() => {
         createPersistedState({
             key: 'vuex-cookies-session',
-            paths: ['profilePicDialog'],
+            paths: ['profilePicDialog', 'extraEmailDialog'],
             storage: {
                 getItem: key => Cookies.get(key),
                 setItem: (key, value) =>
