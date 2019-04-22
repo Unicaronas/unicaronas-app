@@ -10,7 +10,16 @@
                         class="pa-1 headline text-xs-center font-weight-bold white--text"
                         >{{ statusText }}</span>
                     </v-flex>
-                    <v-flex pb-0 xs12>
+                    <v-flex pb-0 xs12 :class="{'text-xs-center': item.profile.picture.medium_256}">
+                        <v-avatar
+                        v-if="item.profile.picture.medium_256"
+                        size="128"
+                        >
+                            <v-img
+                            :src="item.profile.picture.medium_256"
+                            contain
+                            />
+                        </v-avatar>
                         <h3 class="display-1 mb-0">
                             {{ item.first_name }} {{ item.last_name }}
                             <v-icon

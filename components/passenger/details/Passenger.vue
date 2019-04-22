@@ -11,6 +11,16 @@
             </template>
             <template v-else>
                 <v-list-tile-title>
+                    <v-avatar
+                    v-if="passenger.profile.picture.small_64"
+                    class="mr-1"
+                    size="32"
+                    >
+                        <v-img
+                        :src="passenger.profile.picture.small_64"
+                        contain
+                        />
+                    </v-avatar>
                     <b>{{ capitalize(passenger.first_name) }}</b>
                     <v-icon size="1em">
                         {{ genderIcon }}

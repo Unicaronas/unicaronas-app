@@ -2,7 +2,16 @@
     <BaseCard>
         <template slot="card" slot-scope="theme">
             <v-card-title primary-title>
-                <v-flex xs12>
+                <v-flex xs12 :class="{'text-xs-center': driver.profile.picture.medium_256}">
+                    <v-avatar
+                    v-if="driver.profile.picture.medium_256"
+                    size="128"
+                    >
+                        <v-img
+                        :src="driver.profile.picture.medium_256"
+                        contain
+                        />
+                    </v-avatar>
                     <v-flex xs12>
                         <div class="display-1 mb-0 font-weight-thin">
                             {{ driver.first_name }}

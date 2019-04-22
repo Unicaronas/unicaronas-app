@@ -10,6 +10,7 @@
         </v-content>
         <InstallPrompt />
         <EmailDialog />
+        <profilePicDialog />
         <Footer />
     </v-app>
 </template>
@@ -19,6 +20,7 @@ import NavDrawer from '~/components/layout/nav_drawer/NavDrawer.vue'
 import Footer from '~/components/layout/footer/Footer.vue'
 import InstallPrompt from '~/components/layout/installPrompt/InstallPrompt.vue'
 import EmailDialog from '~/components/layout/extraEmailDialog/extraEmailDialog.vue'
+import profilePicDialog from '~/components/layout/profilePicDialog/profilePicDialog.vue'
 
 export default {
     components: {
@@ -26,7 +28,8 @@ export default {
         NavDrawer,
         Footer,
         InstallPrompt,
-        EmailDialog
+        EmailDialog,
+        profilePicDialog
     }
 }
 </script>

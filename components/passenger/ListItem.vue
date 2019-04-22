@@ -83,6 +83,16 @@
                     </v-flex>
                     <v-flex pt-0 xs12>
                         <div class="title mt-0 mb-3 font-weight-light">
+                            <v-avatar
+                            v-if="driver.profile.picture.medium_128"
+                            class="mr-3"
+                            size="80"
+                            >
+                                <v-img
+                                :src="driver.profile.picture.medium_128"
+                                contain
+                                />
+                            </v-avatar>
                             <b>{{ driver.first_name }}</b>
                             <template v-if="item.status == 'approved'">
                                 <br><br><v-tooltip top>
