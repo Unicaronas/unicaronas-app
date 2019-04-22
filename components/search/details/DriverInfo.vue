@@ -3,6 +3,15 @@
         <template slot="card" slot-scope="theme">
             <v-card-title primary-title>
                 <v-flex xs12 md4>
+                    <v-avatar
+                    v-if="trip.driver.profile.picture.medium_128"
+                    size="80"
+                    >
+                        <v-img
+                        :src="trip.driver.profile.picture.medium_128"
+                        contain
+                        />
+                    </v-avatar>
                     <v-flex xs12>
                         <div class="display-1 mb-0 font-weight-thin">
                             {{ trip.driver.first_name }}

@@ -23,10 +23,24 @@
                         <h3 class="display-1 mb-0">
                             {{ formattedDatetime }}
                         </h3>
-                        <div class="title mt-3 mb-3 font-weight-thin">
-                            {{ item.driver.first_name }} da
-                            {{ capitalUniversity }}
+                        <div class="headline mt-3 mb-3 font-weight-thin">
+                            <v-avatar
+                            v-if="item.driver.profile.picture.medium_128"
+                            class="mr-3"
+                            size="80"
+                            >
+                                <v-img
+                                :src="item.driver.profile.picture.medium_128"
+                                contain
+                                />
+                            </v-avatar>
+                            {{ item.driver.first_name }}
                         </div>
+                        <v-chip small color="red" text-color="white">
+                            <v-icon left>
+                                school
+                            </v-icon>{{ capitalUniversity }}
+                        </v-chip>
                         <v-chip small color="green" text-color="white">
                             <v-icon left>
                                 attach_money

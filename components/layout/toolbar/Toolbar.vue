@@ -33,7 +33,16 @@
         <v-toolbar-items v-if="$auth.loggedIn" class="hidden-md-and-down">
             <v-menu :nudge-width="100">
                 <v-toolbar-title slot="activator">
-                    <span>{{
+                    <v-avatar
+                    v-if="user.profile && user.profile.picture.original"
+                    size="50"
+                    >
+                        <v-img
+                        :src="user.profile.picture.small_64"
+                        contain
+                        />
+                    </v-avatar>
+                    <span v-else>{{
                         user.first_name ? 'Olá, ' + user.first_name + '!' : ''
                     }}</span>
                     <v-icon>arrow_drop_down</v-icon>
