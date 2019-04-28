@@ -404,7 +404,7 @@ export default {
                     if (this.$device.isMobileOrTablet)
                         this.$vuetify.goTo('#searchResults', {
                             duration: 1000,
-                            offset: -100
+                            offset: 0
                         })
                 }
             })
